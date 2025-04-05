@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 
 function App() {
     const [imageStream, setImageStream] = useState([]);
+    const [imageContainerWidth, setImageContainerWidth] = useState('0px');
+    const [b64FinalImage, setB64FinalImage] = useState('');
+    const [imageLoaded, setImageLoaded] = useState(false);
+
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -34,20 +38,40 @@ function App() {
 
             function processStream() {
                 reader.read().then(({ done, value }) => {
-                    if (done) return;
+                    if (done) ;
 
                     buffer += decoder.decode(value, { stream: true });
 
-                    let parts = buffer.split('--frame');
-                    for (let i = 1; i < parts.length; i++) {
-                        let part = parts[i].trim();
+                    if(buffer.includes('final_edge_detected_image')) {
+                        setImageStream([])
 
-                        if(part) {
-                            setImageStream(prevImages => [...prevImages, `data:image/png;base64,${part}`]);
+                        let finalImageParts = buffer.split('--frame--final_edge_detected_image--');
+                        for (let i = 1; i < finalImageParts.length; i++) {
+                            let part = finalImageParts[i].trim();
+                            if(part) {
+                                setB64FinalImage(prev => prev + part.replace('--end--', ''))
+                            }
+                            if (part.includes('--end--')) {
+                                setImageLoaded(true);
+                                setIsUploading(false);
+                                return;
+                            }
                         }
+                        buffer = finalImageParts[finalImageParts.length - 1];
+                    } else {
+                        let parts = buffer.split('--frame');
+    
+                        for (let i = 1; i < parts.length; i++) {
+                            let part = parts[i].trim();
+                            if(part.includes('image_width')) {
+                                setImageContainerWidth(`${part.split(":")[1].toString().split(":")}px`)
+                            } else if(part) {
+                                setImageStream(prevImages => [...prevImages, `data:image/png;base64,${part}`]);
+                            }
+                        }
+                        buffer = parts[parts.length - 1];
                     }
 
-                    buffer = parts[parts.length - 1];
                     processStream();
                 }).catch(error => {
                     setError(error.message);
@@ -62,9 +86,15 @@ function App() {
         }
     };
 
+    const styles = {
+        display: 'inline-grid',
+        width: imageContainerWidth,
+        gridTemplateColumns: 'repeat(auto-fill, minmax(16px, 1fr))'
+    }
+
     return (
         <div>
-            <h1>Upload Image and Receive Image Stream</h1>
+            <h1>Quantum Edge Detection</h1>
 
             <input
                 type="file"
@@ -76,11 +106,18 @@ function App() {
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
             <div>
-                <h2>Received Images</h2>
-                <div>
+                <h2>Received Image</h2>
+                <div style={styles}>
                     {imageStream.map((image, index) => (
                         <img key={index} src={image} alt={`Streamed ${index}`} />
                     ))}
+                </div>
+                <div>
+                {imageLoaded && <img
+                    src={`data:image/png;base64,${b64FinalImage}`}
+                    alt="Streamed"
+                    style={{ maxWidth: '100%' }}
+                    /> }
                 </div>
             </div>
         </div>

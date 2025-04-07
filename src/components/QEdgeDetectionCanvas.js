@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { base64ToBlob } from "../utils/Base64ToBlob";
 
 function QEdgeDetectionCanvas({ apiEndpoint, imageLoaded, setImageLoaded, b64FinalImage, setB64FinalImage }) {
   const [imageStream, setImageStream] = useState([]);
@@ -18,7 +19,7 @@ function QEdgeDetectionCanvas({ apiEndpoint, imageLoaded, setImageLoaded, b64Fin
     }
   }, []);
 
-  const handleImageUpload = async (event) => {
+  const handleImageUpload = async(event) => {
     event.preventDefault();
     const file = event.target.files[0];
     if (!file) {
@@ -31,11 +32,14 @@ function QEdgeDetectionCanvas({ apiEndpoint, imageLoaded, setImageLoaded, b64Fin
     };
     reader.readAsDataURL(file);
 
-    setIsUploading(true);
     setError(null);
+  }
+
+  const handleEdgeDetection = async () => {
+    setIsUploading(true);
     setImageStream([]);
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("image", base64ToBlob(uploadedImage.split(',')[1]), 'image.png');
 
     try {
       const response = await fetch(apiEndpoint, {
@@ -130,13 +134,16 @@ function QEdgeDetectionCanvas({ apiEndpoint, imageLoaded, setImageLoaded, b64Fin
   return (
     <div>
       <h2>Quantum Edge Detection</h2>
-
       <input
         type="file"
         accept="image/*"
         onChange={handleImageUpload}
         disabled={isUploading}
       />
+      <button 
+        disabled={!uploadedImage}
+        onClick={handleEdgeDetection}
+        >Run</button>
       {isUploading && <p>Uploading image...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 

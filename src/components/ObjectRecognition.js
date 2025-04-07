@@ -1,25 +1,18 @@
 import {useState} from 'react';
+import { base64ToBlob } from '../utils/Base64ToBlob';
 
 function ObjectRecognition({apiEndpoint, edgeDetectedImage}) {
   const [imageUrl, setImageUrl] = useState(null); 
   const [isUploading, setIsUploading] = useState(false); 
   const [error, setError] = useState(null);
-  
-  const base64ToBlob = (base64) => {
-    if (!base64 || typeof base64 !== 'string') {
-        throw new Error('Invalid Base64 string');
-    }
-    const binary = atob(base64);
-    const length = binary.length;
-    const buffer = new ArrayBuffer(length);
-    const view = new Uint8Array(buffer);
+  const [confLevel, setConfLevel] = useState(0.5)
 
-    for (let i = 0; i < length; i++) {
-        view[i] = binary.charCodeAt(i);
+  const handleConfLevelChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue >= 0 && inputValue <= 1) {
+      setConfLevel(inputValue);
     }
-
-    return new Blob([buffer], { type: 'image/png' });
-};
+  };
 
   const handleImageUpload = async (event) => {
     event.preventDefault();
@@ -33,7 +26,7 @@ function ObjectRecognition({apiEndpoint, edgeDetectedImage}) {
     formData.append('image', blob, 'image.png');
 
     try {
-        const response = await fetch(apiEndpoint, {
+        const response = await fetch(`${apiEndpoint}?conf_level=${confLevel}`, {
             method: 'POST',
             body: formData,
         });
@@ -58,7 +51,20 @@ function ObjectRecognition({apiEndpoint, edgeDetectedImage}) {
 
   return (
     <div>
-    <h1>Image Upload and Process</h1>
+    <h3>Object Detection using yolov5</h3>
+    <div>
+      <h3>Model parameters</h3>
+      <p>Confidence Level:</p>
+      <input
+              type="number"
+              step="0.01"  // Allow decimal values
+              min="0"
+              max="1"
+              value={confLevel}
+              onChange={handleConfLevelChange}
+              placeholder="0 - 1"
+            />
+    </div>
     <button
         onClick={handleImageUpload}
     >Detect</button>
@@ -67,7 +73,7 @@ function ObjectRecognition({apiEndpoint, edgeDetectedImage}) {
 
     {imageUrl && (
         <div>
-            <h2>Processed Image:</h2>
+            <h3>Annotated Image:</h3>
             <img
                 src={imageUrl}
                 alt="Processed"

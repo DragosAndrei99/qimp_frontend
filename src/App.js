@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import './App.css'
 import QEdgeDetectionCanvas from './components/QEdgeDetectionCanvas';
 import ObjectRecognition from './components/ObjectRecognition';
 

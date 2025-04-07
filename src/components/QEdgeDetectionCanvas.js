@@ -143,7 +143,8 @@ function QEdgeDetectionCanvas({ apiEndpoint, imageLoaded, setImageLoaded, b64Fin
       <button 
         disabled={!uploadedImage}
         onClick={handleEdgeDetection}
-        >Run</button>
+        >{isUploading ? 'Processing...' : 'Detect Edges'}
+        </button>
       {isUploading && <p>Uploading image...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 

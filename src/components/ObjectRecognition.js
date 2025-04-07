@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { base64ToBlob } from '../utils/Base64ToBlob';
 
 function ObjectRecognition({apiEndpoint, edgeDetectedImage}) {
@@ -19,8 +19,8 @@ function ObjectRecognition({apiEndpoint, edgeDetectedImage}) {
 
     setIsUploading(true);
     setError(null);
-
-    const blob = base64ToBlob(edgeDetectedImage);
+    console.log(edgeDetectedImage)
+    const blob = typeof edgeDetectedImage === 'string' ? base64ToBlob(edgeDetectedImage) : edgeDetectedImage;
     const formData = new FormData();
 
     formData.append('image', blob, 'image.png');

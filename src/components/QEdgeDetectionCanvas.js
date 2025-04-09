@@ -251,6 +251,7 @@ function QEdgeDetectionCanvas({
           </div>
         )}
       </div>
+      
       <div className="fixed bottom-0 left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]">
         <button
             disabled={!uploadedImage || rootPixelsForTileError || isUploading}

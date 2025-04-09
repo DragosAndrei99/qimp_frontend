@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
 import { isPowerOf2 } from "../utils/IsPowerOf2";
+import DetectEdgesButton from "./edge_detection/DetectEdgesButton";
+import InputImage from "./edge_detection/InputImage";
+import OriginalImage from "./edge_detection/OriginalImage";
+import Options from "./edge_detection/Options";
+import ProcessedImage from "./edge_detection/ProcessedImage";
 
 function QEdgeDetectionCanvas({
   apiEndpoint,
-  imageLoaded,
-  setImageLoaded,
   b64FinalImage,
   setB64FinalImage,
 }) {
@@ -91,7 +94,7 @@ function QEdgeDetectionCanvas({
                   );
                 }
                 if (part.includes("--end--")) {
-                  setImageLoaded(true);
+                  setB64FinalImage((prev) => 'data:image/png;base64,' + prev)
                   setIsUploading(false);
                   return;
                 }
@@ -166,111 +169,55 @@ function QEdgeDetectionCanvas({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">
-        <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
-          INPUT IMAGE
-        </label>
-
-        <div className="border border-dashed border-[#6b62a8] rounded-md p-4 flex flex-col sm:flex-col items-center gap-4 bg-[#1a1540]">
-          <div className="flex items-center justify-center text-sm text-gray-300">
-            <div className="text-center">
-              <div className="text-pink-400 text-xl mb-1">⬇</div>
-              Drop an image here...
-            </div>
-          </div>
-          <div className="text-xs rounded-md font-bold text-white mb-2 p-6 tracking-widest bg-[#34335A]">
+      <InputImage handleChange={handleImageUpload} isDisabled={isUploading} />
+      <Options
+        children={
+          <>
+            <label htmlFor="powerOf2Input" className="text-md font-bold ">
+              Width/ Height for each tile:
+            </label>
             <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              disabled={isUploading}
-              className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl cursor-pointer disabled:cursor-not-allowed"
+              id="powerOf2Input"
+              type="number"
+              min="2"
+              max="128"
+              value={rootPixelsForTile}
+              onChange={handleRootPixelsForTileChange}
+              placeholder="0 - 128"
+              className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
             />
-          </div>
-        </div>
-      </div>
+            {rootPixelsForTileError && (
+              <div className="text-sm text-red-600">
+                {rootPixelsForTileError}
+              </div>
+            )}
+          </>
+        }
+      />
 
-      <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto text-[#B6B5C3]">
-        <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
-          OPTIONS
-        </label>
-        <label htmlFor="powerOf2Input" className="text-md font-bold ">
-          Width/ Height for each tile:
-        </label>
-        <input
-          id="powerOf2Input"
-          type="number"
-          min="2"
-          max="128"
-          value={rootPixelsForTile}
-          onChange={handleRootPixelsForTileChange}
-          placeholder="0 - 128"
-          className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
-        />
-        {rootPixelsForTileError && (
-          <div className="text-sm text-red-600">{rootPixelsForTileError}</div>
-        )}
-      </div>
+      <OriginalImage originalImageUrl={uploadedImage} />
 
-      <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">
-        <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
-          ORIGINAL IMAGE
-        </label>
-        <div className="flex items-center justify-center bg-[#39385E]">
-          {uploadedImage && (
-            <>
-              <img src={uploadedImage} alt="Uploaded" className="max-w-80" />
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">
-        <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
-          PROCESSED IMAGE
-        </label>
-        <div className="flex items-center justify-center bg-[#39385E]">
-          <canvas
-            ref={canvasRef}
-            width={rootPixelsForTile * numberOfColumns}
-            height={
-              rootPixelsForTile *
-                Math.ceil(imageStream.length / numberOfColumns) || 0
-            }
-            className="max-w-80"
-          ></canvas>
-        </div>
-
-        {imageLoaded && (
+      <ProcessedImage
+        processedImage={b64FinalImage}
+        children={
           <div className="flex items-center justify-center bg-[#39385E]">
-            <img
-              src={`data:image/png;base64,${b64FinalImage}`}
-              alt="Final Edge Detected"
+            <canvas
+              ref={canvasRef}
+              width={rootPixelsForTile * numberOfColumns}
+              height={
+                rootPixelsForTile *
+                  Math.ceil(imageStream.length / numberOfColumns) || 0
+              }
               className="max-w-80"
-            />
+            ></canvas>
           </div>
-        )}
-      </div>
-      
-      <div className="fixed bottom-0 left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]">
-        <button
-            disabled={!uploadedImage || rootPixelsForTileError || isUploading}
-            onClick={handleEdgeDetection}
-            className="bg-emerald-500 hover:bg-emerald-600 
-                      text-lg text-white font-bold
-                      py-2 px-12
-                      rounded-lg 
-                      shadow-md hover:shadow-lg 
-                      transition-all duration-200 
-                      transform hover:scale-105 disabled:transform-none
-                      focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75
-                      active:scale-95 disabled:active:scale-100
-                      cursor-pointer disabled:cursor-not-allowed"
-          >
-            {isUploading ? "Processing..." : "Detect Edges"}
-          </button>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </div>
+        }
+      />
+      <DetectEdgesButton
+        isDisabled={!uploadedImage || rootPixelsForTileError || isUploading}
+        handleClick={handleEdgeDetection}
+        error={error}
+      />
     </div>
   );
 }

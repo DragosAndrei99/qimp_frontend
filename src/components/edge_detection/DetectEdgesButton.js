@@ -1,6 +1,6 @@
 
 
-function DetectEdgesButton({ isDisabled, handleClick, error }) {
+function DetectButton({ isDisabled, handleClick, error, isProcessing, buttonText }) {
 
   return (
     <div className="fixed bottom-0 left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]">
@@ -18,11 +18,11 @@ function DetectEdgesButton({ isDisabled, handleClick, error }) {
                   active:scale-95 disabled:active:scale-100
                   cursor-pointer disabled:cursor-not-allowed"
       >
-        {isDisabled ? "Processing..." : "Detect Edges"}
+        {isProcessing ? "Processing..." : buttonText}
       </button>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   )
 }
 
-export default DetectEdgesButton;
+export default DetectButton;

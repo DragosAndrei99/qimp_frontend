@@ -1,16 +1,18 @@
 import { useState } from "react";
-import DetectEdgesButton from "./edge_detection/DetectEdgesButton";
 import InputImage from "./edge_detection/InputImage";
-import OriginalImage from "./edge_detection/OriginalImage";
 import Options from "./edge_detection/Options";
-import ProcessedImage from "./edge_detection/ProcessedImage";
+import ObjectRecognition from "./ObjectRecognition";
+import ImageComponent from "./edge_detection/ImageComponent";
+import DetectButton from "./edge_detection/DetectEdgesButton";
 
-function CEdgeDetection({ apiEndpoint, setBlobCFinalImage }) {
+function CEdgeDetection({ apiEndpoint }) {
   const [image, setImage] = useState("");
   const [originalImageUrl, setOriginalImageUrl] = useState(null);
   const [processedImage, setProcessedImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
+  const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
+  const [blobCFinalImage, setBlobCFinalImage] = useState("");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -60,15 +62,41 @@ function CEdgeDetection({ apiEndpoint, setBlobCFinalImage }) {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <InputImage handleChange={handleImageChange} isDisabled={isUploading} />
 
-      <Options />
+      <Options title={"EDGE DETECTION OPTIONS"}/>
 
-      <OriginalImage originalImageUrl={originalImageUrl} />
-      <ProcessedImage processedImage={processedImage}/>
+      <ImageComponent
+        title={"ORIGINAL IMAGE"}
+        processedImage={originalImageUrl}
+      />
+      <ImageComponent
+        title={"PROCESSED IMAGE"}
+        processedImage={processedImage}
+      />
 
-      <DetectEdgesButton
-        isDisabled={isUploading}
+      {blobCFinalImage && (
+         <>
+          <Options title={"POST PROCESSING OPTIONS"}/>
+          <ObjectRecognition
+            apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
+            edgeDetectedImage={blobCFinalImage}
+            setAnnotatedImageUrl={setAnnotatedImageUrl}
+          />
+        </>
+      )}
+
+      {annotatedImageUrl && (
+        <ImageComponent
+          title={"ANNOTATED IMAGE"}
+          processedImage={annotatedImageUrl}
+        />
+      )}
+      
+      <DetectButton
+        isDisabled={!image}
+        isProcessing={isUploading}
         handleClick={handleSubmit}
         error={error}
+        buttonText={"Detect Edges"}
       />
     </div>
   );

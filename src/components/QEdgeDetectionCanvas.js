@@ -1,17 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
 import { isPowerOf2 } from "../utils/IsPowerOf2";
-import DetectEdgesButton from "./edge_detection/DetectEdgesButton";
 import InputImage from "./edge_detection/InputImage";
-import OriginalImage from "./edge_detection/OriginalImage";
 import Options from "./edge_detection/Options";
-import ProcessedImage from "./edge_detection/ProcessedImage";
+import ObjectRecognition from "./ObjectRecognition";
+import ImageComponent from "./edge_detection/ImageComponent";
+import DetectButton from "./edge_detection/DetectEdgesButton";
+import QuantumOptions from "./options/QuantumOptions";
 
-function QEdgeDetectionCanvas({
-  apiEndpoint,
-  b64FinalImage,
-  setB64FinalImage,
-}) {
+function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [imageStream, setImageStream] = useState([]);
   const [numberOfColumns, setNumberOfColumns] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -19,9 +16,12 @@ function QEdgeDetectionCanvas({
   const [uploadedImage, setUploadedImage] = useState(null);
   const [rootPixelsForTile, setRootPixelsForTile] = useState(16);
   const [rootPixelsForTileError, setRootPixelsForTileError] = useState("");
-
+  const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
+  const [b64FinalImage, setB64FinalImage] = useState("");
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
+
+  const [threshold, setThreshold]= useState(0);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -94,7 +94,7 @@ function QEdgeDetectionCanvas({
                   );
                 }
                 if (part.includes("--end--")) {
-                  setB64FinalImage((prev) => 'data:image/png;base64,' + prev)
+                  setB64FinalImage((prev) => "data:image/png;base64," + prev);
                   setIsUploading(false);
                   return;
                 }
@@ -171,33 +171,21 @@ function QEdgeDetectionCanvas({
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <InputImage handleChange={handleImageUpload} isDisabled={isUploading} />
       <Options
+        title={"EDGE DETECTION OPTIONS"}
         children={
-          <>
-            <label htmlFor="powerOf2Input" className="text-md font-bold ">
-              Width/ Height for each tile:
-            </label>
-            <input
-              id="powerOf2Input"
-              type="number"
-              min="2"
-              max="128"
-              value={rootPixelsForTile}
-              onChange={handleRootPixelsForTileChange}
-              placeholder="0 - 128"
-              className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
-            />
-            {rootPixelsForTileError && (
-              <div className="text-sm text-red-600">
-                {rootPixelsForTileError}
-              </div>
-            )}
-          </>
+          <QuantumOptions
+          rootPixelsForTile={rootPixelsForTile}
+          handleRootPixelsForTileChange={handleRootPixelsForTileChange}
+          rootPixelsForTileError={rootPixelsForTileError}
+          setThreshold={setThreshold}
+           />
         }
       />
 
-      <OriginalImage originalImageUrl={uploadedImage} />
+      <ImageComponent title={"ORIGINAL IMAGE"} processedImage={uploadedImage} />
 
-      <ProcessedImage
+      <ImageComponent
+        title={"PROCESSED IMAGE"}
         processedImage={b64FinalImage}
         children={
           <div className="flex items-center justify-center bg-[#39385E]">
@@ -213,11 +201,31 @@ function QEdgeDetectionCanvas({
           </div>
         }
       />
-      <DetectEdgesButton
-        isDisabled={!uploadedImage || rootPixelsForTileError || isUploading}
+      <DetectButton
+        isDisabled={!uploadedImage || rootPixelsForTileError}
         handleClick={handleEdgeDetection}
+        isProcessing={isUploading}
         error={error}
+        buttonText={"Detect Edges"}
       />
+
+      {!isUploading && b64FinalImage && (
+        <>
+          <Options title={"POST PROCESSING OPTIONS"} />
+          <ObjectRecognition
+            apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
+            edgeDetectedImage={base64ToBlob(b64FinalImage.split(",")[1])}
+            setAnnotatedImageUrl={setAnnotatedImageUrl}
+          />
+        </>
+      )}
+
+      {annotatedImageUrl && (
+        <ImageComponent
+          title={"ANNOTATED IMAGE"}
+          processedImage={annotatedImageUrl}
+        />
+      )}
     </div>
   );
 }

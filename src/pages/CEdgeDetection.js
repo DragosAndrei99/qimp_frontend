@@ -1,9 +1,9 @@
 import { useState } from "react";
-import InputImage from "./edge_detection/InputImage";
-import Options from "./edge_detection/Options";
-import ObjectRecognition from "./ObjectRecognition";
-import ImageComponent from "./edge_detection/ImageComponent";
-import DetectButton from "./edge_detection/DetectEdgesButton";
+import InputImage from "../components/edge_detection/InputImage";
+import Options from "../components/edge_detection/Options";
+import ObjectRecognition from "../components/ObjectRecognition";
+import ImageComponent from "../components/edge_detection/ImageComponent";
+import DetectButton from "../components/edge_detection/DetectEdgesButton";
 
 function CEdgeDetection({ apiEndpoint }) {
   const [image, setImage] = useState("");

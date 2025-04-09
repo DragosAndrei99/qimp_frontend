@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
 import { isPowerOf2 } from "../utils/IsPowerOf2";
-import InputImage from "./edge_detection/InputImage";
-import Options from "./edge_detection/Options";
-import ObjectRecognition from "./ObjectRecognition";
-import ImageComponent from "./edge_detection/ImageComponent";
-import DetectButton from "./edge_detection/DetectEdgesButton";
-import QuantumOptions from "./options/QuantumOptions";
+import InputImage from "../components/edge_detection/InputImage";
+import Options from "../components/edge_detection/Options";
+import ObjectRecognition from "../components/ObjectRecognition";
+import ImageComponent from "../components/edge_detection/ImageComponent";
+import DetectButton from "../components/edge_detection/DetectEdgesButton";
+import QuantumOptions from "../components/options/QuantumOptions";
 
 function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [imageStream, setImageStream] = useState([]);

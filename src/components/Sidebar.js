@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { FiMenu, FiX, FiCpu  } from 'react-icons/fi';
+import { FiMenu, FiX, FiCpu, FiHome } from 'react-icons/fi';
+import { FaCar, FaHistory, FaRegImages } from 'react-icons/fa';
 import { BiAtom } from "react-icons/bi";
+import { NavLink } from 'react-router-dom';
 
-export default function Sidebar({ edgeDetectionType, setEdgeDetectionType }) {
+export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -28,17 +30,38 @@ export default function Sidebar({ edgeDetectionType, setEdgeDetectionType }) {
 
           <nav className="flex-1">
             <ul className="space-y-2">
+            <SidebarItem
+                icon={<FiHome size={20} />}
+                text="Dashboard"
+                path="/"
+              />
               <SidebarItem
                 icon={<BiAtom size={20} />}
                 text="Quantum Edge Detection"
-                active={edgeDetectionType === "Quantum"}
-                handleClick={() => setEdgeDetectionType("Quantum")}
+                path="/quantum-edge-detection"
               />
               <SidebarItem
                 icon={<FiCpu size={20} />}
                 text="Classic Edge Detection"
-                active={edgeDetectionType === "Classic"}
-                handleClick={() => setEdgeDetectionType("Classic")}
+                path="/classic-edge-detection"
+
+              />
+              <SidebarItem
+                icon={<FaCar size={20} />}
+                text="Vehicle Detection"
+                path="/vehicle-detection"
+
+              />
+              <SidebarItem
+                icon={<FaRegImages size={20} />}
+                text="Post Processing Algorithms"
+                path="/post-processing"
+
+              />
+              <SidebarItem
+                icon={<FaHistory size={20} />}
+                text="History"
+                path="/history"
 
               />
             </ul>
@@ -60,18 +83,23 @@ export default function Sidebar({ edgeDetectionType, setEdgeDetectionType }) {
   );
 }
 
-function SidebarItem({ icon, text, active = false, handleClick}) {
+function SidebarItem({ icon, text, path}) {
+
   return (
-    <li 
-    onClick={handleClick}
-    className={`flex items-center p-3 rounded-lg transition-colors cursor-pointer
-      hover:bg-[#010031] text-white ${
-      active
-        ? 'bg-[#010031] text-white'
-        : 'text-gray-300 hover:bg-[#010031] hover:text-white'
-    }`}>
+    <li>
+      <NavLink
+        to={path}
+        className={({ isActive }) => 
+          `flex items-center p-3 rounded-lg transition-colors ${
+            isActive
+              ? 'bg-[#010031] text-white'
+              : 'text-gray-300 hover:bg-[#010031] hover:text-white'
+          }`
+        }
+      >
         <span className="mr-3">{icon}</span>
         <span>{text}</span>
+      </NavLink>
     </li>
   );
 }

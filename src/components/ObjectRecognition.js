@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
-import Options from "./edge_detection/Options";
+import Options from "./edge_detection/OptionsComponent";
 
 function ObjectRecognition({
   apiEndpoint,
@@ -78,7 +78,7 @@ function ObjectRecognition({
             </div>
             <div className="flex justify-center mt-8">
               <button 
-              className="bg-[#131333] hover:bg-[#323159] 
+              className="bg-emerald-500 hover:bg-emerald-600 
                     text-md text-white font-bold
                     py-2 px-8
                     rounded-lg 

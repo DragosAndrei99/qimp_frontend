@@ -1,6 +1,6 @@
 import { useState } from "react";
-import InputImage from "../components/edge_detection/InputImage";
-import Options from "../components/edge_detection/Options";
+import InputImage from "../components/edge_detection/InputImageComponent";
+import Options from "../components/edge_detection/OptionsComponent";
 import ObjectRecognition from "../components/ObjectRecognition";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import DetectButton from "../components/edge_detection/DetectEdgesButton";
@@ -121,7 +121,7 @@ function CEdgeDetection({ apiEndpoint }) {
       )}
 
       <DetectButton
-        isDisabled={!image}
+        isDisabled={!image || Object.values(edgeDetectionParamsErrors).some(value => Boolean(value))}
         isProcessing={isUploading}
         handleClick={handleSubmit}
         error={error}

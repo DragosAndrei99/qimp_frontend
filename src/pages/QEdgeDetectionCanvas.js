@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
-import InputImage from "../components/edge_detection/InputImage";
-import Options from "../components/edge_detection/Options";
+import InputImage from "../components/edge_detection/InputImageComponent";
+import Options from "../components/edge_detection/OptionsComponent";
 import ObjectRecognition from "../components/ObjectRecognition";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import DetectButton from "../components/edge_detection/DetectEdgesButton";
 import QuantumOptions from "../components/options/QuantumOptions";
+import PostProcessingOptions from "../components/post_processing/PostProcessingOptions";
 
 function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [imageStream, setImageStream] = useState([]);
@@ -210,7 +211,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         }
       />
       <DetectButton
-        isDisabled={!uploadedImage || Object.values(edgeDetectionParamsErrors).some(value => Boolean(value))}
+        isDisabled={isUploading || !uploadedImage || Object.values(edgeDetectionParamsErrors).some(value => Boolean(value))}
         handleClick={handleEdgeDetection}
         isProcessing={isUploading}
         error={error}
@@ -219,7 +220,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
 
       {!isUploading && b64FinalImage && (
         <>
-          <Options title={"POST PROCESSING OPTIONS"} />
+          <PostProcessingOptions/>
           <ObjectRecognition
             apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
             edgeDetectedImage={base64ToBlob(b64FinalImage.split(",")[1])}

@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { base64ToBlob } from "../utils/Base64ToBlob";
+import { blobToBase64 } from "../utils/BloblToBase64";
+
 import InputImage from "../components/edge_detection/InputImageComponent";
 import Options from "../components/edge_detection/OptionsComponent";
 import ObjectRecognition from "../components/ObjectRecognition";
@@ -13,7 +16,8 @@ function CEdgeDetection({ apiEndpoint }) {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
-  const [blobCFinalImage, setBlobCFinalImage] = useState("");
+
+  const [selectedImgForObjDetection, setSelectedImgForObjDetection] = useState("");
 
   const [edgeDetectionParams, setEdgeDetectionParams] = useState({
     algorithm: "canny",
@@ -66,9 +70,8 @@ function CEdgeDetection({ apiEndpoint }) {
       }
 
       const imageBlob = await response.blob();
-      const imageUrl = URL.createObjectURL(imageBlob);
-      setProcessedImage(imageUrl);
-      setBlobCFinalImage(imageBlob);
+      const base64String = await blobToBase64(imageBlob);
+      setProcessedImage(base64String);
     } catch (err) {
       setError("Error uploading the image. Please try again.");
       console.error(err);
@@ -100,14 +103,18 @@ function CEdgeDetection({ apiEndpoint }) {
       <ImageComponent
         title={"PROCESSED IMAGE"}
         processedImage={processedImage}
+        enableSelect={true}
+        selectedImg={selectedImgForObjDetection}
+        setSelectedImg={setSelectedImgForObjDetection}
       />
+      
+      {processedImage &&<Options title={"POST PROCESSING OPTIONS"} />}
 
-      {blobCFinalImage && (
+      {selectedImgForObjDetection && (
         <>
-          <Options title={"POST PROCESSING OPTIONS"} />
           <ObjectRecognition
             apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
-            edgeDetectedImage={blobCFinalImage}
+            edgeDetectedImage={base64ToBlob(selectedImgForObjDetection.split(",")[1])}
             setAnnotatedImageUrl={setAnnotatedImageUrl}
           />
         </>

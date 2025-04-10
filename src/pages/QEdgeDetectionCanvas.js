@@ -35,6 +35,9 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     sigmaError: ""
   })
 
+  const [selectedImgForObjDetection, setSelectedImgForObjDetection] = useState("");
+
+
   useEffect(() => {
     if (canvasRef.current) {
       ctxRef.current = canvasRef.current.getContext("2d");
@@ -196,6 +199,9 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
       <ImageComponent
         title={"PROCESSED IMAGE"}
         processedImage={b64FinalImage}
+        enableSelect={true}
+        selectedImg={selectedImgForObjDetection}
+        setSelectedImg={setSelectedImgForObjDetection}
         children={
           <div className="flex items-center justify-center bg-[#39385E]">
             <canvas
@@ -218,12 +224,13 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         buttonText={"Detect Edges"}
       />
 
-      {!isUploading && b64FinalImage && (
+      {!isUploading &&  b64FinalImage && <PostProcessingOptions/>}
+
+      {!isUploading && selectedImgForObjDetection && (
         <>
-          <PostProcessingOptions/>
           <ObjectRecognition
             apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
-            edgeDetectedImage={base64ToBlob(b64FinalImage.split(",")[1])}
+            edgeDetectedImage={base64ToBlob(selectedImgForObjDetection.split(",")[1])}
             setAnnotatedImageUrl={setAnnotatedImageUrl}
           />
         </>

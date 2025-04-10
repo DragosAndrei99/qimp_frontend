@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
-import { isPowerOf2 } from "../utils/IsPowerOf2";
 import InputImage from "../components/edge_detection/InputImage";
 import Options from "../components/edge_detection/Options";
 import ObjectRecognition from "../components/ObjectRecognition";
@@ -14,14 +13,26 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const [rootPixelsForTile, setRootPixelsForTile] = useState(16);
-  const [rootPixelsForTileError, setRootPixelsForTileError] = useState("");
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
   const [b64FinalImage, setB64FinalImage] = useState("");
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
 
-  const [threshold, setThreshold]= useState(0);
+  const [edgeDetectionParams, setEdgeDetectionParams] = useState({
+    rootPixelsForTile: 16,
+    threshold: 1,
+    replaceMargins: true,
+    highlightEdges: false,
+    gaussianBlur: false,
+    kernelSize: 3,
+    sigma: 1
+  })
+
+  const [edgeDetectionParamsErrors, setEdgeDetectionParamsErrors] = useState({
+    rootPixelsForTileError: "",
+    kernelSizeError: "",
+    sigmaError: ""
+  })
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -48,6 +59,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   const handleEdgeDetection = async () => {
     setIsUploading(true);
     setImageStream([]);
+    setB64FinalImage("");
     const formData = new FormData();
     formData.append(
       "image",
@@ -56,8 +68,17 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     );
 
     try {
+      const params = new URLSearchParams({
+        tile_width: edgeDetectionParams.rootPixelsForTile,
+        threshold: edgeDetectionParams.threshold,
+        replace_margins: edgeDetectionParams.replaceMargins,
+        highlight_edges: edgeDetectionParams.highlightEdges,
+        gaussian: edgeDetectionParams.gaussianBlur,
+        kernel: edgeDetectionParams.kernelSize,
+        sigma: edgeDetectionParams.sigma
+      });
       const response = await fetch(
-        `${apiEndpoint}?tile_width=${rootPixelsForTile}`,
+        `${apiEndpoint}?${params}`,
         {
           method: "POST",
           body: formData,
@@ -107,7 +128,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
                 let part = parts[i].trim();
                 if (part.includes("image_width")) {
                   setNumberOfColumns(
-                    part.split(":")[1].toString().split(":") / rootPixelsForTile
+                    part.split(":")[1].toString().split(":") / edgeDetectionParams.rootPixelsForTile
                   );
                 } else if (part) {
                   setImageStream((prevImages) => [...prevImages, part]);
@@ -131,26 +152,13 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     }
   };
 
-  const handleRootPixelsForTileChange = (e) => {
-    const inputValue = e.target.value;
-    const numericValue = parseInt(inputValue, 10);
-    setRootPixelsForTile(inputValue);
-    if (inputValue === "") {
-      setRootPixelsForTileError("");
-    } else if (isPowerOf2(numericValue)) {
-      setRootPixelsForTileError("");
-    } else {
-      setRootPixelsForTileError("Please enter a value that is a power of 2.");
-    }
-  };
-
   useEffect(() => {
     if (imageStream.length > 0 && ctxRef.current) {
       imageStream.forEach((imageData, index) => {
         const row = Math.floor(index / numberOfColumns);
         const col = index % numberOfColumns;
-        const x = col * rootPixelsForTile;
-        const y = row * rootPixelsForTile;
+        const x = col * edgeDetectionParams.rootPixelsForTile;
+        const y = row * edgeDetectionParams.rootPixelsForTile;
 
         const img = new Image();
         img.src = `data:image/png;base64,${imageData}`;
@@ -159,13 +167,13 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
             img,
             x,
             y,
-            rootPixelsForTile,
-            rootPixelsForTile
+            edgeDetectionParams.rootPixelsForTile,
+            edgeDetectionParams.rootPixelsForTile
           );
         };
       });
     }
-  }, [imageStream, numberOfColumns, rootPixelsForTile]);
+  }, [imageStream, numberOfColumns, edgeDetectionParams]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -174,10 +182,10 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         title={"EDGE DETECTION OPTIONS"}
         children={
           <QuantumOptions
-          rootPixelsForTile={rootPixelsForTile}
-          handleRootPixelsForTileChange={handleRootPixelsForTileChange}
-          rootPixelsForTileError={rootPixelsForTileError}
-          setThreshold={setThreshold}
+          edgeDetectionParams={edgeDetectionParams}
+          setEdgeDetectionParams={setEdgeDetectionParams}
+          edgeDetectionParamsErrors={edgeDetectionParamsErrors}
+          setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
            />
         }
       />
@@ -191,9 +199,9 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
           <div className="flex items-center justify-center bg-[#39385E]">
             <canvas
               ref={canvasRef}
-              width={rootPixelsForTile * numberOfColumns}
+              width={edgeDetectionParams.rootPixelsForTile * numberOfColumns}
               height={
-                rootPixelsForTile *
+                edgeDetectionParams.rootPixelsForTile *
                   Math.ceil(imageStream.length / numberOfColumns) || 0
               }
               className="max-w-80"
@@ -202,7 +210,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         }
       />
       <DetectButton
-        isDisabled={!uploadedImage || rootPixelsForTileError}
+        isDisabled={!uploadedImage || Object.values(edgeDetectionParamsErrors).some(value => Boolean(value))}
         handleClick={handleEdgeDetection}
         isProcessing={isUploading}
         error={error}

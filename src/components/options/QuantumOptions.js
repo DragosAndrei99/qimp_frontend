@@ -1,9 +1,134 @@
+import { useState } from "react";
+import { isPowerOf2 } from "../../utils/IsPowerOf2";
+import ThresholdButton from "./ThresholdButton";
+
 function QuantumOptions({
-  rootPixelsForTile,
-  handleRootPixelsForTileChange,
-  rootPixelsForTileError,
-  setThreshold
+  edgeDetectionParams,
+  setEdgeDetectionParams,
+  edgeDetectionParamsErrors,
+  setEdgeDetectionParamsErrors,
 }) {
+  const [thresholdBttns, setThresholdBttns] = useState([
+    { id: 1, label: "No Threshold", isActive: false, threshold: 0 },
+    { id: 2, label: "0.5x Threshold", isActive: false, threshold: 0.5 },
+    { id: 3, label: "Normal Threshold", isActive: true, threshold: 1 },
+    { id: 4, label: "x1.5 Threshold", isActive: false, threshold: 1.5 },
+  ]);
+
+  const handleThresholdBttnsClick = (id, threshold) => {
+    setEdgeDetectionParams({
+      ...edgeDetectionParams,
+      threshold: threshold,
+    });
+    const updatedButtons = thresholdBttns.map((btn) => ({
+      ...btn,
+      isActive: btn.id === id,
+    }));
+    setThresholdBttns(updatedButtons);
+  };
+
+  const handleRootPixelsForTileChange = (e) => {
+    const inputValue = e.target.value;
+    const numericValue = parseInt(inputValue, 10);
+    setEdgeDetectionParams({
+      ...edgeDetectionParams,
+      rootPixelsForTile: inputValue,
+    });
+    if (inputValue === "" || numericValue < 2 || numericValue > 128) {
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        rootPixelsForTileError: "Please enter a value that is a power of 2.",
+      });
+    } else if (isPowerOf2(numericValue)) {
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        rootPixelsForTileError: "",
+      });
+      setEdgeDetectionParams({
+        ...edgeDetectionParams,
+        rootPixelsForTile: numericValue,
+      });
+    } else {
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        rootPixelsForTileError: "Please enter a value that is a power of 2.",
+      });
+    }
+  };
+
+  const handleKernelSizeChange = (e) => {
+    const inputValue = e.target.value;
+    const numericValue = parseInt(inputValue, 10);
+
+    if (inputValue === "" || numericValue < 1 || numericValue > 20) {
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        kernelSizeError: "Please enter a value between 0 and 20.",
+      });
+      setEdgeDetectionParams({
+        ...edgeDetectionParams,
+        kernelSize: "",
+      });
+    } else {
+      setEdgeDetectionParams({
+        ...edgeDetectionParams,
+        kernelSize: numericValue,
+      });
+
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        kernelSizeError: "",
+      });
+    }
+  };
+
+  const handleSigmaChange = (e) => {
+    const inputValue = e.target.value;
+    const numericValue = parseInt(inputValue, 10);
+
+    if (inputValue === "" || numericValue < 1 || numericValue > 5) {
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        sigmaError: "Please enter a value between 0 and 5.",
+      });
+      setEdgeDetectionParams({
+        ...edgeDetectionParams,
+        sigma: "",
+      });
+    } else {
+      setEdgeDetectionParams({
+        ...edgeDetectionParams,
+        sigma: numericValue,
+      });
+
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        sigmaError: "",
+      });
+    }
+  };
+
+  const handleReplaceMargins = () => {
+    setEdgeDetectionParams({
+      ...edgeDetectionParams,
+      replaceMargins: !edgeDetectionParams.replaceMargins,
+    });
+  };
+
+  const handleHighlightEdges = () => {
+    setEdgeDetectionParams({
+      ...edgeDetectionParams,
+      highlightEdges: !edgeDetectionParams.highlightEdges,
+    });
+  };
+
+  const handleGaussianBlur = () => {
+    setEdgeDetectionParams({
+      ...edgeDetectionParams,
+      gaussianBlur: !edgeDetectionParams.gaussianBlur,
+    });
+  };
+
   return (
     <>
       <div className="mb-2">
@@ -15,13 +140,13 @@ function QuantumOptions({
           type="number"
           min="2"
           max="128"
-          value={rootPixelsForTile}
+          value={edgeDetectionParams.rootPixelsForTile || ""}
           onChange={handleRootPixelsForTileChange}
           placeholder="0 - 128"
           className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
         />
-        {rootPixelsForTileError && (
-          <div className="text-sm text-red-600">{rootPixelsForTileError}</div>
+        {edgeDetectionParamsErrors.rootPixelsForTileError && (
+          <div className="text-sm text-red-600">{edgeDetectionParamsErrors.rootPixelsForTileError}</div>
         )}
       </div>
 
@@ -29,43 +154,19 @@ function QuantumOptions({
         <label htmlFor="" className="text-md font-bold ">
           Threshold:
         </label>
-
-        <button
-          className="bg-[#131333] hover:bg-[#323159] 
-                    text-sm text-white
-                    py-1 px-4
-                    shadow-md hover:shadow-lg 
-                    focus:outline-none focus:ring-2
-                    cursor-pointer disabled:cursor-not-allowed
-                    ml-4"
-          onClick={setThreshold}
-        >
-          No Threshold
-        </button>
-
-        <button
-          className="bg-[#131333] hover:bg-[#323159] 
-                    text-sm text-white
-                    py-1 px-4
-                    shadow-md hover:shadow-lg 
-                    focus:outline-none focus:ring-2
-                    cursor-pointer disabled:cursor-not-allowed"
-          onClick={setThreshold}
-        >
-          Normal Threshold
-        </button>
-
-        <button
-          className="bg-[#131333] hover:bg-[#323159] 
-                    text-sm text-white
-                    py-1 px-4
-                    shadow-md hover:shadow-lg 
-                    focus:outline-none focus:ring-2
-                    cursor-pointer disabled:cursor-not-allowed"
-          onClick={setThreshold}
-        >
-          x2 Threshold
-        </button>
+        <span className="ml-4">
+          {thresholdBttns.map((btn) => (
+            <ThresholdButton
+              key={btn.id}
+              id={btn.id}
+              label={btn.label}
+              handleClick={() =>
+                handleThresholdBttnsClick(btn.id, btn.threshold)
+              }
+              isActive={btn.isActive}
+            />
+          ))}
+        </span>
       </div>
 
       <div className="mb-2">
@@ -75,8 +176,8 @@ function QuantumOptions({
         <input
           type="checkbox"
           className="form-checkbox h-5 w-5 ml-4"
-          checked={true}
-          onChange={() => {}}
+          checked={edgeDetectionParams.replaceMargins}
+          onChange={handleReplaceMargins}
         />
       </div>
 
@@ -87,8 +188,8 @@ function QuantumOptions({
         <input
           type="checkbox"
           className="form-checkbox h-5 w-5 ml-4"
-          checked={false}
-          onChange={() => {}}
+          checked={edgeDetectionParams.highlightEdges}
+          onChange={handleHighlightEdges}
         />
       </div>
 
@@ -99,11 +200,15 @@ function QuantumOptions({
         <input
           type="checkbox"
           className="form-checkbox h-5 w-5 ml-4"
-          checked={false}
-          onChange={() => {}}
+          checked={edgeDetectionParams.gaussianBlur || ""}
+          onChange={handleGaussianBlur}
         />
 
-        <span className="opacity-20">
+        <span
+          className={`${
+            !edgeDetectionParams.gaussianBlur ? "opacity-20" : "opacity-100"
+          }`}
+        >
           <label htmlFor="kernelSize" className="text-md font-bold ml-5">
             Kernel Size:
           </label>
@@ -113,9 +218,14 @@ function QuantumOptions({
             min="3"
             max="20"
             placeholder="0 - 20"
+            value={edgeDetectionParams.kernelSize || ""}
+            onChange={handleKernelSizeChange}
             className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
-            disabled={true}
+            disabled={!edgeDetectionParams.gaussianBlur}
           />
+          {edgeDetectionParamsErrors.kernelSizeError && (
+            <div className="text-sm text-red-600">{edgeDetectionParamsErrors.kernelSizeError}</div>
+          )}
 
           <label htmlFor="sigma" className="text-md font-bold ml-5">
             Sigma:
@@ -126,9 +236,14 @@ function QuantumOptions({
             min="1"
             max="5"
             placeholder="0 - 5"
+            value={edgeDetectionParams.sigma}
+            onChange={handleSigmaChange}
             className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
-            disabled={true}
+            disabled={!edgeDetectionParams.gaussianBlur}
           />
+          {edgeDetectionParamsErrors.sigmaError && (
+            <div className="text-sm text-red-600">{edgeDetectionParamsErrors.sigmaError}</div>
+          )}
         </span>
       </div>
     </>

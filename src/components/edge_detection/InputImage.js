@@ -1,3 +1,5 @@
+import { FaFileArrowDown } from "react-icons/fa6";
+
 
 function InputImage({ handleChange, isDisabled }) {
   return (
@@ -8,7 +10,7 @@ function InputImage({ handleChange, isDisabled }) {
     <div className="border border-dashed border-[#6b62a8] rounded-md p-4 flex flex-col sm:flex-col items-center gap-4 bg-[#1a1540]">
       <div className="flex items-center justify-center text-sm text-gray-300">
         <div className="text-center">
-          <div className="text-pink-400 text-xl mb-1">⬇</div>
+          <div className="flex flex-row justify-center"><FaFileArrowDown size={32}/></div>
           Drop an image here...
         </div>
       </div>

@@ -1,5 +1,5 @@
 
-function ThresholdButton({id, label, handleClick, isActive}) {
+function OptionButton({id, label, handleClick, isActive}) {
 
   return (
     <button
@@ -18,4 +18,4 @@ function ThresholdButton({id, label, handleClick, isActive}) {
   )
 }
 
-export default ThresholdButton;
+export default OptionButton;

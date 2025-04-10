@@ -4,6 +4,7 @@ import Options from "../components/edge_detection/Options";
 import ObjectRecognition from "../components/ObjectRecognition";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import DetectButton from "../components/edge_detection/DetectEdgesButton";
+import ClassicOptions from "../components/options/ClassicOptions";
 
 function CEdgeDetection({ apiEndpoint }) {
   const [image, setImage] = useState("");
@@ -13,6 +14,18 @@ function CEdgeDetection({ apiEndpoint }) {
   const [error, setError] = useState("");
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
   const [blobCFinalImage, setBlobCFinalImage] = useState("");
+
+  const [edgeDetectionParams, setEdgeDetectionParams] = useState({
+    algorithm: "canny",
+    gaussianBlur: false,
+    kernelSize: 3,
+    sigma: 1,
+  });
+
+  const [edgeDetectionParamsErrors, setEdgeDetectionParamsErrors] = useState({
+    kernelSizeError: "",
+    sigmaError: "",
+  });
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -37,7 +50,13 @@ function CEdgeDetection({ apiEndpoint }) {
     setError("");
 
     try {
-      const response = await fetch(apiEndpoint, {
+      const params = new URLSearchParams({
+        algorithm: edgeDetectionParams.algorithm,
+        gaussian: edgeDetectionParams.gaussianBlur,
+        kernel: edgeDetectionParams.kernelSize,
+        sigma: edgeDetectionParams.sigma,
+      });
+      const response = await fetch(`${apiEndpoint}?${params}`, {
         method: "POST",
         body: formData,
       });
@@ -62,7 +81,17 @@ function CEdgeDetection({ apiEndpoint }) {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <InputImage handleChange={handleImageChange} isDisabled={isUploading} />
 
-      <Options title={"EDGE DETECTION OPTIONS"}/>
+      <Options
+        title={"EDGE DETECTION OPTIONS"}
+        children={
+          <ClassicOptions
+            edgeDetectionParams={edgeDetectionParams}
+            setEdgeDetectionParams={setEdgeDetectionParams}
+            edgeDetectionParamsErrors={edgeDetectionParamsErrors}
+            setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
+          />
+        }
+      />
 
       <ImageComponent
         title={"ORIGINAL IMAGE"}
@@ -74,8 +103,8 @@ function CEdgeDetection({ apiEndpoint }) {
       />
 
       {blobCFinalImage && (
-         <>
-          <Options title={"POST PROCESSING OPTIONS"}/>
+        <>
+          <Options title={"POST PROCESSING OPTIONS"} />
           <ObjectRecognition
             apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
             edgeDetectedImage={blobCFinalImage}
@@ -90,7 +119,7 @@ function CEdgeDetection({ apiEndpoint }) {
           processedImage={annotatedImageUrl}
         />
       )}
-      
+
       <DetectButton
         isDisabled={!image}
         isProcessing={isUploading}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { isPowerOf2 } from "../../utils/IsPowerOf2";
-import ThresholdButton from "./ThresholdButton";
+import OptionButton from "./OptionButton";
 
 function QuantumOptions({
   edgeDetectionParams,
@@ -59,17 +59,17 @@ function QuantumOptions({
   const handleKernelSizeChange = (e) => {
     const inputValue = e.target.value;
     const numericValue = parseInt(inputValue, 10);
-
-    if (inputValue === "" || numericValue < 1 || numericValue > 20) {
+    setEdgeDetectionParams({
+      ...edgeDetectionParams,
+      kernelSize: inputValue,
+    });
+    if (inputValue === "" || numericValue < 1 || numericValue > 21) {
       setEdgeDetectionParamsErrors({
         ...edgeDetectionParamsErrors,
-        kernelSizeError: "Please enter a value between 0 and 20.",
+        kernelSizeError: "Please enter an odd number for Kernel size between 0 and 21.",
       });
-      setEdgeDetectionParams({
-        ...edgeDetectionParams,
-        kernelSize: "",
-      });
-    } else {
+
+    } else if(numericValue % 2 !== 0) {
       setEdgeDetectionParams({
         ...edgeDetectionParams,
         kernelSize: numericValue,
@@ -79,21 +79,25 @@ function QuantumOptions({
         ...edgeDetectionParamsErrors,
         kernelSizeError: "",
       });
+    } else {
+      setEdgeDetectionParamsErrors({
+        ...edgeDetectionParamsErrors,
+        kernelSizeError: "Please enter an odd number for Kernel Size between 0 and 21.",
+      });
     }
   };
 
   const handleSigmaChange = (e) => {
     const inputValue = e.target.value;
     const numericValue = parseInt(inputValue, 10);
-
+    setEdgeDetectionParams({
+      ...edgeDetectionParams,
+      sigma: inputValue,
+    });
     if (inputValue === "" || numericValue < 1 || numericValue > 5) {
       setEdgeDetectionParamsErrors({
         ...edgeDetectionParamsErrors,
-        sigmaError: "Please enter a value between 0 and 5.",
-      });
-      setEdgeDetectionParams({
-        ...edgeDetectionParams,
-        sigma: "",
+        sigmaError: "Please enter a value for Sigma between 0 and 5.",
       });
     } else {
       setEdgeDetectionParams({
@@ -156,7 +160,7 @@ function QuantumOptions({
         </label>
         <span className="ml-4">
           {thresholdBttns.map((btn) => (
-            <ThresholdButton
+            <OptionButton
               key={btn.id}
               id={btn.id}
               label={btn.label}
@@ -216,8 +220,8 @@ function QuantumOptions({
             id="kernelSize"
             type="number"
             min="3"
-            max="20"
-            placeholder="0 - 20"
+            max="21"
+            placeholder="0 - 21"
             value={edgeDetectionParams.kernelSize || ""}
             onChange={handleKernelSizeChange}
             className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"

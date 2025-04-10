@@ -1,6 +1,6 @@
 import { useState } from "react";
-import OptionButton from "./OptionButton";
 import GaussianOptions from "./GaussianOptions";
+import OptionsButtons from "./OptionsButtons";
 
 function ClassicOptions({
   edgeDetectionParams,
@@ -26,45 +26,22 @@ function ClassicOptions({
     },
   ]);
 
-  const handleOptionBttnsClick = (id, algorithm) => {
-    const updatedButtons = algorithmBttns.map((btn) => ({
-      ...btn,
-      isActive: btn.id === id,
-    }));
-    setAlgorithmBttns(updatedButtons);
-    setEdgeDetectionParams({
-      ...edgeDetectionParams,
-      algorithm: algorithm,
-    });
-  };
-
   return (
     <>
       <div className="mb-2">
         <GaussianOptions
-          edgeDetectionParams={edgeDetectionParams}
-          setEdgeDetectionParams={setEdgeDetectionParams}
-          edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-          setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
+          params={edgeDetectionParams}
+          setParams={setEdgeDetectionParams}
+          paramsErrors={edgeDetectionParamsErrors}
+          setParamsErrors={setEdgeDetectionParamsErrors}
         />
-        <div className="mb-2">
-          <label htmlFor="" className="text-md font-bold ">
-            Algorithm:
-          </label>
-          <span className="ml-4 mt-4 flex">
-            {algorithmBttns.map((btn) => (
-              <OptionButton
-                key={btn.id}
-                id={btn.id}
-                label={btn.label}
-                handleClick={() =>
-                  handleOptionBttnsClick(btn.id, btn.algorithm)
-                }
-                isActive={btn.isActive}
-              />
-            ))}
-          </span>
-        </div>
+        <OptionsButtons
+          title="Algorithm"
+          bttns={algorithmBttns}
+          setBttns={setAlgorithmBttns}
+          params={edgeDetectionParams}
+          setParams={setEdgeDetectionParams}
+        />
       </div>
     </>
   );

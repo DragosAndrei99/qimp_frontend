@@ -1,15 +1,21 @@
 import { FaRegSave } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 
-function ImageComponent({ title, children, processedImage, enableSelect = false, selectedImg, setSelectedImg }) {
-
+function ImageComponent({
+  title,
+  children,
+  processedImage,
+  enableSelect = false,
+  selectedImg,
+  setSelectedImg,
+}) {
   const handleSelectImg = () => {
-    if(selectedImg) {
-      setSelectedImg("")
+    if (selectedImg) {
+      setSelectedImg("");
     } else {
-      setSelectedImg(processedImage)
+      setSelectedImg(processedImage);
     }
-  }
+  };
 
   return (
     <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">

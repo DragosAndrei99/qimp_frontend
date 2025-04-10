@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { FiMenu, FiX, FiCpu, FiHome } from 'react-icons/fi';
-import { FaCar, FaHistory, FaRegImages } from 'react-icons/fa';
+import { useState } from "react";
+import { FiMenu, FiX, FiCpu, FiHome } from "react-icons/fi";
+import { FaCar, FaHistory, FaRegImages } from "react-icons/fa";
 import { BiAtom } from "react-icons/bi";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function Sidebar() {
 
       <div
         className={`fixed z-20 top-0 left-0 h-full w-64 bg-[#151441] text-white transition-all duration-300 ease-in-out transform ${
-          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
         <div className="flex flex-col h-full p-4">
@@ -30,7 +30,7 @@ export default function Sidebar() {
 
           <nav className="flex-1">
             <ul className="space-y-2">
-            <SidebarItem
+              <SidebarItem
                 icon={<FiHome size={20} />}
                 text="Dashboard"
                 path="/"
@@ -44,31 +44,29 @@ export default function Sidebar() {
                 icon={<FiCpu size={20} />}
                 text="Classic Edge Detection"
                 path="/classic-edge-detection"
-
               />
               <SidebarItem
                 icon={<FaCar size={20} />}
                 text="Vehicle Detection"
                 path="/vehicle-detection"
-
               />
               <SidebarItem
                 icon={<FaRegImages size={20} />}
                 text="Post Processing Algorithms"
                 path="/post-processing"
-
               />
               <SidebarItem
                 icon={<FaHistory size={20} />}
                 text="History"
                 path="/history"
-
               />
             </ul>
           </nav>
 
           <div className="mt-auto pt-4 border-t border-[#010031]">
-            <p className="text-sm text-gray-400">© 2025 Quantum Edge Detection</p>
+            <p className="text-sm text-gray-400">
+              © 2025 Quantum Edge Detection
+            </p>
           </div>
         </div>
       </div>
@@ -83,17 +81,16 @@ export default function Sidebar() {
   );
 }
 
-function SidebarItem({ icon, text, path}) {
-
+function SidebarItem({ icon, text, path }) {
   return (
     <li>
       <NavLink
         to={path}
-        className={({ isActive }) => 
+        className={({ isActive }) =>
           `flex items-center p-3 rounded-lg transition-colors ${
             isActive
-              ? 'bg-[#010031] text-white'
-              : 'text-gray-300 hover:bg-[#010031] hover:text-white'
+              ? "bg-[#010031] text-white"
+              : "text-gray-300 hover:bg-[#010031] hover:text-white"
           }`
         }
       >

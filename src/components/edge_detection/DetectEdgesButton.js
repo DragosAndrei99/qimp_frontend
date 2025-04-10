@@ -1,10 +1,13 @@
-
-
-function DetectButton({ isDisabled, handleClick, error, isProcessing, buttonText }) {
-
+function DetectButton({
+  isDisabled,
+  handleClick,
+  error,
+  isProcessing,
+  buttonText,
+}) {
   return (
     <div className="fixed bottom-0 left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]">
-    <button
+      <button
         disabled={isDisabled}
         onClick={handleClick}
         className="bg-emerald-500 hover:bg-emerald-600 
@@ -22,7 +25,7 @@ function DetectButton({ isDisabled, handleClick, error, isProcessing, buttonText
       </button>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
-  )
+  );
 }
 
 export default DetectButton;

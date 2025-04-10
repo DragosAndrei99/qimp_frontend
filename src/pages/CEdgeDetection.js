@@ -8,6 +8,7 @@ import ObjectRecognition from "../components/ObjectRecognition";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import DetectButton from "../components/edge_detection/DetectEdgesButton";
 import ClassicOptions from "../components/options/ClassicOptions";
+import PostProcessingOptions from "../components/post_processing/PostProcessingOptions";
 
 function CEdgeDetection({ apiEndpoint }) {
   const [image, setImage] = useState("");
@@ -17,7 +18,8 @@ function CEdgeDetection({ apiEndpoint }) {
   const [error, setError] = useState("");
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
 
-  const [selectedImgForObjDetection, setSelectedImgForObjDetection] = useState("");
+  const [selectedImgForObjDetection, setSelectedImgForObjDetection] =
+    useState("");
 
   const [edgeDetectionParams, setEdgeDetectionParams] = useState({
     algorithm: "canny",
@@ -29,6 +31,17 @@ function CEdgeDetection({ apiEndpoint }) {
   const [edgeDetectionParamsErrors, setEdgeDetectionParamsErrors] = useState({
     kernelSizeError: "",
     sigmaError: "",
+  });
+
+  const [postProcessingParams, setPostProcessingParams] = useState({
+    method: "dilation",
+    kernelSize: 3,
+    threshold: 0,
+  });
+
+  const [postProcessingParamsErros, setPostProcessingParamsErrors] = useState({
+    kernelSizeError: "",
+    thresholdError: "",
   });
 
   const handleImageChange = (event) => {
@@ -107,14 +120,23 @@ function CEdgeDetection({ apiEndpoint }) {
         selectedImg={selectedImgForObjDetection}
         setSelectedImg={setSelectedImgForObjDetection}
       />
-      
-      {processedImage &&<Options title={"POST PROCESSING OPTIONS"} />}
+
+      {processedImage && (
+        <PostProcessingOptions
+          postProcessingParams={postProcessingParams}
+          setPostProcessingParams={setPostProcessingParams}
+          postProcessingParamsErrors={postProcessingParamsErros}
+          setPostProcessingParamsErrors={setPostProcessingParamsErrors}
+        />
+      )}
 
       {selectedImgForObjDetection && (
         <>
           <ObjectRecognition
             apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
-            edgeDetectedImage={base64ToBlob(selectedImgForObjDetection.split(",")[1])}
+            edgeDetectedImage={base64ToBlob(
+              selectedImgForObjDetection.split(",")[1]
+            )}
             setAnnotatedImageUrl={setAnnotatedImageUrl}
           />
         </>
@@ -128,7 +150,12 @@ function CEdgeDetection({ apiEndpoint }) {
       )}
 
       <DetectButton
-        isDisabled={!image || Object.values(edgeDetectionParamsErrors).some(value => Boolean(value))}
+        isDisabled={
+          !image ||
+          Object.values(edgeDetectionParamsErrors).some((value) =>
+            Boolean(value)
+          )
+        }
         isProcessing={isUploading}
         handleClick={handleSubmit}
         error={error}

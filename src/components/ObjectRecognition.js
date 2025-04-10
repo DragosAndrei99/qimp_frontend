@@ -56,28 +56,28 @@ function ObjectRecognition({
   };
 
   return (
-      <Options
-        title={"OBJECT RECOGNITION OPTIONS"}
-        children={
-          <>
-            <div>
+    <Options
+      title={"OBJECT RECOGNITION OPTIONS"}
+      children={
+        <>
+          <div>
             <label htmlFor="confLevel" className="text-md font-bold ">
               Confidence Level:
             </label>
-              <input
-                id="confLevel"
-                type="number"
-                step="0.01"
-                min="0"
-                max="1"
-                value={confLevel}
-                onChange={handleConfLevelChange}
-                placeholder="0 - 1"
-                className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
-              />
-            </div>
-            <div className="flex justify-center mt-8">
-              <button 
+            <input
+              id="confLevel"
+              type="number"
+              step="0.01"
+              min="0"
+              max="1"
+              value={confLevel}
+              onChange={handleConfLevelChange}
+              placeholder="0 - 1"
+              className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
+            />
+          </div>
+          <div className="flex justify-center mt-8">
+            <button
               className="bg-emerald-500 hover:bg-emerald-600 
                     text-md text-white font-bold
                     py-2 px-8
@@ -85,14 +85,15 @@ function ObjectRecognition({
                     shadow-md hover:shadow-lg 
                     focus:outline-none focus:ring-2
                     cursor-pointer disabled:cursor-not-allowed"
-              onClick={handleImageUpload}>
-              {isUploading ? 'Uploading image...' : 'Detect Vehicles'}
-                </button>
-              {error && <p style={{ color: "red" }}>{error}</p>}
-            </div>
-          </>
-        }
-      />
+              onClick={handleImageUpload}
+            >
+              {isUploading ? "Uploading image..." : "Detect Vehicles"}
+            </button>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+          </div>
+        </>
+      }
+    />
   );
 }
 

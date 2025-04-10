@@ -1,135 +1,54 @@
+import InputNumber from "../common/InputNumber";
+import Checkbox from "../common/Checkbox";
 
-
-function GaussianOptions({
-  edgeDetectionParams,
-  setEdgeDetectionParams,
-  edgeDetectionParamsErrors,
-  setEdgeDetectionParamsErrors
-}) {
-
-  const handleKernelSizeChange = (e) => {
-    const inputValue = e.target.value;
-    const numericValue = parseInt(inputValue, 10);
-    setEdgeDetectionParams({
-      ...edgeDetectionParams,
-      kernelSize: inputValue,
-    });
-    if (inputValue === "" || numericValue < 1 || numericValue > 21) {
-      setEdgeDetectionParamsErrors({
-        ...edgeDetectionParamsErrors,
-        kernelSizeError:
-          "Please enter an odd number for Kernel size between 0 and 21.",
-      });
-    } else if (numericValue % 2 !== 0) {
-      setEdgeDetectionParams({
-        ...edgeDetectionParams,
-        kernelSize: numericValue,
-      });
-
-      setEdgeDetectionParamsErrors({
-        ...edgeDetectionParamsErrors,
-        kernelSizeError: "",
-      });
-    } else {
-      setEdgeDetectionParamsErrors({
-        ...edgeDetectionParamsErrors,
-        kernelSizeError:
-          "Please enter an odd number for Kernel Size between 0 and 21.",
-      });
-    }
-  };
-
-  const handleSigmaChange = (e) => {
-    const inputValue = e.target.value;
-    const numericValue = parseInt(inputValue, 10);
-    setEdgeDetectionParams({
-      ...edgeDetectionParams,
-      sigma: inputValue,
-    });
-    if (inputValue === "" || numericValue < 1 || numericValue > 5) {
-      setEdgeDetectionParamsErrors({
-        ...edgeDetectionParamsErrors,
-        sigmaError: "Please enter a value for Sigma between 0 and 5.",
-      });
-    } else {
-      setEdgeDetectionParams({
-        ...edgeDetectionParams,
-        sigma: numericValue,
-      });
-
-      setEdgeDetectionParamsErrors({
-        ...edgeDetectionParamsErrors,
-        sigmaError: "",
-      });
-    }
-  };
-
-  const handleGaussianBlur = () => {
-    setEdgeDetectionParams({
-      ...edgeDetectionParams,
-      gaussianBlur: !edgeDetectionParams.gaussianBlur,
-    });
-  };
-
+function GaussianOptions({ params, setParams, paramsErrors, setParamsErrors }) {
   return (
     <div className="mb-2">
-    <label htmlFor="" className="text-md font-bold ">
-      Run Gaussian Blur:
-    </label>
-    <input
-      type="checkbox"
-      className="form-checkbox h-5 w-5 ml-4"
-      checked={edgeDetectionParams.gaussianBlur || ""}
-      onChange={handleGaussianBlur}
-    />
-
-    <span
-      className={`${
-        !edgeDetectionParams.gaussianBlur ? "opacity-20" : "opacity-100"
-      }`}
-    >
-      <label htmlFor="kernelSize" className="text-md font-bold ml-5">
-        Kernel Size:
-      </label>
-      <input
-        id="kernelSize"
-        type="number"
-        min="3"
-        max="21"
-        placeholder="0 - 21"
-        value={edgeDetectionParams.kernelSize || ""}
-        onChange={handleKernelSizeChange}
-        className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
-        disabled={!edgeDetectionParams.gaussianBlur}
+      <Checkbox
+        label="Run Gaussian Blur:"
+        paramKey="gaussianBlur"
+        params={params}
+        setParams={setParams}
       />
-      {edgeDetectionParamsErrors.kernelSizeError && (
-        <div className="text-sm text-red-600">
-          {edgeDetectionParamsErrors.kernelSizeError}
-        </div>
-      )}
 
-      <label htmlFor="sigma" className="text-md font-bold ml-5">
-        Sigma:
-      </label>
-      <input
-        id="sigma"
-        type="number"
-        min="1"
-        max="5"
-        placeholder="0 - 5"
-        value={edgeDetectionParams.sigma}
-        onChange={handleSigmaChange}
-        className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
-        disabled={!edgeDetectionParams.gaussianBlur}
-      />
-      {edgeDetectionParamsErrors.sigmaError && (
-        <div className="text-sm text-red-600">
-          {edgeDetectionParamsErrors.sigmaError}
-        </div>
-      )}
-    </span>
-  </div>
-  )
+      <span
+        className={`ml-5 ${
+          !params.gaussianBlur ? "opacity-20" : "opacity-100"
+        }`}
+      >
+        <InputNumber
+          label="Kernel Size:"
+          paramKey="kernelSize"
+          paramErrKey="kernelSizeError"
+          value={params.kernelSize}
+          params={params}
+          setParams={setParams}
+          paramsErrors={paramsErrors}
+          setParamsErros={setParamsErrors}
+          errorMessage="Please enter an odd number for Kernel Size between 0 and 21."
+          isDisabled={!params.gaussianBlur}
+          inputPlaceholder="0 - 21"
+          errorCondition={(value) => value < 1 || value > 21}
+          successCondition={(value) => value % 2 !== 0}
+        />
+        <InputNumber
+          label="Sigma:"
+          paramKey="sigma"
+          paramErrKey="sigmaError"
+          value={params.sigma}
+          params={params}
+          setParams={setParams}
+          paramsErrors={paramsErrors}
+          setParamsErros={setParamsErrors}
+          errorMessage="Please enter a value for Sigma between 0 and 5."
+          isDisabled={!params.gaussianBlur}
+          inputPlaceholder="0 - 5"
+          errorCondition={(value) => value < 1 || value > 5}
+          successCondition={() => true}
+        />
+      </span>
+    </div>
+  );
 }
 
 export default GaussianOptions;

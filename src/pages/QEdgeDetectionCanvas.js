@@ -26,17 +26,28 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     highlightEdges: false,
     gaussianBlur: false,
     kernelSize: 3,
-    sigma: 1
-  })
+    sigma: 1,
+  });
 
   const [edgeDetectionParamsErrors, setEdgeDetectionParamsErrors] = useState({
     rootPixelsForTileError: "",
     kernelSizeError: "",
-    sigmaError: ""
-  })
+    sigmaError: "",
+  });
 
-  const [selectedImgForObjDetection, setSelectedImgForObjDetection] = useState("");
+  const [selectedImgForObjDetection, setSelectedImgForObjDetection] =
+    useState("");
 
+  const [postProcessingParams, setPostProcessingParams] = useState({
+    method: "dilation",
+    kernelSize: 3,
+    threshold: 0,
+  });
+
+  const [postProcessingParamsErros, setPostProcessingParamsErrors] = useState({
+    kernelSizeError: "",
+    thresholdError: "",
+  });
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -79,15 +90,12 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         highlight_edges: edgeDetectionParams.highlightEdges,
         gaussian: edgeDetectionParams.gaussianBlur,
         kernel: edgeDetectionParams.kernelSize,
-        sigma: edgeDetectionParams.sigma
+        sigma: edgeDetectionParams.sigma,
       });
-      const response = await fetch(
-        `${apiEndpoint}?${params}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch(`${apiEndpoint}?${params}`, {
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch images");
@@ -132,7 +140,8 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
                 let part = parts[i].trim();
                 if (part.includes("image_width")) {
                   setNumberOfColumns(
-                    part.split(":")[1].toString().split(":") / edgeDetectionParams.rootPixelsForTile
+                    part.split(":")[1].toString().split(":") /
+                      edgeDetectionParams.rootPixelsForTile
                   );
                 } else if (part) {
                   setImageStream((prevImages) => [...prevImages, part]);
@@ -182,15 +191,16 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <InputImage handleChange={handleImageUpload} isDisabled={isUploading} />
+
       <Options
         title={"EDGE DETECTION OPTIONS"}
         children={
           <QuantumOptions
-          edgeDetectionParams={edgeDetectionParams}
-          setEdgeDetectionParams={setEdgeDetectionParams}
-          edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-          setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
-           />
+            edgeDetectionParams={edgeDetectionParams}
+            setEdgeDetectionParams={setEdgeDetectionParams}
+            edgeDetectionParamsErrors={edgeDetectionParamsErrors}
+            setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
+          />
         }
       />
 
@@ -216,24 +226,38 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
           </div>
         }
       />
+
       <DetectButton
-        isDisabled={isUploading || !uploadedImage || Object.values(edgeDetectionParamsErrors).some(value => Boolean(value))}
+        isDisabled={
+          isUploading ||
+          !uploadedImage ||
+          Object.values(edgeDetectionParamsErrors).some((value) =>
+            Boolean(value)
+          )
+        }
         handleClick={handleEdgeDetection}
         isProcessing={isUploading}
         error={error}
         buttonText={"Detect Edges"}
       />
 
-      {!isUploading &&  b64FinalImage && <PostProcessingOptions/>}
+      {!isUploading && b64FinalImage && (
+        <PostProcessingOptions
+          postProcessingParams={postProcessingParams}
+          setPostProcessingParams={setPostProcessingParams}
+          postProcessingParamsErrors={postProcessingParamsErros}
+          setPostProcessingParamsErrors={setPostProcessingParamsErrors}
+        />
+      )}
 
       {!isUploading && selectedImgForObjDetection && (
-        <>
-          <ObjectRecognition
-            apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
-            edgeDetectedImage={base64ToBlob(selectedImgForObjDetection.split(",")[1])}
-            setAnnotatedImageUrl={setAnnotatedImageUrl}
-          />
-        </>
+        <ObjectRecognition
+          apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
+          edgeDetectedImage={base64ToBlob(
+            selectedImgForObjDetection.split(",")[1]
+          )}
+          setAnnotatedImageUrl={setAnnotatedImageUrl}
+        />
       )}
 
       {annotatedImageUrl && (

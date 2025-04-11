@@ -5,7 +5,7 @@ import InputNumber from "../common/InputNumber";
 import Button from "../common/Button";
 import { blobToBase64 } from "../../utils/BloblToBase64";
 
-function PostProcessingOptions({ image, apiEndpoint, setProcessedImage }) {
+function PostProcessingOptions({ image, apiEndpoint, setProcessedImage, setSelectedImgForObjDetection }) {
   const [postProcessingParams, setPostProcessingParams] = useState({
     method: "dilation",
     kernelSize: 3,
@@ -35,6 +35,7 @@ function PostProcessingOptions({ image, apiEndpoint, setProcessedImage }) {
   );
 
   const handleSubmit = async () => {
+    setSelectedImgForObjDetection("");
     if (!image) {
       setError("Please select an image first.");
       return;
@@ -123,7 +124,9 @@ function PostProcessingOptions({ image, apiEndpoint, setProcessedImage }) {
               keyToUpdate="method"
             />
             <Button
-              isDisabled={false}
+              isDisabled={isUploading || Object.values(postProcessingParamsErrors).some((value) =>
+                Boolean(value)
+              )}
               handleClick={handleSubmit}
               error={error}
               isProcessing={isUploading}

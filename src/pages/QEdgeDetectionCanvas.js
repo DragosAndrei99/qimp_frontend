@@ -35,16 +35,13 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [selectedImgForObjDetection, setSelectedImgForObjDetection] =
     useState("");
 
-  const [postProcessingParams, setPostProcessingParams] = useState({
-    method: "dilation",
-    kernelSize: 3,
-    threshold: 0,
-  });
-
-  const [postProcessingParamsErros, setPostProcessingParamsErrors] = useState({
-    kernelSizeError: "",
-    thresholdError: "",
-  });
+  const resetStates = () => {
+    setB64FinalImage("");
+    setAnnotatedImageUrl("");
+    setPostProcessedImage("");
+    setSelectedImgForObjDetection("");
+    setImageStream([]);
+  }
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -59,6 +56,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
       setError("Please select an image.");
       return;
     }
+    resetStates();
     const reader = new FileReader();
     reader.onloadend = () => {
       setUploadedImage(reader.result);
@@ -70,8 +68,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
 
   const handleEdgeDetection = async () => {
     setIsUploading(true);
-    setImageStream([]);
-    setB64FinalImage("");
+    resetStates();
     const formData = new FormData();
     formData.append(
       "image",
@@ -186,96 +183,6 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   }, [imageStream, numberOfColumns, edgeDetectionParams]);
 
   return (
-    // <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-    //   <InputImage handleChange={handleImageUpload} isDisabled={isUploading} />
-
-    //   <Options
-    //     title={"EDGE DETECTION OPTIONS"}
-    //     children={
-    //       <QuantumOptions
-    //         edgeDetectionParams={edgeDetectionParams}
-    //         setEdgeDetectionParams={setEdgeDetectionParams}
-    //         edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-    //         setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
-    //       />
-    //     }
-    //   />
-
-    //   <ImageComponent title={"ORIGINAL IMAGE"} processedImage={uploadedImage} />
-
-    //   <ImageComponent
-    //     title={"PROCESSED IMAGE"}
-    //     processedImage={b64FinalImage}
-    //     enableSelect={true}
-    //     selectedImg={selectedImgForObjDetection}
-    //     setSelectedImg={setSelectedImgForObjDetection}
-    //     children={
-    //       <div className="flex items-center justify-center bg-[#39385E]">
-    //         <canvas
-    //           ref={canvasRef}
-    //           width={edgeDetectionParams.rootPixelsForTile * numberOfColumns}
-    //           height={
-    //             edgeDetectionParams.rootPixelsForTile *
-    //               Math.ceil(imageStream.length / numberOfColumns) || 0
-    //           }
-    //           className="max-w-80"
-    //         ></canvas>
-    //       </div>
-    //     }
-    //   />
-
-    //   <Button
-    //     isDisabled={
-    //       isUploading ||
-    //       !uploadedImage ||
-    //       Object.values(edgeDetectionParamsErrors).some((value) =>
-    //         Boolean(value)
-    //       )
-    //     }
-    //     handleClick={handleEdgeDetection}
-    //     isProcessing={isUploading}
-    //     error={error}
-    //     buttonText={"Detect Edges"}
-    //     containerClasses="fixed bottom-0 left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]"
-    //     bttnClasses="bg-emerald-500 hover:bg-emerald-600
-    //               text-lg text-white font-bold
-    //               py-2 px-12
-    //               rounded-lg
-    //               shadow-md hover:shadow-lg
-    //               transition-all duration-200
-    //               transform hover:scale-105 disabled:transform-none
-    //               focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75
-    //               active:scale-95 disabled:active:scale-100
-    //               cursor-pointer disabled:cursor-not-allowed"
-    //   />
-
-    //   {!isUploading && b64FinalImage && (
-    //     <PostProcessingOptions
-    //       postProcessingParams={postProcessingParams}
-    //       setPostProcessingParams={setPostProcessingParams}
-    //       postProcessingParamsErrors={postProcessingParamsErros}
-    //       setPostProcessingParamsErrors={setPostProcessingParamsErrors}
-    //     />
-    //   )}
-
-    //   {!isUploading && selectedImgForObjDetection && (
-    //     <ObjectRecognition
-    //       apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
-    //       edgeDetectedImage={base64ToBlob(
-    //         selectedImgForObjDetection.split(",")[1]
-    //       )}
-    //       setAnnotatedImageUrl={setAnnotatedImageUrl}
-    //     />
-    //   )}
-
-    //   {annotatedImageUrl && (
-    //     <ImageComponent
-    //       title={"ANNOTATED IMAGE"}
-    //       processedImage={annotatedImageUrl}
-    //     />
-    //   )}
-    // </div>
-
     <EdgeDetectionLayout
       optionsChildren={
         <QuantumOptions

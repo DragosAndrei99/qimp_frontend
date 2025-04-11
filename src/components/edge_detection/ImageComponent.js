@@ -10,7 +10,7 @@ function ImageComponent({
   setSelectedImg,
 }) {
   const handleSelectImg = () => {
-    if (selectedImg) {
+    if (selectedImg === processedImage) {
       setSelectedImg("");
     } else {
       setSelectedImg(processedImage);
@@ -27,7 +27,7 @@ function ImageComponent({
           <input
             type="checkbox"
             className="relative form-checkbox h-5 w-5"
-            checked={selectedImg}
+            checked={selectedImg === processedImage}
             onChange={handleSelectImg}
           />
         )}

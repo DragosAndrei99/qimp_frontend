@@ -52,8 +52,8 @@ function EdgeDetectionLayout({
         isProcessing={isUploading}
         error={error}
         buttonText={"Detect Edges"}
-        containerClasses="fixed bottom-0 left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]"
-        bttnClasses="bg-emerald-500 hover:bg-emerald-600 
+        containerClasses="fixed bottom-8 left-1/2 transform -translate-x-1/2 md:left-[calc(50%+125px)]"
+        bttnClasses="bg-emerald-500 hover:bg-emerald-600
                 text-lg text-white font-bold
                 py-2 px-12
                 rounded-lg 
@@ -70,6 +70,7 @@ function EdgeDetectionLayout({
           image={base64ToBlob(processedImage.split(",")[1])}
           setProcessedImage={setPostProcessedImage}
           apiEndpoint="http://127.0.0.1:5000/post-processing"
+          setSelectedImgForObjDetection={setSelectedImgForObjDetection}
         />
       )}
 

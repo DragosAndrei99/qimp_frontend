@@ -29,9 +29,18 @@ function CEdgeDetection({ apiEndpoint }) {
     sigmaError: "",
   });
 
+  const resetStates = () => {
+    setProcessedImage("");
+    setAnnotatedImageUrl("");
+    setPostProcessedImage("");
+    setSelectedImgForObjDetection("");
+
+  }
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      resetStates();
       setImage(file);
       setProcessedImage(null);
       setError("");
@@ -44,12 +53,13 @@ function CEdgeDetection({ apiEndpoint }) {
       setError("Please select an image first.");
       return;
     }
-
+    resetStates();
     const formData = new FormData();
     formData.append("image", image);
 
     setIsUploading(true);
     setError("");
+
 
     try {
       const params = new URLSearchParams({
@@ -79,93 +89,6 @@ function CEdgeDetection({ apiEndpoint }) {
   };
 
   return (
-    // <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-    //   <InputImage handleChange={handleImageChange} isDisabled={isUploading} />
-
-    //   <Options
-    //     title={"EDGE DETECTION OPTIONS"}
-    //     children={
-    //       <ClassicOptions
-    //         edgeDetectionParams={edgeDetectionParams}
-    //         setEdgeDetectionParams={setEdgeDetectionParams}
-    //         edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-    //         setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
-    //       />
-    //     }
-    //   />
-
-    //   <ImageComponent
-    //     title={"ORIGINAL IMAGE"}
-    //     processedImage={originalImageUrl}
-    //   />
-    //   <ImageComponent
-    //     title={"PROCESSED IMAGE"}
-    //     processedImage={processedImage}
-    //     enableSelect={true}
-    //     selectedImg={selectedImgForObjDetection}
-    //     setSelectedImg={setSelectedImgForObjDetection}
-    //   />
-
-    //   {processedImage && (
-    //     <PostProcessingOptions
-    //       image={base64ToBlob(processedImage.split(",")[1])}
-    //       setProcessedImage={setPostProcessedImage}
-    //       apiEndpoint="http://127.0.0.1:5000/post-processing"
-    //     />
-    //   )}
-
-    //   {postProcessedImage && (
-    //     <ImageComponent
-    //       title={"POST PROCESSED IMAGE"}
-    //       processedImage={postProcessedImage}
-    //       enableSelect={true}
-    //       selectedImg={selectedImgForObjDetection}
-    //       setSelectedImg={setSelectedImgForObjDetection}
-    //     />
-    //   )}
-
-    //   {selectedImgForObjDetection && (
-    //       <ObjectRecognition
-    //         apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
-    //         edgeDetectedImage={base64ToBlob(
-    //           selectedImgForObjDetection.split(",")[1]
-    //         )}
-    //         setAnnotatedImageUrl={setAnnotatedImageUrl}
-    //       />
-    //   )}
-
-    //   {annotatedImageUrl && (
-    //     <ImageComponent
-    //       title={"ANNOTATED IMAGE"}
-    //       processedImage={annotatedImageUrl}
-    //     />
-    //   )}
-
-    //   <Button
-    //     isDisabled={
-    //       !image ||
-    //       Object.values(edgeDetectionParamsErrors).some((value) =>
-    //         Boolean(value)
-    //       )
-    //     }
-    //     isProcessing={isUploading}
-    //     handleClick={handleSubmit}
-    //     error={error}
-    //     buttonText={"Detect Edges"}
-    //     containerClasses="fixed bottom-0 left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]"
-    //     bttnClasses="bg-emerald-500 hover:bg-emerald-600
-    //               text-lg text-white font-bold
-    //               py-2 px-12
-    //               rounded-lg
-    //               shadow-md hover:shadow-lg
-    //               transition-all duration-200
-    //               transform hover:scale-105 disabled:transform-none
-    //               focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75
-    //               active:scale-95 disabled:active:scale-100
-    //               cursor-pointer disabled:cursor-not-allowed"
-    //   />
-    // </div>
-
     <EdgeDetectionLayout
       optionsChildren={
         <ClassicOptions
@@ -178,7 +101,7 @@ function CEdgeDetection({ apiEndpoint }) {
       handleImageUpload={handleImageChange}
       uploadedImage={originalImageUrl}
       isUploading={isUploading}
-      processedImage={processedImage} //b64finalImage
+      processedImage={processedImage}
       selectedImgForObjDetection={selectedImgForObjDetection}
       setSelectedImgForObjDetection={setSelectedImgForObjDetection}
       edgeDetectionParamsErrors={edgeDetectionParamsErrors}

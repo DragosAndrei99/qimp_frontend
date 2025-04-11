@@ -42,6 +42,7 @@ function ClassicOptions({
           params={edgeDetectionParams}
           setParams={setEdgeDetectionParams}
           keyToUpdate="algorithm"
+          bttnContainerClasses="ml-3 inline"
         />
       </div>
     </>

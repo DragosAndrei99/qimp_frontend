@@ -62,7 +62,7 @@ function ObjectRecognition({
       title={"OBJECT RECOGNITION OPTIONS"}
       children={
         <>
-          <div>
+          <div className="mt-4">
             <label htmlFor="confLevel" className="text-md font-bold ">
               Confidence Level:
             </label>
@@ -78,14 +78,14 @@ function ObjectRecognition({
               className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white"
             />
           </div>
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center">
           <Button
               isDisabled={false}
               handleClick={handleImageUpload}
               error={error}
               isProcessing={isUploading}
               buttonText="Detect Vehicles"
-              containerClasses="left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]"
+              containerClasses="p-6"
               bttnClasses="bg-emerald-500 hover:bg-emerald-600 
                       text-md text-white font-bold
                       py-2 px-8

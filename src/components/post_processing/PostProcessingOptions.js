@@ -122,6 +122,7 @@ function PostProcessingOptions({ image, apiEndpoint, setProcessedImage, setSelec
               params={postProcessingParams}
               setParams={setPostProcessingParams}
               keyToUpdate="method"
+              bttnContainerClasses="ml-5 inline"
             />
             <Button
               isDisabled={isUploading || Object.values(postProcessingParamsErrors).some((value) =>

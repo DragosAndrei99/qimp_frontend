@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { blobToBase64 } from "../utils/BloblToBase64";
 
+import PageHeader from "../components/common/PageHeader";
 import ClassicOptions from "../components/options/ClassicOptions";
 import EdgeDetectionLayout from "../components/edge_detection/EdgeDetectionLayout";
 
@@ -89,29 +90,33 @@ function CEdgeDetection({ apiEndpoint }) {
   };
 
   return (
-    <EdgeDetectionLayout
-      optionsChildren={
-        <ClassicOptions
-          edgeDetectionParams={edgeDetectionParams}
-          setEdgeDetectionParams={setEdgeDetectionParams}
-          edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-          setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
-        />
-      }
-      handleImageUpload={handleImageChange}
-      uploadedImage={originalImageUrl}
-      isUploading={isUploading}
-      processedImage={processedImage}
-      selectedImgForObjDetection={selectedImgForObjDetection}
-      setSelectedImgForObjDetection={setSelectedImgForObjDetection}
-      edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-      error={error}
-      handleEdgeDetection={handleSubmit}
-      postProcessedImage={postProcessedImage}
-      setPostProcessedImage={setPostProcessedImage}
-      annotatedImageUrl={annotatedImageUrl}
-      setAnnotatedImageUrl={setAnnotatedImageUrl}
-    />
+    <>
+      <PageHeader label="Classic Edge Detection"/>
+
+      <EdgeDetectionLayout
+        optionsChildren={
+          <ClassicOptions
+            edgeDetectionParams={edgeDetectionParams}
+            setEdgeDetectionParams={setEdgeDetectionParams}
+            edgeDetectionParamsErrors={edgeDetectionParamsErrors}
+            setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
+          />
+        }
+        handleImageUpload={handleImageChange}
+        uploadedImage={originalImageUrl}
+        isUploading={isUploading}
+        processedImage={processedImage}
+        selectedImgForObjDetection={selectedImgForObjDetection}
+        setSelectedImgForObjDetection={setSelectedImgForObjDetection}
+        edgeDetectionParamsErrors={edgeDetectionParamsErrors}
+        error={error}
+        handleEdgeDetection={handleSubmit}
+        postProcessedImage={postProcessedImage}
+        setPostProcessedImage={setPostProcessedImage}
+        annotatedImageUrl={annotatedImageUrl}
+        setAnnotatedImageUrl={setAnnotatedImageUrl}
+      />
+    </>
   );
 }
 

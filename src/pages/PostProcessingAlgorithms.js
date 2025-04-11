@@ -2,7 +2,7 @@ import { useState } from "react";
 import InputImage from "../components/edge_detection/InputImageComponent";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import PostProcessingOptions from "../components/post_processing/PostProcessingOptions";
-
+import PageHeader from "../components/common/PageHeader";
 
 function PostProcessingAlgorithms() {
   const [image, setImage] = useState("");
@@ -17,32 +17,36 @@ function PostProcessingAlgorithms() {
     }
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <InputImage handleChange={handleImageChange} isDisabled={false} />
-      <ImageComponent
-        title={"ORIGINAL IMAGE"}
-        processedImage={originalImageUrl}
-      />
+    <>
+      <PageHeader label="Post Processing Algorithms" />
 
-      {image && (
-        <PostProcessingOptions
-          image={image}
-          setProcessedImage={setPostProcessedImage}
-          apiEndpoint="http://127.0.0.1:5000/post-processing"
-          setSelectedImgForObjDetection={() =>{}}
-        />
-      )}
-
-      {postProcessedImage && (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <InputImage handleChange={handleImageChange} isDisabled={false} />
         <ImageComponent
-          title={"POST PROCESSED IMAGE"}
-          processedImage={postProcessedImage}
-          enableSelect={false}
-          selectedImg={image}
-          setSelectedImg={() =>{}}
+          title={"ORIGINAL IMAGE"}
+          processedImage={originalImageUrl}
         />
-      )}
-    </div>
+
+        {image && (
+          <PostProcessingOptions
+            image={image}
+            setProcessedImage={setPostProcessedImage}
+            apiEndpoint="http://127.0.0.1:5000/post-processing"
+            setSelectedImgForObjDetection={() => {}}
+          />
+        )}
+
+        {postProcessedImage && (
+          <ImageComponent
+            title={"POST PROCESSED IMAGE"}
+            processedImage={postProcessedImage}
+            enableSelect={false}
+            selectedImg={image}
+            setSelectedImg={() => {}}
+          />
+        )}
+      </div>
+    </>
   );
 }
 

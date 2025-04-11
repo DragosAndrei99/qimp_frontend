@@ -20,7 +20,6 @@ function ImageComponent({
     }
   };
   useEffect(() => {
-    console.log("runs")
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [processedImage]);
   return (

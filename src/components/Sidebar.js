@@ -9,6 +9,9 @@ export default function Sidebar() {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
   return (
     <>
       <button
@@ -34,31 +37,42 @@ export default function Sidebar() {
                 icon={<FiHome size={20} />}
                 text="Dashboard"
                 path="/"
+                handleLinkClick={handleLinkClick}
               />
               <SidebarItem
                 icon={<BiAtom size={20} />}
                 text="Quantum Edge Detection"
                 path="/quantum-edge-detection"
+                handleLinkClick={handleLinkClick}
+
               />
               <SidebarItem
                 icon={<FiCpu size={20} />}
                 text="Classic Edge Detection"
                 path="/classic-edge-detection"
+                handleLinkClick={handleLinkClick}
+
               />
               <SidebarItem
                 icon={<FaCar size={20} />}
                 text="Vehicle Detection"
                 path="/vehicle-detection"
+                handleLinkClick={handleLinkClick}
+
               />
               <SidebarItem
                 icon={<FaRegImages size={20} />}
                 text="Post Processing Algorithms"
                 path="/post-processing"
+                handleLinkClick={handleLinkClick}
+
               />
               <SidebarItem
                 icon={<FaHistory size={20} />}
                 text="History"
                 path="/history"
+                handleLinkClick={handleLinkClick}
+
               />
             </ul>
           </nav>
@@ -81,10 +95,11 @@ export default function Sidebar() {
   );
 }
 
-function SidebarItem({ icon, text, path }) {
+function SidebarItem({ icon, text, path, handleLinkClick }) {
   return (
     <li>
       <NavLink
+        onClick={handleLinkClick}
         to={path}
         className={({ isActive }) =>
           `flex items-center p-3 rounded-lg transition-colors ${

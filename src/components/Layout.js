@@ -8,8 +8,8 @@ function Layout() {
       <header>
         <Sidebar />
       </header>
-      <main className="pt-10 ml-0 md:ml-64">
-        <div className="m-10 pb-28">
+      <main className="pt-4 ml-0 md:ml-64">
+        <div className="m-10 pb-10">
           {" "}
           <Outlet />
         </div>

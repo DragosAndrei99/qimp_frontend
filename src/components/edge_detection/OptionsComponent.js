@@ -5,7 +5,6 @@ function Options({ title, children }) {
   const ref = useRef();
 
   useEffect(() => {
-      console.log("runs")
       ref.current?.scrollIntoView({ behavior: "smooth" });
     }, []);
   return (

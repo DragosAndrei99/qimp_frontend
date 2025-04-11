@@ -7,12 +7,13 @@ import CEdgeDetection from "./pages/CEdgeDetection";
 import Layout from "./components/Layout";
 import VehicleDetection from "./pages/VehicleDetection";
 import PostProcessingAlgorithms from "./pages/PostProcessingAlgorithms";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<div></div>} />
+        <Route path="/" element={<Dashboard/>} />
 
         <Route
           path="/quantum-edge-detection"

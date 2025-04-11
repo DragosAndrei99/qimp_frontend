@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
 import QuantumOptions from "../components/options/QuantumOptions";
 import EdgeDetectionLayout from "../components/edge_detection/EdgeDetectionLayout";
+import PageHeader from "../components/common/PageHeader";
 
 function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [imageStream, setImageStream] = useState([]);
@@ -41,7 +42,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     setPostProcessedImage("");
     setSelectedImgForObjDetection("");
     setImageStream([]);
-  }
+  };
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -183,42 +184,46 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   }, [imageStream, numberOfColumns, edgeDetectionParams]);
 
   return (
-    <EdgeDetectionLayout
-      optionsChildren={
-        <QuantumOptions
-          edgeDetectionParams={edgeDetectionParams}
-          setEdgeDetectionParams={setEdgeDetectionParams}
-          edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-          setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
-        />
-      }
-      processedImageChildren={
-        <div className="flex items-center justify-center bg-[#39385E]">
-          <canvas
-            ref={canvasRef}
-            width={edgeDetectionParams.rootPixelsForTile * numberOfColumns}
-            height={
-              edgeDetectionParams.rootPixelsForTile *
-                Math.ceil(imageStream.length / numberOfColumns) || 0
-            }
-            className="max-w-80"
-          ></canvas>
-        </div>
-      }
-      handleImageUpload={handleImageUpload}
-      uploadedImage={uploadedImage}
-      isUploading={isUploading}
-      processedImage={b64FinalImage}
-      selectedImgForObjDetection={selectedImgForObjDetection}
-      setSelectedImgForObjDetection={setSelectedImgForObjDetection}
-      edgeDetectionParamsErrors={edgeDetectionParamsErrors}
-      error={error}
-      handleEdgeDetection={handleEdgeDetection}
-      postProcessedImage={postProcessedImage}
-      setPostProcessedImage={setPostProcessedImage}
-      annotatedImageUrl={annotatedImageUrl}
-      setAnnotatedImageUrl={setAnnotatedImageUrl}
-    />
+    <>
+      <PageHeader label="Quantum Hadamard Edge Detection" />
+
+      <EdgeDetectionLayout
+        optionsChildren={
+          <QuantumOptions
+            edgeDetectionParams={edgeDetectionParams}
+            setEdgeDetectionParams={setEdgeDetectionParams}
+            edgeDetectionParamsErrors={edgeDetectionParamsErrors}
+            setEdgeDetectionParamsErrors={setEdgeDetectionParamsErrors}
+          />
+        }
+        processedImageChildren={
+          <div className="flex items-center justify-center bg-[#39385E]">
+            <canvas
+              ref={canvasRef}
+              width={edgeDetectionParams.rootPixelsForTile * numberOfColumns}
+              height={
+                edgeDetectionParams.rootPixelsForTile *
+                  Math.ceil(imageStream.length / numberOfColumns) || 0
+              }
+              className="max-w-80"
+            ></canvas>
+          </div>
+        }
+        handleImageUpload={handleImageUpload}
+        uploadedImage={uploadedImage}
+        isUploading={isUploading}
+        processedImage={b64FinalImage}
+        selectedImgForObjDetection={selectedImgForObjDetection}
+        setSelectedImgForObjDetection={setSelectedImgForObjDetection}
+        edgeDetectionParamsErrors={edgeDetectionParamsErrors}
+        error={error}
+        handleEdgeDetection={handleEdgeDetection}
+        postProcessedImage={postProcessedImage}
+        setPostProcessedImage={setPostProcessedImage}
+        annotatedImageUrl={annotatedImageUrl}
+        setAnnotatedImageUrl={setAnnotatedImageUrl}
+      />
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 import { FaRegSave } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
+import { useRef, useEffect } from "react";
 
 function ImageComponent({
   title,
@@ -9,6 +10,8 @@ function ImageComponent({
   selectedImg,
   setSelectedImg,
 }) {
+  const ref = useRef();
+
   const handleSelectImg = () => {
     if (selectedImg === processedImage) {
       setSelectedImg("");
@@ -16,9 +19,12 @@ function ImageComponent({
       setSelectedImg(processedImage);
     }
   };
-
+  useEffect(() => {
+    console.log("runs")
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [processedImage]);
   return (
-    <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">
+    <div ref={ref} className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">
       <div className="flex flex-row justify-between items-start">
         <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
           {title}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { base64ToBlob } from "../utils/Base64ToBlob";
 import Options from "./edge_detection/OptionsComponent";
+import Button from "./common/Button";
+
 
 function ObjectRecognition({
   apiEndpoint,
@@ -77,18 +79,24 @@ function ObjectRecognition({
             />
           </div>
           <div className="flex justify-center mt-8">
-            <button
-              className="bg-emerald-500 hover:bg-emerald-600 
-                    text-md text-white font-bold
-                    py-2 px-8
-                    rounded-lg 
-                    shadow-md hover:shadow-lg 
-                    focus:outline-none focus:ring-2
-                    cursor-pointer disabled:cursor-not-allowed"
-              onClick={handleImageUpload}
-            >
-              {isUploading ? "Uploading image..." : "Detect Vehicles"}
-            </button>
+          <Button
+              isDisabled={false}
+              handleClick={handleImageUpload}
+              error={error}
+              isProcessing={isUploading}
+              buttonText="Detect Vehicles"
+              containerClasses="left-0 md:left-64 right-0 flex justify-center p-6 bg-[##010031]"
+              bttnClasses="bg-emerald-500 hover:bg-emerald-600 
+                      text-md text-white font-bold
+                      py-2 px-8
+                      rounded-lg 
+                      shadow-md hover:shadow-lg 
+                      transition-all duration-200 
+                      transform hover:scale-105 disabled:transform-none
+                      focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75
+                      active:scale-95 disabled:active:scale-100
+                      cursor-pointer disabled:cursor-not-allowed"
+            />
             {error && <p style={{ color: "red" }}>{error}</p>}
           </div>
         </>

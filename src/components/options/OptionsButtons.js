@@ -6,9 +6,10 @@ function OptionsButtons({
   setBttns,
   params,
   setParams,
+  keyToUpdate,
   bttnContainerClasses = "ml-4 mt-4 flex",
 }) {
-  const handleOptionBttnClick = (id, algorithm) => {
+  const handleOptionBttnClick = (id, value) => {
     const updatedButtons = bttns.map((btn) => ({
       ...btn,
       isActive: btn.id === id,
@@ -16,7 +17,7 @@ function OptionsButtons({
     setBttns(updatedButtons);
     setParams({
       ...params,
-      algorithm: algorithm,
+      [keyToUpdate]: value,
     });
   };
 
@@ -31,7 +32,7 @@ function OptionsButtons({
             key={btn.id}
             id={btn.id}
             label={btn.label}
-            handleClick={() => handleOptionBttnClick(btn.id, btn.algorithm)}
+            handleClick={() => handleOptionBttnClick(btn.id, btn[keyToUpdate])}
             isActive={btn.isActive}
           />
         ))}

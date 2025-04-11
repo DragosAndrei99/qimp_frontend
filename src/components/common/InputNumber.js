@@ -52,7 +52,7 @@ function InputNumber({
         id={paramKey}
         type="number"
         placeholder={inputPlaceholder}
-        value={value || ""}
+        value={value}
         onChange={handleKernelSizeChange}
         className="bg-[#131333] p-1 ml-4 rounded-md font-bold text-white w-[60px]"
         disabled={isDisabled}

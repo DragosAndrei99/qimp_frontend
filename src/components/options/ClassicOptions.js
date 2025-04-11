@@ -41,6 +41,7 @@ function ClassicOptions({
           setBttns={setAlgorithmBttns}
           params={edgeDetectionParams}
           setParams={setEdgeDetectionParams}
+          keyToUpdate="algorithm"
         />
       </div>
     </>

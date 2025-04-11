@@ -185,7 +185,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
 
   return (
     <>
-      <PageHeader label="Quantum Hadamard Edge Detection" />
+      <PageHeader label="Quantum Hadamard Edge Detection Simulator" />
 
       <EdgeDetectionLayout
         optionsChildren={

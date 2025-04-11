@@ -2,7 +2,7 @@ import { FaFileArrowDown } from "react-icons/fa6";
 
 function InputImage({ handleChange, isDisabled }) {
   return (
-    <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">
+    <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl">
       <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
         INPUT IMAGE
       </label>

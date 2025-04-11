@@ -27,7 +27,7 @@ function EdgeDetectionLayout({
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <InputImage handleChange={handleImageUpload} isDisabled={isUploading} />
 
-      <Options title={"EDGE DETECTION OPTIONS"} children={optionsChildren} />
+      <Options title={"EDGE DETECTION SETTINGS"} children={optionsChildren} />
 
       <ImageComponent title={"ORIGINAL IMAGE"} processedImage={uploadedImage} />
 

@@ -23,7 +23,7 @@ function ImageComponent({
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [processedImage]);
   return (
-    <div ref={ref} className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-3xl mx-auto">
+    <div ref={ref} className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl">
       <div className="flex flex-row justify-between items-start">
         <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
           {title}

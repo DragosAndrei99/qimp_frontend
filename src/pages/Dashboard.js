@@ -27,7 +27,7 @@ function Dashboard() {
     <>
       <PageHeader label="Quantum Hadamard Edge Detection"/>
       <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-4">
-        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl mx-auto">
+        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
           <div className="flex flex-row justify-center items-start">
             <label className="text-md font-bold text-white mb-2 p-2 block tracking-widest w-fit bg-[#34335A]">
               Quantum Edge Detected Sample
@@ -71,7 +71,7 @@ function Dashboard() {
           <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl mx-auto">
             <QuantumEdgeGraph
               data={dataTimeComplexity}
-              label="Time Complexity"
+              label="Quantum vs Classic"
               legendLabel1="Time Complexity  (Y-Axis)"
               legendLabel2="Image Size (X-Axis)"
               xAxisDataKey="name"

@@ -25,6 +25,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     gaussianBlur: false,
     kernelSize: 3,
     sigma: 1,
+    shots: 10001
   });
 
   const [edgeDetectionParamsErrors, setEdgeDetectionParamsErrors] = useState({
@@ -86,6 +87,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         gaussian: edgeDetectionParams.gaussianBlur,
         kernel: edgeDetectionParams.kernelSize,
         sigma: edgeDetectionParams.sigma,
+        shots: edgeDetectionParams.shots
       });
       const response = await fetch(`${apiEndpoint}?${params}`, {
         method: "POST",

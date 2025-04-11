@@ -67,6 +67,26 @@ function QuantumOptions({
         paramsErrors={edgeDetectionParamsErrors}
         setParamsErrors={setEdgeDetectionParamsErrors}
       />
+
+      <div className="rounded-2xl w-fullshadow-lg">
+      <label className="text-md font-bold mb-4">Simulator shots: <span className="ml-2 py-1 px-3 rounded-md bg-[#131333] text-white">{edgeDetectionParams.shots}</span></label>
+      <input
+        type="range"
+        min="1"
+        max="10001"
+        step="200"
+        value={edgeDetectionParams.shots}
+        onChange={(e) => setEdgeDetectionParams({
+          ...edgeDetectionParams,
+          shots: Number(e.target.value)
+        })}
+        className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+      />
+      <div className="flex justify-between text-sm mt-2 ">
+        <span>1</span>
+        <span>10001</span>
+      </div>
+    </div>
     </>
   );
 }

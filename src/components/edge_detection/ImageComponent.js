@@ -31,7 +31,7 @@ function ImageComponent({
         {processedImage && enableSelect && (
           <input
             type="checkbox"
-            className="relative form-checkbox h-5 w-5"
+            className="relative form-checkbox h-5 w-5 cursor-pointer"
             checked={selectedImg === processedImage}
             onChange={handleSelectImg}
           />

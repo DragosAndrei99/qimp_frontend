@@ -69,7 +69,7 @@ function ImageComponent({
             {(title === "PROCESSED IMAGE" || title === "POST PROCESSED IMAGE") && <button
               onClick={handleImageSaveToLocalStorage}
               disabled={isAddedToLocalStorage}
-              className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150"
+              className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150 disabled:cursor-not-allowed"
               >
               <FaPlus size={35} color="white" />
             </button>}

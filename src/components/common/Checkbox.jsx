@@ -1,4 +1,6 @@
-function Checkbox({ label, paramKey, params, setParams }) {
+import Tooltip from "./Tooltip";
+
+function Checkbox({ label, paramKey, params, setParams, toolTipText = "" }) {
   const handleCheckbox = () => {
     setParams({
       ...params,
@@ -11,6 +13,7 @@ function Checkbox({ label, paramKey, params, setParams }) {
       <label htmlFor={paramKey} className="text-md font-bold ">
         {label}
       </label>
+      {toolTipText && <Tooltip toolTipText={toolTipText} toolTipId={paramKey}/>}
       <input
         id={paramKey}
         type="checkbox"

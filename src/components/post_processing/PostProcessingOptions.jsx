@@ -147,6 +147,8 @@ function PostProcessingOptions({ image, apiEndpoint, setProcessedImage, setSelec
           </div>
         </>
       }
+      toolTipId="postProcessingOptions"
+      toolTipText="Takes the edge-detected image and applies various post-processing methods to enhance quality of edges."
     />
   );
 }

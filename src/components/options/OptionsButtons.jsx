@@ -1,3 +1,4 @@
+import Tooltip from "../common/Tooltip";
 import OptionButton from "./OptionButton";
 
 function OptionsButtons({
@@ -8,6 +9,7 @@ function OptionsButtons({
   setParams,
   keyToUpdate,
   bttnContainerClasses = "ml-4 mt-4 flex",
+  toolTipText = "",
 }) {
   const handleOptionBttnClick = (id, value) => {
     const updatedButtons = bttns.map((btn) => ({
@@ -26,6 +28,7 @@ function OptionsButtons({
       <label htmlFor="" className="text-md font-bold ">
         {title}:
       </label>
+      {toolTipText && <Tooltip toolTipText={toolTipText} toolTipId={title}/>}
       <span className={bttnContainerClasses}>
         {bttns.map((btn) => (
           <OptionButton

@@ -22,12 +22,14 @@ function EdgeDetectionLayout({
   setPostProcessedImage,
   annotatedImageUrl,
   setAnnotatedImageUrl,
+  optionsToolTipId = "",
+  optionsToolTipText = ""
 }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <InputImage handleChange={handleImageUpload} isDisabled={isUploading} />
 
-      <Options title={"EDGE DETECTION SETTINGS"} children={optionsChildren} />
+      <Options title={"EDGE DETECTION SETTINGS"} children={optionsChildren} toolTipId={optionsToolTipId} toolTipText={optionsToolTipText}/>
 
       <ImageComponent title={"ORIGINAL IMAGE"} processedImage={uploadedImage} />
 

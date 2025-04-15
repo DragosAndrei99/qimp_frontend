@@ -101,6 +101,8 @@ function ObjectRecognition({
           </div>
         </>
       }
+      toolTipText={`This uses the Yolov5 model pretrained on an edge-detected dataset derived from a traffic dataset.`}
+      toolTipId="objRecognitionOptions"
     />
   );
 }

@@ -9,10 +9,11 @@ function GaussianOptions({ params, setParams, paramsErrors, setParamsErrors }) {
         paramKey="gaussianBlur"
         params={params}
         setParams={setParams}
+        toolTipText="Pre-processing step to soften or smooth an image (blur)."
       />
 
       <span
-        className={`ml-5 ${
+        className={`flex justify-start gap-4 ${
           !params.gaussianBlur ? "opacity-20" : "opacity-100"
         }`}
       >
@@ -30,6 +31,7 @@ function GaussianOptions({ params, setParams, paramsErrors, setParamsErrors }) {
           inputPlaceholder="0 - 21"
           errorCondition={(value) => value < 1 || value > 21}
           successCondition={(value) => value % 2 !== 0}
+          toolTipText={ params.gaussianBlur && "Spatial area of blur."}
         />
         <InputNumber
           label="Sigma:"
@@ -45,6 +47,7 @@ function GaussianOptions({ params, setParams, paramsErrors, setParamsErrors }) {
           inputPlaceholder="0 - 5"
           errorCondition={(value) => value < 1 || value > 5}
           successCondition={() => true}
+          toolTipText={ params.gaussianBlur && "Sharpness of the Gaussian curve."}
         />
       </span>
     </div>

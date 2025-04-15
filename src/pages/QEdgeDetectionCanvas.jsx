@@ -224,6 +224,8 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         setPostProcessedImage={setPostProcessedImage}
         annotatedImageUrl={annotatedImageUrl}
         setAnnotatedImageUrl={setAnnotatedImageUrl}
+        optionsToolTipId="quantumOptions"
+        optionsToolTipText="The quantum algorithm encodes the image using Quantum Probability Image Encoding and detects the edges using 2 Hadamard Gates, applying a Decrement gate after first Hadamard. "
       />
     </>
   );

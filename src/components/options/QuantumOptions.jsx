@@ -35,6 +35,7 @@ function QuantumOptions({
           inputPlaceholder="0 - 128"
           errorCondition={(value) => value < 2 || value > 128}
           successCondition={(value) => isPowerOf2(value)}
+          toolTipText="Original image will be split into smaller square images due to hardware limitations on today's devices."
         />
       </div>
 
@@ -45,6 +46,7 @@ function QuantumOptions({
         params={edgeDetectionParams}
         setParams={setEdgeDetectionParams}
         bttnContainerClasses="ml-2 inline"
+        toolTipText="Threshold is a normalized maximum difference between adjacent pixels in the original image."
       />
 
       <Checkbox
@@ -52,6 +54,7 @@ function QuantumOptions({
         paramKey="replaceMargins"
         params={edgeDetectionParams}
         setParams={setEdgeDetectionParams}
+        toolTipText="The quantum algorithm produces noise in the form of marking edges on the margins of each tile. This aims to remove noise."
       />
 
       <Checkbox
@@ -59,6 +62,7 @@ function QuantumOptions({
         paramKey="highlightEdges"
         params={edgeDetectionParams}
         setParams={setEdgeDetectionParams}
+        toolTipText="Sets all pixels that are different from 0 value to 255."
       />
 
       <GaussianOptions

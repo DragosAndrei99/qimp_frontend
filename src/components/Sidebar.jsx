@@ -28,7 +28,7 @@ export default function Sidebar() {
       >
         <div className="flex flex-col h-full p-4">
           <div className="py-4 px-2 mb-8 border-b border-[#010031] pt-10 md:pt-0">
-            <h1 className="text-xl font-bold">Edge Detection</h1>
+            <h1 className="text-xl font-bold text-center">Quantum Edge Detection</h1>
           </div>
 
           <nav className="flex-1">

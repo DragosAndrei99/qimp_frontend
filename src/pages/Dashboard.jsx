@@ -71,7 +71,7 @@ function Dashboard() {
           <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl mx-auto">
             <QuantumEdgeGraph
               data={dataTimeComplexity}
-              label="Quantum vs Classic"
+              label="Quantum vs Classic Time Complexity"
               legendLabel1="Time Complexity  (Y-Axis)"
               legendLabel2="Image Size (X-Axis)"
               xAxisDataKey="name"

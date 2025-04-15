@@ -71,7 +71,7 @@ function ImageComponent({
             <img
               src={processedImage}
               alt="Final Edge Detected"
-              className="max-w-80 max-h-80"
+              className="max-w-60 max-h-60 sm:max-w-80 sm:max-h-80"
             />
           </div>
           <div className="flex flex-rows justify-end mt-4 gap-16">

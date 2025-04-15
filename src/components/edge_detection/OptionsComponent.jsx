@@ -14,7 +14,9 @@ function Options({ title, toolTipText = "", toolTipId = "", children }) {
       <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
         {title || "OPTIONS"}
       </label>
-      {toolTipText && <Tooltip toolTipId={toolTipId} toolTipText={toolTipText}/>}
+      <span className="relative top-[-12px] left-2">
+        {toolTipText && <Tooltip toolTipId={toolTipId} toolTipText={toolTipText}/>}
+      </span>
       </div>
       {children}
     </div>

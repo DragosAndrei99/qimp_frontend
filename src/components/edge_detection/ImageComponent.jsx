@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { useRef, useEffect, useState } from "react";
 import { generateId } from "../../utils/RandomIdGenerator";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import Tooltip from "../common/Tooltip";
 
 function ImageComponent({
   title,
@@ -32,7 +33,7 @@ function ImageComponent({
   }
 
   useEffect(() => {
-    if(title === "ANNOTATED IMAGE") {
+    if (title === "ANNOTATED IMAGE") {
       ref.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [processedImage, title]);
@@ -47,12 +48,20 @@ function ImageComponent({
           {title}
         </label>
         {processedImage && enableSelect && (
-          <input
-            type="checkbox"
-            className="relative form-checkbox h-5 w-5 cursor-pointer"
-            checked={selectedImg === processedImage}
-            onChange={handleSelectImg}
-          />
+          <span className="flex flex-row">
+            <input
+              type="checkbox"
+              className="relative form-checkbox h-5 w-5 cursor-pointer"
+              checked={selectedImg === processedImage}
+              onChange={handleSelectImg}
+            />
+            <span className="relative top-[-12px] left-2 text-[#B6B5C3]">
+            <Tooltip
+              toolTipText="Select the image to enable Vehicle detection."
+              toolTipId="selectImg"
+            />
+            </span>
+          </span>
         )}
       </div>
       {children}
@@ -70,22 +79,22 @@ function ImageComponent({
               onClick={handleImageSaveToLocalStorage}
               disabled={isAddedToLocalStorage}
               className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150 disabled:cursor-not-allowed"
-              >
-              <FaPlus size={35} color="white" />
+            >
+              <FaPlus size={30} color="white" />
             </button>}
             {title.split(' ')[0].includes('Image') &&
               <button
                 onClick={() => handleDeleteFromHistory(imageId)}
                 className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150"
-                >
-                <MdOutlineDeleteOutline size={35} color="white" />
+              >
+                <MdOutlineDeleteOutline size={30} color="white" />
               </button>}
             <a
               href={processedImage}
               download="image.jpg"
               className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150"
-              >
-              <FaRegSave size={35} color="white" />
+            >
+              <FaRegSave size={30} color="white" />
             </a>
           </div>
         </>

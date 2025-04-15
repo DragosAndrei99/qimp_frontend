@@ -46,7 +46,7 @@ function QuantumOptions({
         params={edgeDetectionParams}
         setParams={setEdgeDetectionParams}
         bttnContainerClasses="ml-2 inline"
-        toolTipText="Threshold is a normalized maximum difference between adjacent pixels in the original image."
+        toolTipText="Threshold is a normalized maximum difference between adjacent pixels in the original image. If threshold of the tile image is bigger than full image threshold then QHED will be ran for the tile."
       />
 
       <Checkbox

@@ -8,12 +8,13 @@ import Layout from "./components/Layout";
 import VehicleDetection from "./pages/VehicleDetection";
 import PostProcessingAlgorithms from "./pages/PostProcessingAlgorithms";
 import Dashboard from "./pages/Dashboard";
+import History from './pages/History';
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<Dashboard/>} />
+        <Route path="/" element={<Dashboard />} />
 
         <Route
           path="/quantum-edge-detection"
@@ -31,16 +32,23 @@ function App() {
         <Route
           path="/vehicle-detection"
           element={
-            <VehicleDetection/>
+            <VehicleDetection />
           }
         />
 
-<Route
+        <Route
           path="/post-processing"
           element={
-            <PostProcessingAlgorithms/>
+            <PostProcessingAlgorithms />
           }
         />
+
+        <Route 
+          path="/history"
+          element={
+            <History/>
+          }
+          />
       </Route>
     </Routes>
   );

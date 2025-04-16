@@ -4,7 +4,7 @@ import ImageComponent from "../components/edge_detection/ImageComponent";
 import PostProcessingOptions from "../components/post_processing/PostProcessingOptions";
 import PageHeader from "../components/common/PageHeader";
 
-function PostProcessingAlgorithms() {
+function PostProcessingAlgorithms({ apiEndpoint }) {
   const [image, setImage] = useState("");
   const [originalImageUrl, setOriginalImageUrl] = useState(null);
   const [postProcessedImage, setPostProcessedImage] = useState("");
@@ -31,7 +31,7 @@ function PostProcessingAlgorithms() {
           <PostProcessingOptions
             image={image}
             setProcessedImage={setPostProcessedImage}
-            apiEndpoint="http://127.0.0.1:5000/post-processing"
+            apiEndpoint={`${apiEndpoint}/post-processing`}
             setSelectedImgForObjDetection={() => {}}
           />
         )}

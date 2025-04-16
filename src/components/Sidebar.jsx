@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { FiMenu, FiX, FiCpu, FiHome } from "react-icons/fi";
+import { FiMenu, FiX, FiCpu, FiHome, FiLogIn, FiLogOut  } from "react-icons/fi";
 import { FaCar, FaHistory, FaRegImages } from "react-icons/fa";
 import { BiAtom } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+
   return (
     <>
       <button
@@ -22,9 +23,8 @@ export default function Sidebar() {
       </button>
 
       <div
-        className={`fixed z-20 top-0 left-0 h-full w-64 bg-[#151441] text-white transition-all duration-300 ease-in-out transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        }`}
+        className={`fixed z-20 top-0 left-0 h-full w-64 bg-[#151441] text-white transition-all duration-300 ease-in-out transform ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          }`}
       >
         <div className="flex flex-col h-full p-4">
           <div className="py-4 px-2 mb-8 border-b border-[#010031] pt-10 md:pt-0">
@@ -74,6 +74,23 @@ export default function Sidebar() {
                 handleLinkClick={handleLinkClick}
 
               />
+              <PrivateRoute
+                children={<SidebarItem
+                  icon={<FiLogOut size={20} />}
+                  text="Log out"
+                  path="/logout"
+                  handleLinkClick={handleLinkClick}
+                  containerClasses="absolute w-[224px] bottom-[60px]"
+                />}
+                loggedOffComponent={<SidebarItem
+                  icon={<FiLogIn size={20} />}
+                  text="Log in"
+                  path="/login"
+                  handleLinkClick={handleLinkClick}
+                  containerClasses="absolute w-[224px] bottom-[60px]"
+                />}
+              />
+
             </ul>
           </nav>
 
@@ -95,17 +112,16 @@ export default function Sidebar() {
   );
 }
 
-function SidebarItem({ icon, text, path, handleLinkClick }) {
+function SidebarItem({ icon, text, path, handleLinkClick, containerClasses = "" }) {
   return (
-    <li>
+    <li className={containerClasses}>
       <NavLink
         onClick={handleLinkClick}
         to={path}
         className={({ isActive }) =>
-          `flex items-center p-3 rounded-lg transition-colors ${
-            isActive
-              ? "bg-[#010031] text-white"
-              : "text-gray-300 hover:bg-[#010031] hover:text-white"
+          `flex items-center p-3 rounded-lg transition-colors ${isActive
+            ? "bg-[#010031] text-white"
+            : "text-gray-300 hover:bg-[#010031] hover:text-white"
           }`
         }
       >

@@ -37,6 +37,9 @@ function ObjectRecognition({
       const response = await fetch(`${apiEndpoint}?conf_level=${confLevel}`, {
         method: "POST",
         body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
       });
 
       if (!response.ok) {

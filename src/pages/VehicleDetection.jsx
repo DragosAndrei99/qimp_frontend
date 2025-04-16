@@ -4,7 +4,7 @@ import ImageComponent from "../components/edge_detection/ImageComponent";
 import ObjectRecognition from "../components/ObjectRecognition";
 import PageHeader from "../components/common/PageHeader";
 
-function VehicleDetection() {
+function VehicleDetection({ apiEndpoint }) {
   const [image, setImage] = useState("");
   const [originalImageUrl, setOriginalImageUrl] = useState(null);
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
@@ -30,7 +30,7 @@ function VehicleDetection() {
 
         {image && (
           <ObjectRecognition
-            apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
+            apiEndpoint={`${apiEndpoint}/yolov5-get-annotated-img`}
             edgeDetectedImage={image}
             setAnnotatedImageUrl={setAnnotatedImageUrl}
           />

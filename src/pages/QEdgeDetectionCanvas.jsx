@@ -92,6 +92,9 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
       const response = await fetch(`${apiEndpoint}?${params}`, {
         method: "POST",
         body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
       });
 
       if (!response.ok) {

@@ -78,7 +78,7 @@ function QuantumOptions({
         type="range"
         min="1"
         max="10001"
-        step="200"
+        step="100"
         value={edgeDetectionParams.shots}
         onChange={(e) => setEdgeDetectionParams({
           ...edgeDetectionParams,

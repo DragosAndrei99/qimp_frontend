@@ -23,6 +23,22 @@ function Dashboard() {
     { name: "500x500", quantum: 10000, sobel: 250000, canny: 250000 },
   ];
 
+  const dataShotsSSIM = [
+    { name: "0", shots: 0, ssim: 0 },
+    { name: "1", shots: 1, ssim: 0.00132 },
+    { name: "10", shots: 10, ssim: 0.10141 },
+    { name: "15", shots: 15, ssim: 0.20141 },
+    { name: "101", shots: 101, ssim: 0.31345 },
+    { name: "201", shots: 201, ssim: 0.42531 },
+    { name: "601", shots: 601, ssim: 0.42904 },
+    { name: "1001", shots: 1001, ssim: 0.43036 },
+    { name: "2001", shots: 2001, ssim: 0.43093 },
+    { name: "4001", shots: 4001, ssim: 0.42961 },
+    { name: "8001", shots: 8001, ssim: 0.42929 },
+    { name: "10001", shots: 10001, ssim: 0.43111 },
+
+  ]
+
   return (
     <>
       <PageHeader label="Quantum Hadamard Edge Detection"/>
@@ -122,6 +138,40 @@ function Dashboard() {
                   activeDot={{ r: 6 }}
                 />,
               ]}
+            />
+          </div>
+        </div>
+        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto">
+          <QuantumEdgeGraph
+              data={dataShotsSSIM}
+              label="Structural Similarity Index measurement for different nums of shots"
+              legendLabel1="Structural Similarity Index (Y-Axis)"
+              legendLabel2="Shots (X-Axis)"
+              xAxisDataKey="name"
+              yAxisDataKey="ssim"
+              lines={[
+                <Line
+                  type="monotone"
+                  dataKey={"ssim"}
+                  stroke="#60a5fa"
+                  strokeWidth={2}
+                  activeDot={{ r: 6 }}
+                />,
+              ]}
+            />
+          </div>
+
+          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
+          <div className="flex flex-row justify-center items-start">
+            <label className="text-md font-bold text-white mb-2 p-2 block tracking-widest w-fit bg-[#34335A]">
+              Vehicle Detection Sample
+            </label>
+          </div>
+          <div className="flex items-center justify-center bg-[#39385E] border mt-4">
+            <img
+              src="/images/quantum_obj_detected.jpg"
+              alt="Final Edge Detected"
+              className="max-w-100"
             />
           </div>
         </div>

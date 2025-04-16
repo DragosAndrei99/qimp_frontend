@@ -37,6 +37,14 @@ function Dashboard() {
     { name: "4001", shots: 4001, ssim: 0.42961 },
     { name: "8001", shots: 8001, ssim: 0.42929 },
     { name: "10001", shots: 10001, ssim: 0.43111 },
+  ]
+
+  const dataF1ScorePrecisionRecall = [
+    {name: "0x0 Tiles", f1: 0, precision: 0, recall: 0},
+    {name: "4x4 Tiles", f1: 0.06959, precision: 0.4821, recall: 0.03750},
+    {name: "8x8 Tiles", f1: 0.09390, precision: 0.50674, recall: 0.05174},
+    {name: "16x16 Tiles", f1: 0.07384, precision: 0.52524, recall: 0.03971},
+    {name: "32x32 Tiles", f1: 0.04893, precision: 0.54185, recall: 0.02562}
 
   ]
 
@@ -142,26 +150,66 @@ function Dashboard() {
             />
           </div>
         </div>
-        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto h-[390px]">
+        <div className="flex flex-col gap-4 bg-[#010031] rounded w-full max-w-5xl mx-auto ">
+          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto h-[420px] ">
+
+            <QuantumEdgeGraph
+              data={dataShotsSSIM}
+              label="Structural Similarity Index measurement for different nums of shots"
+              legendLabel1="Structural Similarity Index (Y-Axis)"
+              legendLabel2="Shots (X-Axis)"
+              xAxisDataKey="name"
+              yAxisDataKey="ssim"
+              lines={[
+                <Line
+                  type="monotone"
+                  dataKey={"ssim"}
+                  stroke="#60a5fa"
+                  strokeWidth={2}
+                  activeDot={{ r: 6 }}
+                />,
+              ]}
+            />
+          </div>
+
+          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto ">
           <QuantumEdgeGraph
-            data={dataShotsSSIM}
-            label="Structural Similarity Index measurement for different nums of shots"
-            legendLabel1="Structural Similarity Index (Y-Axis)"
-            legendLabel2="Shots (X-Axis)"
-            xAxisDataKey="name"
-            yAxisDataKey="ssim"
-            lines={[
-              <Line
-                type="monotone"
-                dataKey={"ssim"}
-                stroke="#60a5fa"
-                strokeWidth={2}
-                activeDot={{ r: 6 }}
-              />,
-            ]}
-          />
+              data={dataF1ScorePrecisionRecall}
+              label="Precision, Recall and F-1 Score for Quantum Edge Detected Images for different tile sizes"
+              legendLabel1="0 - 0.6 (Y-Axis)"
+              legendLabel2="No. of pixels per tile (X-Axis)"
+              xAxisDataKey="name"
+              yAxisDataKey="precision"
+              lines={[
+                <Line
+                  type="monotone"
+                  dataKey="precision"
+                  stroke="#60a5fa"
+                  strokeWidth={2}
+                  activeDot={{ r: 6 }}
+                  name="Precision"
+                />,
+                <Line
+                  type="monotone"
+                  dataKey="recall"
+                  stroke="#10b981"
+                  strokeWidth={2}
+                  activeDot={{ r: 6 }}
+                  name="Recall"
+                />,
+
+                <Line
+                  type="monotone"
+                  dataKey="f1"
+                  stroke="#fbbf24"
+                  strokeWidth={2}
+                  activeDot={{ r: 6 }}
+                  name="F1 Score"
+                />,
+              ]}
+            />
+          </div>
         </div>
-            
         <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
           <div className="flex flex-row justify-center items-start">
             <label className="text-md font-bold text-white mb-2 p-2 block tracking-widest w-fit bg-[#34335A]">

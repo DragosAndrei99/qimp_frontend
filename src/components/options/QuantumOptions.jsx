@@ -30,10 +30,10 @@ function QuantumOptions({
           setParams={setEdgeDetectionParams}
           paramsErrors={edgeDetectionParamsErrors}
           setParamsErros={setEdgeDetectionParamsErrors}
-          errorMessage="Please enter a value that is a power of 2."
+          errorMessage="Please enter a value between 4 and 32 that is a power of 2."
           isDisabled={false}
-          inputPlaceholder="0 - 128"
-          errorCondition={(value) => value < 2 || value > 128}
+          inputPlaceholder="4 - 32"
+          errorCondition={(value) => value < 4 || value > 32}
           successCondition={(value) => isPowerOf2(value)}
           toolTipText="Original image will be split into smaller square images due to hardware limitations on today's devices."
         />

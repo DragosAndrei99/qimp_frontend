@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import QuantumEdgeGraph from "../components/graphs/QuantumGraph";
 import { Line } from "recharts";
@@ -41,7 +42,7 @@ function Dashboard() {
 
   return (
     <>
-      <PageHeader label="Quantum Hadamard Edge Detection"/>
+      <PageHeader label="Quantum Hadamard Edge Detection" />
       <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-4">
         <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
           <div className="flex flex-row justify-center items-start">
@@ -84,7 +85,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="grid grid-rows-1 xl:grid-rows-2 gap-4">
-          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl mx-auto">
+          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto">
             <QuantumEdgeGraph
               data={dataTimeComplexity}
               label="Quantum vs Classic Time Complexity"
@@ -121,7 +122,7 @@ function Dashboard() {
               ]}
             />
           </div>
-          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl mx-auto">
+          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto">
             <QuantumEdgeGraph
               data={dataQubitsForPixels}
               label="Qubits Needed to encode Pixels (QHED)"
@@ -141,27 +142,27 @@ function Dashboard() {
             />
           </div>
         </div>
-        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto">
+        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto h-[390px]">
           <QuantumEdgeGraph
-              data={dataShotsSSIM}
-              label="Structural Similarity Index measurement for different nums of shots"
-              legendLabel1="Structural Similarity Index (Y-Axis)"
-              legendLabel2="Shots (X-Axis)"
-              xAxisDataKey="name"
-              yAxisDataKey="ssim"
-              lines={[
-                <Line
-                  type="monotone"
-                  dataKey={"ssim"}
-                  stroke="#60a5fa"
-                  strokeWidth={2}
-                  activeDot={{ r: 6 }}
-                />,
-              ]}
-            />
-          </div>
-
-          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
+            data={dataShotsSSIM}
+            label="Structural Similarity Index measurement for different nums of shots"
+            legendLabel1="Structural Similarity Index (Y-Axis)"
+            legendLabel2="Shots (X-Axis)"
+            xAxisDataKey="name"
+            yAxisDataKey="ssim"
+            lines={[
+              <Line
+                type="monotone"
+                dataKey={"ssim"}
+                stroke="#60a5fa"
+                strokeWidth={2}
+                activeDot={{ r: 6 }}
+              />,
+            ]}
+          />
+        </div>
+            
+        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
           <div className="flex flex-row justify-center items-start">
             <label className="text-md font-bold text-white mb-2 p-2 block tracking-widest w-fit bg-[#34335A]">
               Vehicle Detection Sample
@@ -174,7 +175,33 @@ function Dashboard() {
               className="max-w-100"
             />
           </div>
+          <div className="flex flex-col justify-between items-center mt-8 gap-4">
+            <div className="flex-1 flex flex-row justify-center">
+              <label className="text-md font-bold text-white mb-2 flex flex-rows justify-start p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
+                Original Image
+              </label>
+            </div>
+            <img
+              src="/images/og_vehicle_detected.jpg"
+              alt="Final Edge Detected"
+              className="max-w-100 border border-black w-full h-auto"
+            />
+          </div>
         </div>
+      </div>
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 md:left-[calc(50%+125px)]">
+        <NavLink
+          to="/quantum-edge-detection"
+          className="bg-emerald-500 hover:bg-emerald-600
+                text-xl text-white font-bold
+                py-2 px-16
+                rounded-lg 
+                shadow-md hover:shadow-lg 
+                transition-all duration-200 
+                transform hover:scale-105 disabled:transform-none
+                focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75
+                active:scale-95 disabled:active:scale-100
+                cursor-pointer disabled:cursor-not-allowed">Try it now</NavLink>
       </div>
     </>
   );

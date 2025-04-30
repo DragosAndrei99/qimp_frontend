@@ -171,20 +171,23 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   const saveToDatabase = async () => {
     try {
       const formData = new FormData();
-      console.log('b64FinalImage: ' + b64FinalImage);
-      console.log('uploadedImage: ' + uploadedImage);
       formData.append('edge_detected_image', base64ToBlob(b64FinalImage.split(',')[1]), 'edge_detected_image.png');
       formData.append('original_image', base64ToBlob(uploadedImage.split(",")[1]), 'original_image.png');
 
-      formData.append('time_to_complete', 0);
-      formData.append('tile_size', edgeDetectionParams.rootPixelsForTile);
-      formData.append('threshold', edgeDetectionParams.threshold);
-      formData.append('margins_replaced', edgeDetectionParams.replaceMargins);
-      formData.append('edges_highlighted', edgeDetectionParams.highlightEdges);
-      formData.append('gaussian_pre_processed', edgeDetectionParams.gaussianBlur);
-      formData.append('kernel_size', edgeDetectionParams.kernelSize);
-      formData.append('sigma', edgeDetectionParams.sigma);
-      formData.append('iterations', edgeDetectionParams.shots);
+      const params = {
+        time_to_complete: 0,
+        tile_size: edgeDetectionParams.rootPixelsForTile,
+        threshold: edgeDetectionParams.threshold,
+        margins_replaced: edgeDetectionParams.replaceMargins,
+        edges_highlighted: edgeDetectionParams.highlightEdges,
+        gaussian_pre_processed: edgeDetectionParams.gaussianBlur,
+        kernel_size: edgeDetectionParams.kernelSize,
+        sigma: edgeDetectionParams.sigma,
+        iterations: edgeDetectionParams.shots
+      };
+      Object.entries(params).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
 
       const response = await fetch(`${apiEndpoint}/images`, {
         method: "POST",

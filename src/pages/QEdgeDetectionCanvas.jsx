@@ -12,6 +12,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
   const [b64FinalImage, setB64FinalImage] = useState("");
+  const [isDoneEdgeDetection, setIsDoneEdgeDetection] = useState(false);
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
 
@@ -43,6 +44,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     setPostProcessedImage("");
     setSelectedImgForObjDetection("");
     setImageStream([]);
+    setIsDoneEdgeDetection(false);
   };
 
   useEffect(() => {
@@ -89,7 +91,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         sigma: edgeDetectionParams.sigma,
         shots: edgeDetectionParams.shots
       });
-      const response = await fetch(`${apiEndpoint}?${params}`, {
+      const response = await fetch(`${apiEndpoint}/q-edge-detection?${params}`, {
         method: "POST",
         body: formData,
         headers: {
@@ -105,11 +107,12 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
       const decoder = new TextDecoder();
       let buffer = "";
 
-      function processStream() {
-        reader
-          .read()
-          .then(({ done, value }) => {
-            if (done) return;
+      async function processStream() {
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            
+            if (done) break;
 
             buffer += decoder.decode(value, { stream: true });
 
@@ -119,6 +122,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
               const finalImageParts = buffer.split(
                 "--frame--final_edge_detected_image--"
               );
+              
               for (let i = 1; i < finalImageParts.length; i++) {
                 let part = finalImageParts[i].trim();
                 if (part) {
@@ -129,6 +133,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
                 if (part.includes("--end--")) {
                   setB64FinalImage((prev) => "data:image/png;base64," + prev);
                   setIsUploading(false);
+                  setIsDoneEdgeDetection(true);
                   return;
                 }
               }
@@ -149,21 +154,60 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
               }
               buffer = parts[parts.length - 1];
             }
-
-            processStream();
-          })
-          .catch((error) => {
-            setError(error.message);
-            setIsUploading(false);
-          });
+          }
+        } catch (error) {
+          setError(error.message);
+          setIsUploading(false);
+        }
       }
 
-      processStream();
+      await processStream();
     } catch (error) {
       setError(error.message);
       setIsUploading(false);
     }
   };
+
+  const saveToDatabase = async () => {
+    try {
+      const formData = new FormData();
+      console.log('b64FinalImage: ' + b64FinalImage);
+      console.log('uploadedImage: ' + uploadedImage);
+      formData.append('edge_detected_image', base64ToBlob(b64FinalImage.split(',')[1]), 'edge_detected_image.png');
+      formData.append('original_image', base64ToBlob(uploadedImage.split(",")[1]), 'original_image.png');
+
+      formData.append('time_to_complete', 0);
+      formData.append('tile_size', edgeDetectionParams.rootPixelsForTile);
+      formData.append('threshold', edgeDetectionParams.threshold);
+      formData.append('margins_replaced', edgeDetectionParams.replaceMargins);
+      formData.append('edges_highlighted', edgeDetectionParams.highlightEdges);
+      formData.append('gaussian_pre_processed', edgeDetectionParams.gaussianBlur);
+      formData.append('kernel_size', edgeDetectionParams.kernelSize);
+      formData.append('sigma', edgeDetectionParams.sigma);
+      formData.append('iterations', edgeDetectionParams.shots);
+
+      const response = await fetch(`${apiEndpoint}/images`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save image');
+      }
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (isDoneEdgeDetection) {
+      saveToDatabase();
+    }
+  }, [isDoneEdgeDetection]);
 
   useEffect(() => {
     if (imageStream.length > 0 && ctxRef.current) {

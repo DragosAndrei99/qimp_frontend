@@ -26,7 +26,7 @@ function App() {
           path="/quantum-edge-detection"
           element={
             <PrivateRoute>
-              <QEdgeDetectionCanvas apiEndpoint={`${API_ENDPOINT}/q-edge-detection`} />
+              <QEdgeDetectionCanvas apiEndpoint={API_ENDPOINT} />
             </PrivateRoute>
 
           }

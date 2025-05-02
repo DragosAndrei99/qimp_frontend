@@ -1,8 +1,5 @@
 import { FaRegSave } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
 import { useRef, useEffect, useState } from "react";
-import { generateId } from "../../utils/RandomIdGenerator";
-import { MdOutlineDeleteOutline } from "react-icons/md";
 import Tooltip from "../common/Tooltip";
 
 function ImageComponent({

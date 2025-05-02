@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiMenu, FiX, FiCpu, FiHome, FiLogIn, FiLogOut  } from "react-icons/fi";
-import { FaCar, FaHistory, FaRegImages } from "react-icons/fa";
+import { FaCar, FaRegImages } from "react-icons/fa";
+import { BiSolidReport } from "react-icons/bi";
 import { BiAtom } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
@@ -68,9 +69,9 @@ export default function Sidebar() {
 
               />
               <SidebarItem
-                icon={<FaHistory size={20} />}
-                text="History"
-                path="/history"
+                icon={<BiSolidReport size={20} />}
+                text="Insights"
+                path="/insights"
                 handleLinkClick={handleLinkClick}
 
               />

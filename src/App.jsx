@@ -8,7 +8,7 @@ import Layout from "./components/Layout";
 import VehicleDetection from "./pages/VehicleDetection";
 import PostProcessingAlgorithms from "./pages/PostProcessingAlgorithms";
 import Dashboard from "./pages/Dashboard";
-import History from './pages/History';
+import Insights from './pages/Insights';
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from './components/PrivateRoute';
@@ -64,10 +64,11 @@ function App() {
         />
 
         <Route
-          path="/history"
+          path="/insights"
           element={
             <PrivateRoute>
-              <History />
+              <Insights
+              apiEndpoint={API_ENDPOINT} />
             </PrivateRoute>
           }
         />

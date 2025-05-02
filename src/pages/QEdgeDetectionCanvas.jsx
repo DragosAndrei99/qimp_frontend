@@ -13,6 +13,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState("");
   const [b64FinalImage, setB64FinalImage] = useState("");
   const [isDoneEdgeDetection, setIsDoneEdgeDetection] = useState(false);
+  const [edgeDetectionTime, setEdgeDetectionTime] = useState(0);
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
 
@@ -45,6 +46,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     setSelectedImgForObjDetection("");
     setImageStream([]);
     setIsDoneEdgeDetection(false);
+    setEdgeDetectionTime(0);
   };
 
   useEffect(() => {
@@ -106,6 +108,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
+      const startTime = performance.now();
 
       async function processStream() {
         try {
@@ -133,6 +136,8 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
                 if (part.includes("--end--")) {
                   setB64FinalImage((prev) => "data:image/png;base64," + prev);
                   setIsUploading(false);
+                  const endTime = performance.now();
+                  setEdgeDetectionTime(endTime - startTime);
                   setIsDoneEdgeDetection(true);
                   return;
                 }
@@ -175,7 +180,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
       formData.append('original_image', base64ToBlob(uploadedImage.split(",")[1]), 'original_image.png');
 
       const params = {
-        time_to_complete: 0,
+        time_to_complete: edgeDetectionTime,
         tile_size: edgeDetectionParams.rootPixelsForTile,
         threshold: edgeDetectionParams.threshold,
         margins_replaced: edgeDetectionParams.replaceMargins,

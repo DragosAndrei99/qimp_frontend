@@ -11,13 +11,10 @@ function ImageComponent({
   processedImage,
   enableSelect = false,
   selectedImg,
-  setSelectedImg,
-  imageId = undefined,
-  handleDeleteFromHistory = undefined
+  setSelectedImg
 }) {
   const ref = useRef();
 
-  const [isAddedToLocalStorage, setIsAddedToLocalStorage] = useState(false);
 
   const handleSelectImg = () => {
     if (selectedImg === processedImage) {
@@ -27,20 +24,12 @@ function ImageComponent({
     }
   };
 
-  const handleImageSaveToLocalStorage = async () => {
-    localStorage.setItem(generateId(), processedImage);
-    setIsAddedToLocalStorage(true)
-  }
-
   useEffect(() => {
     if (title === "ANNOTATED IMAGE") {
       ref.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [processedImage, title]);
 
-  useEffect(() => {
-    setIsAddedToLocalStorage(false)
-  }, [processedImage])
   return (
     <div ref={ref} className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl">
       <div className="flex flex-row justify-between items-start">
@@ -75,20 +64,6 @@ function ImageComponent({
             />
           </div>
           <div className="flex flex-rows justify-end mt-4 gap-16">
-            {(title === "PROCESSED IMAGE" || title === "POST PROCESSED IMAGE") && <button
-              onClick={handleImageSaveToLocalStorage}
-              disabled={isAddedToLocalStorage}
-              className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150 disabled:cursor-not-allowed"
-            >
-              <FaPlus size={30} color="white" />
-            </button>}
-            {title.split(' ')[0].includes('Image') &&
-              <button
-                onClick={() => handleDeleteFromHistory(imageId)}
-                className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150"
-              >
-                <MdOutlineDeleteOutline size={30} color="white" />
-              </button>}
             <a
               href={processedImage}
               download="image.jpg"

@@ -2,9 +2,7 @@ import PageHeader from "../components/common/PageHeader";
 import { useEffect, useState } from "react";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import Tooltip from "../components/common/Tooltip";
-
-import { FaStar } from "react-icons/fa";
-
+import { FaStar, FaCheck, FaTimes } from "react-icons/fa";
 
 function Insights({ apiEndpoint }) {
   const [images, setImages] = useState([]);
@@ -16,7 +14,7 @@ function Insights({ apiEndpoint }) {
     precision: 0,
     recall: 0,
     ssim: 0,
-    hausdorff_distance: Infinity, // Note: for hausdorff, lower is better
+    hausdorff_distance: Infinity,
     time_to_complete: Infinity,
     tile_size: 0
   });
@@ -124,13 +122,37 @@ function Insights({ apiEndpoint }) {
                       )}
                     </div>
                     <p className="italic">Threshold:</p>
-                    <p className="border-white border-2 px-2 py-1 rounded-md">{image.threshold}</p>
+                    <p className="border-white border-2 px-2 py-1 rounded-md">{image.threshold}x</p>
                     <p className="italic">Margins Replaced:</p>
-                    <p className="border-white border-2 px-2 py-1 rounded-md">{image.margins_replaced.toString()}</p>
+                    <div className="flex items-center">
+                      <p className="border-white border-2 px-2 py-1 rounded-md">
+                        {image.margins_replaced ? (
+                          <FaCheck className="text-green-500" size={20} />
+                        ) : (
+                          <FaTimes className="text-red-500" size={20} />
+                        )}
+                      </p>
+                    </div>
                     <p className="italic">Edges Highlighted:</p>
-                    <p className="border-white border-2 px-2 py-1 rounded-md">{image.edges_highlighted.toString()}</p>
+                    <div className="flex items-center">
+                      <p className="border-white border-2 px-2 py-1 rounded-md">
+                        {image.edges_highlighted ? (
+                          <FaCheck className="text-green-500" size={20} />
+                        ) : (
+                          <FaTimes className="text-red-500" size={20} />
+                        )}
+                      </p>
+                    </div>
                     <p className="italic">Gaussian Blur:</p>
-                    <p className="border-white border-2 px-2 py-1 rounded-md">{image.gaussian_pre_processed.toString()}</p>
+                    <div className="flex items-center">
+                      <p className="border-white border-2 px-2 py-1 rounded-md">
+                        {image.gaussian_pre_processed ? (
+                          <FaCheck className="text-green-500" size={20} />
+                        ) : (
+                          <FaTimes className="text-red-500" size={20} />
+                        )}
+                      </p>
+                    </div>
                     {image.edges_highlighted && (
                       <>
                         <p className="italic">Kernel Size:</p>

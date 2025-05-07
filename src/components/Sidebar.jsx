@@ -70,7 +70,7 @@ export default function Sidebar() {
               />
               <SidebarItem
                 icon={<BiSolidReport size={20} />}
-                text="Insights"
+                text="Quantum Insights"
                 path="/insights"
                 handleLinkClick={handleLinkClick}
 

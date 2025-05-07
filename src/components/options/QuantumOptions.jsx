@@ -42,6 +42,7 @@ function QuantumOptions({
       <OptionsButtons
         title="Threshold"
         bttns={thresholdBttns}
+        keyToUpdate="threshold"
         setBttns={setThresholdBttns}
         params={edgeDetectionParams}
         setParams={setEdgeDetectionParams}

@@ -137,7 +137,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
                   setB64FinalImage((prev) => "data:image/png;base64," + prev);
                   setIsUploading(false);
                   const endTime = performance.now();
-                  setEdgeDetectionTime(endTime - startTime);
+                  setEdgeDetectionTime(Number(endTime - startTime).toFixed(0));
                   setIsDoneEdgeDetection(true);
                   return;
                 }

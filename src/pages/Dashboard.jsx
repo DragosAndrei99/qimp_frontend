@@ -52,9 +52,9 @@ function Dashboard() {
     <>
       <PageHeader label="Quantum Hadamard Edge Detection" />
       <div className="grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-4">
-        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
+        <div className="theme-bg-container p-4 rounded border theme-border w-full max-w-5xl">
           <div className="flex flex-row justify-center items-start">
-            <label className="text-md font-bold text-white mb-2 p-2 block tracking-widest w-fit bg-[#34335A]">
+            <label className="text-md font-bold theme-text-primary mb-2 p-2 block tracking-widest w-fit theme-bg-secondary">
               Quantum Edge Detected Sample
             </label>
           </div>
@@ -73,7 +73,7 @@ function Dashboard() {
               className="max-w-80 border border-black w-full h-auto"
             />
             <div className="flex-1 flex flex-row justify-center">
-              <label className="text-md font-bold text-white mb-2 flex flex-rows justify-start p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
+              <label className="text-md font-bold theme-text-primary mb-2 flex flex-rows justify-start p-2 block tracking-widest w-fit whitespace-nowrap theme-bg-secondary">
                 Original Image
               </label>
             </div>
@@ -86,14 +86,14 @@ function Dashboard() {
               className="max-w-80 border border w-full h-auto"
             />
             <div className="flex-1 flex flex-row justify-center">
-              <label className="text-md font-bold text-white mb-2 flex flex-rows justify-start p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
+              <label className="text-md font-bold theme-text-primary mb-2 flex flex-rows justify-start p-2 block tracking-widest w-fit whitespace-nowrap theme-bg-secondary">
                 Classic Edge Detected
               </label>
             </div>
           </div>
         </div>
         <div className="grid grid-rows-1 xl:grid-rows-2 gap-4">
-          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto">
+          <div className="theme-bg-container p-4 rounded border theme-border w-full max-w-5xl mx-auto">
             <QuantumEdgeGraph
               data={dataTimeComplexity}
               label="Quantum vs Classic Time Complexity"
@@ -130,7 +130,7 @@ function Dashboard() {
               ]}
             />
           </div>
-          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto">
+          <div className="theme-bg-container p-4 rounded border theme-border w-full max-w-5xl mx-auto">
             <QuantumEdgeGraph
               data={dataQubitsForPixels}
               label="Qubits Needed to encode Pixels (QHED)"
@@ -150,8 +150,8 @@ function Dashboard() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-4 bg-[#010031] rounded w-full max-w-5xl mx-auto ">
-          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto h-[420px] ">
+        <div className="flex flex-col gap-4 theme-bg-container rounded w-full max-w-5xl mx-auto ">
+          <div className="theme-bg-container p-4 rounded border theme-border w-full max-w-5xl mx-auto h-[420px] ">
 
             <QuantumEdgeGraph
               data={dataShotsSSIM}
@@ -172,7 +172,7 @@ function Dashboard() {
             />
           </div>
 
-          <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto ">
+          <div className="theme-bg-container p-4 rounded border theme-border w-full max-w-5xl mx-auto ">
           <QuantumEdgeGraph
               data={dataF1ScorePrecisionRecall}
               label="Precision, Recall and F-1 Score for Quantum Edge Detected Images for different tile sizes"
@@ -210,9 +210,9 @@ function Dashboard() {
             />
           </div>
         </div>
-        <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl">
+        <div className="theme-bg-container p-4 rounded border theme-border w-full max-w-5xl">
           <div className="flex flex-row justify-center items-start">
-            <label className="text-md font-bold text-white mb-2 p-2 block tracking-widest w-fit bg-[#34335A]">
+            <label className="text-md font-bold theme-text-primary mb-2 p-2 block tracking-widest w-fit theme-bg-secondary">
               Vehicle Detection Sample
             </label>
           </div>
@@ -225,7 +225,7 @@ function Dashboard() {
           </div>
           <div className="flex flex-col justify-between items-center mt-8 gap-4">
             <div className="flex-1 flex flex-row justify-center">
-              <label className="text-md font-bold text-white mb-2 flex flex-rows justify-start p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
+              <label className="text-md font-bold theme-text-primary mb-2 flex flex-rows justify-start p-2 block tracking-widest w-fit whitespace-nowrap theme-bg-secondary">
                 Original Image
               </label>
             </div>

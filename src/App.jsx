@@ -14,76 +14,83 @@ import Register from "./pages/Register";
 import PrivateRoute from './components/PrivateRoute';
 import Logout from "./pages/Logout";
 import ImageDetail from './pages/ImageDetail';
+import { ThemeProvider } from './utils/ThemeContext';
+import ThemeSwitcher from './components/common/ThemeSwitcher';
 
 const API_ENDPOINT = "http://127.0.0.1:5000"
 
 function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Dashboard />} />
+    <ThemeProvider>
+      <div className="min-h-screen bg-white dark:bg-[#010031] transition-colors duration-200">
+        <ThemeSwitcher />
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Dashboard />} />
 
-        <Route
-          path="/quantum-edge-detection"
-          element={
-            <PrivateRoute>
-              <QEdgeDetectionCanvas apiEndpoint={API_ENDPOINT} />
-            </PrivateRoute>
+            <Route
+              path="/quantum-edge-detection"
+              element={
+                <PrivateRoute>
+                  <QEdgeDetectionCanvas apiEndpoint={API_ENDPOINT} />
+                </PrivateRoute>
 
-          }
-        />
-        <Route
-          path="/classic-edge-detection"
-          element={
-            <PrivateRoute>
-              <CEdgeDetection apiEndpoint={`${API_ENDPOINT}/c-edge-detection`} />
-            </PrivateRoute>
-          }
-        />
+              }
+            />
+            <Route
+              path="/classic-edge-detection"
+              element={
+                <PrivateRoute>
+                  <CEdgeDetection apiEndpoint={`${API_ENDPOINT}/c-edge-detection`} />
+                </PrivateRoute>
+              }
+            />
 
-        <Route
-          path="/vehicle-detection"
-          element={
-            <PrivateRoute>
-              <VehicleDetection
-                apiEndpoint={API_ENDPOINT} />
-            </PrivateRoute>
+            <Route
+              path="/vehicle-detection"
+              element={
+                <PrivateRoute>
+                  <VehicleDetection
+                    apiEndpoint={API_ENDPOINT} />
+                </PrivateRoute>
 
-          }
-        />
+              }
+            />
 
-        <Route
-          path="/post-processing"
-          element={
-            <PrivateRoute>
-              <PostProcessingAlgorithms
-                apiEndpoint={API_ENDPOINT}
-              />
-            </PrivateRoute>
+            <Route
+              path="/post-processing"
+              element={
+                <PrivateRoute>
+                  <PostProcessingAlgorithms
+                    apiEndpoint={API_ENDPOINT}
+                  />
+                </PrivateRoute>
 
-          }
-        />
+              }
+            />
 
-        <Route
-          path="/insights"
-          element={
-            <PrivateRoute>
-              <Insights
-              apiEndpoint={API_ENDPOINT} />
-            </PrivateRoute>
-          }
-        />
-        <Route path="/insights/:id" element={<ImageDetail apiEndpoint={API_ENDPOINT} />} />
-        <Route path="/login" element={<Login apiEndpoint={API_ENDPOINT} />} />
-        <Route path="/register" element={<Register apiEndpoint={API_ENDPOINT} />} />
-        <Route path="/logout" element={
-          <PrivateRoute>
-            <Logout />
-          </PrivateRoute>
-        } />
+            <Route
+              path="/insights"
+              element={
+                <PrivateRoute>
+                  <Insights
+                  apiEndpoint={API_ENDPOINT} />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/insights/:id" element={<ImageDetail apiEndpoint={API_ENDPOINT} />} />
+            <Route path="/login" element={<Login apiEndpoint={API_ENDPOINT} />} />
+            <Route path="/register" element={<Register apiEndpoint={API_ENDPOINT} />} />
+            <Route path="/logout" element={
+              <PrivateRoute>
+                <Logout />
+              </PrivateRoute>
+            } />
 
-      </Route>
-    </Routes>
+          </Route>
+        </Routes>
+      </div>
+    </ThemeProvider>
   );
 }
 

@@ -170,7 +170,7 @@ function ImageDetail({ apiEndpoint }) {
 					<label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Original Image:</label>
 					<img
 								className="border-white border-2 w-[500px] 1520px:w-[45%] 2400px:w-[1000px]"
-								src={`data:image/jpeg;base64,${image.original_image_base64}`} alt="Original Image" />
+								src={`data:image/jpeg;base64,${image.original_image_base64}`} alt="Original" />
 					</div>
 
 					<div className="flex flex-col items-center gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] w-full relative">

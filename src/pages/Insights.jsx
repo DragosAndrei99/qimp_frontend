@@ -112,30 +112,32 @@ function Insights({ apiEndpoint }) {
   return (
     <>
       <PageHeader label="Quantum Edge Detection Insights" />
-      <div className="flex flex-col justify-center items-center gap-8 w-full bg-[#1B1A46] py-4 px-8 mb-8 rounded border border-[#4d447a] text-md 1380px:text-lg lg:flex-row">
+      <div className="flex flex-col justify-center items-center gap-8 w-full bg-white dark:bg-[#1B1A46] py-4 px-8 mb-8 rounded border border-gray-200 dark:border-[#4d447a] text-md 1380px:text-lg lg:flex-row">
         <div className="flex flex-col items-center">
-          <p className="text-white font-bold mb-1">Edge Detected Images</p>
-          <p className="text-white text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{images.length}</p>
+          <p className="text-gray-900 dark:text-white font-bold mb-1">Edge Detected Images</p>
+          <p className="text-gray-900 dark:text-white text-2xl font-bold border border-gray-200 dark:border-[#4d447a] px-2 py-1 rounded-md">
+            {images.length}
+          </p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white font-bold mb-1">Average Processing Time</p>
-          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{(averageTimeToComplete / 60_000).toFixed(2)} mins</p>
+          <p className="theme-text-primary font-bold mb-1">Average Processing Time</p>
+          <p className="theme-text-primary text-lg 1380px:text-2xl font-bold border theme-border px-2 py-1 rounded-md">{(averageTimeToComplete / 60_000).toFixed(2)} mins</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white font-bold mb-1">Fastest Processing Time</p>
-          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{(bestMetrics.time_to_complete / 60_000).toFixed(2)} mins</p>
+          <p className="theme-text-primary font-bold mb-1">Fastest Processing Time</p>
+          <p className="theme-text-primary text-lg 1380px:text-2xl font-bold border theme-border px-2 py-1 rounded-md">{(bestMetrics.time_to_complete / 60_000).toFixed(2)} mins</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white font-bold mb-1">Average SSIM Score</p>
-          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{averageSSIM.toFixed(2)}</p>
+          <p className="theme-text-primary font-bold mb-1">Average SSIM Score</p>
+          <p className="theme-text-primary text-lg 1380px:text-2xl font-bold border theme-border px-2 py-1 rounded-md">{averageSSIM.toFixed(2)}</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white font-bold mb-1">Max Qubits Used</p>
-          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{Math.log2(bestMetrics.tile_size * bestMetrics.tile_size) + 1}</p>
+          <p className="theme-text-primary font-bold mb-1">Max Qubits Used</p>
+          <p className="theme-text-primary text-lg 1380px:text-2xl font-bold border theme-border px-2 py-1 rounded-md">{Math.log2(bestMetrics.tile_size * bestMetrics.tile_size) + 1}</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white font-bold mb-1">Average F1 Score</p>
-          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{averageF1Score.toFixed(2)}</p>
+          <p className="theme-text-primary font-bold mb-1">Average F1 Score</p>
+          <p className="theme-text-primary text-lg 1380px:text-2xl font-bold border theme-border px-2 py-1 rounded-md">{averageF1Score.toFixed(2)}</p>
         </div>
       </div>
       <div className="flex flex-col gap-4 justify-center items-center w-full">
@@ -149,7 +151,7 @@ function Insights({ apiEndpoint }) {
             children={
               <>
                 <div className="flex flex-row gap-2 mt-4 mb-8">
-                  <div className="hidden xl:flex flex-col gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] text-white text-md items-center font-bold">
+                  <div className="hidden xl:flex flex-col gap-2 theme-bg-container py-4 px-8 rounded border theme-border theme-text-primary text-md items-center font-bold">
                     <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Input Parameters:</label>
                     <p className="italic">Pixels per tile:</p>
                     <p className="border-white border-2 px-2 py-1 rounded-md">{image.tile_size * image.tile_size}</p>
@@ -203,7 +205,7 @@ function Insights({ apiEndpoint }) {
                       </>
                     )}
                   </div>
-                  <div className="flex flex-col gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] w-full">
+                  <div className="flex flex-col gap-2 theme-bg-container py-4 px-8 rounded border theme-border w-full">
                     <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Quantum Edge Detected Result:</label>
                     <div className="flex flex-row items-center justify-center bg-[#39385E]">
                       <img
@@ -211,7 +213,7 @@ function Insights({ apiEndpoint }) {
                         src={`data:image/jpeg;base64,${image.edge_detected_image_base64}`} alt="Edge Detection" />
                     </div>
                   </div>
-                  <div className="hidden lg:flex flex-col gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] text-white text-md items-center font-bold">
+                  <div className="hidden lg:flex flex-col gap-2 theme-bg-container py-4 px-8 rounded border theme-border theme-text-primary text-md items-center font-bold">
                     <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Result Metrics:</label>
                     <div className="flex flex-col items-center gap-2">
                       <div className="flex items-center">
@@ -315,14 +317,14 @@ function Insights({ apiEndpoint }) {
                   <div className="flex gap-4">
                     <button 
                       onClick={() => navigate(`/insights/${image.edge_detected_image_id}`)} 
-                      className="text-lg rounded-md font-semibold text-white px-4 py-2 bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150 flex items-center gap-2"
+                      className="theme-button text-lg font-semibold px-4 py-2 rounded"
                     >
                       <TbListDetails size={16} />
                       Show more
                     </button>
                     <button 
                       onClick={() => handleDelete(image.edge_detected_image_id)}
-                      className="text-lg bg-red-600 font-semibold text-white px-4 py-2 rounded-md hover:bg-red-700 active:bg-red-700 flex items-center gap-2"
+                      className="bg-red-600 hover:bg-red-700 text-white text-lg font-semibold px-4 py-2 rounded flex items-center gap-2"
                     >
                       <FaTrash size={16} />
                       Delete

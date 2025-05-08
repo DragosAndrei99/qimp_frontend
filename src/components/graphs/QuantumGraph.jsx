@@ -22,8 +22,8 @@ function QuantumEdgeGraph({
 }) {
 
   return (
-    <div className="">
-      <h2 className="text-white text-xl mb-4">{label}</h2>
+    <div className="theme-bg-container p-4 rounded border theme-border">
+      <h2 className="text-white text-xl mb-4 theme-text-primary">{label}</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#444" />

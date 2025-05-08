@@ -2,6 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    body {
+        @apply bg-white dark:bg-[#010031] text-gray-900 dark:text-white transition-colors duration-200;
+    }
+}
+
+@layer components {
+    .theme-container {
+        @apply bg-white dark:bg-[#1B1A46] border-gray-200 dark:border-[#4d447a];
+    }
+    
+    .theme-text {
+        @apply text-gray-900 dark:text-white;
+    }
+    
+    .theme-button {
+        @apply bg-blue-500 hover:bg-blue-600 dark:bg-[#34335A] dark:hover:bg-[#4d447a] text-white;
+    }
+}
+
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f3f4f6;
+    --container-bg: #ffffff;
+    --border-color: #e5e7eb;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --accent-color: #3b82f6;
+    --button-bg: #3b82f6;
+    --button-hover: #2563eb;
+}
+
+.dark {
+    --primary-bg: #010031;
+    --secondary-bg: #1B1A46;
+    --container-bg: #34335A;
+    --border-color: #4d447a;
+    --text-primary: #ffffff;
+    --text-secondary: #e5e7eb;
+    --accent-color: #60a5fa;
+    --button-bg: #34335A;
+    --button-hover: #4d447a;
+}
+
+/* Add these utility classes */
+@layer utilities {
+    .theme-bg-primary {
+        @apply bg-white dark:bg-[#010031];
+    }
+    .theme-bg-secondary {
+        @apply bg-gray-100 dark:bg-[#1B1A46];
+    }
+    .theme-bg-container {
+        @apply bg-white dark:bg-[#34335A];
+    }
+    .theme-border {
+        @apply border-gray-200 dark:border-[#4d447a];
+    }
+    .theme-text-primary {
+        @apply text-gray-900 dark:text-white;
+    }
+    .theme-text-secondary {
+        @apply text-gray-600 dark:text-gray-300;
+    }
+    .theme-button {
+        @apply bg-blue-500 hover:bg-blue-600 dark:bg-[#34335A] dark:hover:bg-[#4d447a] text-white;
+    }
+}
 
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;

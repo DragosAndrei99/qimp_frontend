@@ -2,8 +2,11 @@ import PageHeader from "../components/common/PageHeader";
 import { useEffect, useState } from "react";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import Tooltip from "../components/common/Tooltip";
-import { FaStar, FaCheck, FaTimes } from "react-icons/fa";
+import { FaStar, FaCheck, FaTimes, FaTrash } from "react-icons/fa";
+import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
+
+
 function Insights({ apiEndpoint }) {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
@@ -64,6 +67,27 @@ function Insights({ apiEndpoint }) {
 
     fetchImages();
   }, [apiEndpoint]);
+
+  const handleDelete = async (imageId) => {
+    if (window.confirm('Are you sure you want to delete this image?')) {
+      try {
+        const response = await fetch(`${apiEndpoint}/images/${imageId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete image');
+        }
+
+        setImages(images.filter(img => img.edge_detected_image_id !== imageId));
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+  };
 
   if (isLoading) {
     return (
@@ -287,7 +311,22 @@ function Insights({ apiEndpoint }) {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 items-center justify-center">
-                  <button onClick={() => navigate(`/insights/${image.edge_detected_image_id}`)} className="text-lg bg-[#34335A] font-semibold text-white px-4 py-2 rounded hover:bg-[#4d447a] active:bg-[#4d447a]"> Show more</button>
+                  <div className="flex gap-4">
+                    <button 
+                      onClick={() => navigate(`/insights/${image.edge_detected_image_id}`)} 
+                      className="text-lg bg-[#34335A] font-semibold text-white px-4 py-2 rounded hover:bg-[#4d447a] active:bg-[#4d447a] flex items-center gap-2"
+                    >
+                      <TbListDetails size={16} />
+                      Show more
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(image.edge_detected_image_id)}
+                      className="text-lg bg-red-600 font-semibold text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 flex items-center gap-2"
+                    >
+                      <FaTrash size={16} />
+                      Delete
+                    </button>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Ground Truth Image</label>

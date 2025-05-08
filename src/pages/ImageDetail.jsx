@@ -76,6 +76,10 @@ function ImageDetail({ apiEndpoint }) {
 							<label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Input Parameters:</label>
 						</div>
 						<div className="flex flex-col items-center justify-center gap-4 1380px:flex-row">
+						<div className="flex flex-col items-center gap-1">
+								<p className="italic">Qubits required</p>
+								<p className="border-white border-2 px-2 py-1 rounded-md">{Math.log2(image.tile_size * image.tile_size) + 1}</p>
+							</div>
 							<div className="flex flex-col items-center gap-1">
 								<p className="italic">Pixels per tile</p>
 								<p className="border-white border-2 px-2 py-1 rounded-md">{image.tile_size * image.tile_size}</p>
@@ -160,6 +164,13 @@ function ImageDetail({ apiEndpoint }) {
 								className="border-white border-2 w-[500px] 1520px:w-[50%] 2400px:w-[1000px]"
 								src={`data:image/jpeg;base64,${image.ground_truth_image_base64}`} alt="Ground truth" />
 						</div>
+					</div>
+
+					<div className="flex flex-col items-center gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] w-full relative">
+					<label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Original Image:</label>
+					<img
+								className="border-white border-2 w-[500px] 1520px:w-[45%] 2400px:w-[1000px]"
+								src={`data:image/jpeg;base64,${image.original_image_base64}`} alt="Original Image" />
 					</div>
 
 					<div className="flex flex-col items-center gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] w-full relative">

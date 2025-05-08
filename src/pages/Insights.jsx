@@ -145,6 +145,7 @@ function Insights({ apiEndpoint }) {
             title={`Entry ${idx + 1}`}
             processedImage={`data:image/jpeg;base64,${image.ground_truth_image_base64}`}
             enableSelect={false}
+            downloadImage={`data:image/jpeg;base64,${image.edge_detected_image_base64}`}
             children={
               <>
                 <div className="flex flex-row gap-2 mt-4 mb-8">
@@ -314,14 +315,14 @@ function Insights({ apiEndpoint }) {
                   <div className="flex gap-4">
                     <button 
                       onClick={() => navigate(`/insights/${image.edge_detected_image_id}`)} 
-                      className="text-lg bg-[#34335A] font-semibold text-white px-4 py-2 rounded hover:bg-[#4d447a] active:bg-[#4d447a] flex items-center gap-2"
+                      className="text-lg rounded-md font-semibold text-white px-4 py-2 bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150 flex items-center gap-2"
                     >
                       <TbListDetails size={16} />
                       Show more
                     </button>
                     <button 
                       onClick={() => handleDelete(image.edge_detected_image_id)}
-                      className="text-lg bg-red-600 font-semibold text-white px-4 py-2 rounded hover:bg-red-700 active:bg-red-700 flex items-center gap-2"
+                      className="text-lg bg-red-600 font-semibold text-white px-4 py-2 rounded-md hover:bg-red-700 active:bg-red-700 flex items-center gap-2"
                     >
                       <FaTrash size={16} />
                       Delete

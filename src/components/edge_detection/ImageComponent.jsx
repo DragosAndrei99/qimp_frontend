@@ -8,7 +8,8 @@ function ImageComponent({
   processedImage,
   enableSelect = false,
   selectedImg,
-  setSelectedImg
+  setSelectedImg,
+  downloadImage = undefined
 }) {
   const ref = useRef();
 
@@ -62,11 +63,12 @@ function ImageComponent({
           </div>
           <div className="flex flex-rows justify-end mt-4 gap-16">
             <a
-              href={processedImage}
+              href={downloadImage || processedImage}
               download="image.jpg"
-              className="p-3 rounded-full bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150"
+              className="p-3 px-5 rounded-md bg-[#010031] hover:bg-[#34335A] active:bg-[#34335A] focus:ring-2 focus:ring-white transition duration-150 flex items-center gap-2 text-white font-bold text-lg"
             >
               <FaRegSave size={30} color="white" />
+              Save
             </a>
           </div>
         </>

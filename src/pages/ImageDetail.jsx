@@ -276,7 +276,7 @@ function ImageDetail({ apiEndpoint }) {
 				</div>
 				<button
 					onClick={() => navigate('/insights')}
-					className="text-lg bg-[#34335A] font-semibold text-white px-4 py-2 rounded hover:bg-[#4d447a] active:bg-[#4d447a]"
+					className="text-lg bg-[#34335A] font-semibold text-white px-4 py-2 rounded-md hover:bg-[#4d447a] active:bg-[#4d447a]"
 				>
 					Back to Insights
 				</button>

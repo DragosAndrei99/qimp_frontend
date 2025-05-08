@@ -25,8 +25,16 @@ function Insights({ apiEndpoint }) {
   const [averageSSIM, setAverageSSIM] = useState(0);
   const [averageTimeToComplete, setAverageTimeToComplete] = useState(0);
   const [averageF1Score, setAverageF1Score] = useState(0);
+  const [totalVehicles, setTotalVehicles] = useState(0);
  
   const navigate = useNavigate();
+
+  const countVehicles = (image) => {
+    const vehicleTypes = ['Truck', 'Car', 'Two Wheeler', 'Bus'];
+    return image.edge_detected_object_detection.edge_detected_object_detection_results
+      .filter(result => vehicleTypes.includes(result.name))
+      .length;
+  };
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -44,6 +52,10 @@ function Insights({ apiEndpoint }) {
         const data = await response.json();
         const reversedData = data.reverse();
         setImages(reversedData);
+        
+        const totalVehicles = reversedData.reduce((sum, img) => sum + countVehicles(img), 0);
+        setTotalVehicles(totalVehicles);
+
         setAverageSSIM(reversedData.reduce((sum, img) => sum + img.ssim, 0) / reversedData.length);
         setAverageTimeToComplete(reversedData.reduce((sum, img) => sum + img.time_to_complete, 0) / reversedData.length);
         setAverageF1Score(reversedData.reduce((sum, img) => sum + img.f1, 0) / reversedData.length);
@@ -116,6 +128,12 @@ function Insights({ apiEndpoint }) {
         <div className="flex flex-col items-center">
           <p className="text-white font-bold mb-1">Edge Detected Images</p>
           <p className="text-white text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{images.length}</p>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-white font-bold mb-1">Vehicles Detected</p>
+          <p className="text-white text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">
+            {totalVehicles}
+          </p>
         </div>
         <div className="flex flex-col items-center">
           <p className="text-white font-bold mb-1">Average Processing Time</p>

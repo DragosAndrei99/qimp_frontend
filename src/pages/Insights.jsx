@@ -18,6 +18,11 @@ function Insights({ apiEndpoint }) {
     time_to_complete: Infinity,
     tile_size: 0
   });
+
+  const [averageSSIM, setAverageSSIM] = useState(0);
+  const [averageTimeToComplete, setAverageTimeToComplete] = useState(0);
+  const [averageF1Score, setAverageF1Score] = useState(0);
+ 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,7 +41,9 @@ function Insights({ apiEndpoint }) {
         const data = await response.json();
         const reversedData = data.reverse();
         setImages(reversedData);
-
+        setAverageSSIM(reversedData.reduce((sum, img) => sum + img.ssim, 0) / reversedData.length);
+        setAverageTimeToComplete(reversedData.reduce((sum, img) => sum + img.time_to_complete, 0) / reversedData.length);
+        setAverageF1Score(reversedData.reduce((sum, img) => sum + img.f1, 0) / reversedData.length);
         const best = {
           f1: Math.max(...reversedData.map(img => img.f1)),
           iou: Math.max(...reversedData.map(img => img.iou)),
@@ -81,22 +88,30 @@ function Insights({ apiEndpoint }) {
   return (
     <>
       <PageHeader label="Quantum Edge Detection Insights" />
-      <div className="flex flex-row justify-center items-center gap-8 w-full bg-[#1B1A46] py-4 px-8 mb-8 rounded border border-[#4d447a]">
+      <div className="flex flex-col justify-center items-center gap-8 w-full bg-[#1B1A46] py-4 px-8 mb-8 rounded border border-[#4d447a] text-md 1380px:text-lg lg:flex-row">
         <div className="flex flex-col items-center">
-          <p className="text-white text-lg font-bold mb-1">Edge Detected Images</p>
+          <p className="text-white font-bold mb-1">Edge Detected Images</p>
           <p className="text-white text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{images.length}</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white text-lg font-bold mb-1">Fastest Processing Time</p>
-          <p className="text-white text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{(bestMetrics.time_to_complete / 60_000).toFixed(2)} mins</p>
+          <p className="text-white font-bold mb-1">Average Processing Time</p>
+          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{(averageTimeToComplete / 60_000).toFixed(2)} mins</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white text-lg font-bold mb-1">Best SSIM Score</p>
-          <p className="text-white text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{bestMetrics.ssim.toFixed(2)}</p>
+          <p className="text-white font-bold mb-1">Fastest Processing Time</p>
+          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{(bestMetrics.time_to_complete / 60_000).toFixed(2)} mins</p>
         </div>
         <div className="flex flex-col items-center">
-          <p className="text-white text-lg font-bold mb-1">Max Qubits Used</p>
-          <p className="text-white text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{Math.log2(bestMetrics.tile_size * bestMetrics.tile_size) + 1}</p>
+          <p className="text-white font-bold mb-1">Average SSIM Score</p>
+          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{averageSSIM.toFixed(2)}</p>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-white font-bold mb-1">Max Qubits Used</p>
+          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{Math.log2(bestMetrics.tile_size * bestMetrics.tile_size) + 1}</p>
+        </div>
+        <div className="flex flex-col items-center">
+          <p className="text-white font-bold mb-1">Average F1 Score</p>
+          <p className="text-white text-lg 1380px:text-2xl font-bold border-white border-2 px-2 py-1 rounded-md">{averageF1Score.toFixed(2)}</p>
         </div>
       </div>
       <div className="flex flex-col gap-4 justify-center items-center w-full">

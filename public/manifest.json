@@ -1,9 +1,7 @@
 {
   "short_name": "Quantum Edge Detection",
   "name": "Quantum Edge Detection and Object Recognition",
-  "icons": [
-    
-  ],
+  "icons": [],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",

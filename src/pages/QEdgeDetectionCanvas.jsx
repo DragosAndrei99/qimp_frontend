@@ -27,7 +27,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     gaussianBlur: false,
     kernelSize: 3,
     sigma: 1,
-    shots: 10001
+    shots: 10001,
   });
 
   const [edgeDetectionParamsErrors, setEdgeDetectionParamsErrors] = useState({
@@ -79,7 +79,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
     formData.append(
       "image",
       base64ToBlob(uploadedImage.split(",")[1]),
-      "image.png"
+      "image.png",
     );
 
     try {
@@ -91,15 +91,18 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         gaussian: edgeDetectionParams.gaussianBlur,
         kernel: edgeDetectionParams.kernelSize,
         sigma: edgeDetectionParams.sigma,
-        shots: edgeDetectionParams.shots
+        shots: edgeDetectionParams.shots,
       });
-      const response = await fetch(`${apiEndpoint}/q-edge-detection?${params}`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      const response = await fetch(
+        `${apiEndpoint}/q-edge-detection?${params}`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch images");
@@ -114,7 +117,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         try {
           while (true) {
             const { done, value } = await reader.read();
-            
+
             if (done) break;
 
             buffer += decoder.decode(value, { stream: true });
@@ -123,14 +126,14 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
               setImageStream([]);
 
               const finalImageParts = buffer.split(
-                "--frame--final_edge_detected_image--"
+                "--frame--final_edge_detected_image--",
               );
-              
+
               for (let i = 1; i < finalImageParts.length; i++) {
                 let part = finalImageParts[i].trim();
                 if (part) {
                   setB64FinalImage(
-                    (prev) => prev + part.replace("--end--", "")
+                    (prev) => prev + part.replace("--end--", ""),
                   );
                 }
                 if (part.includes("--end--")) {
@@ -151,7 +154,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
                 if (part.includes("image_width")) {
                   setNumberOfColumns(
                     part.split(":")[1].toString().split(":") /
-                      edgeDetectionParams.rootPixelsForTile
+                      edgeDetectionParams.rootPixelsForTile,
                   );
                 } else if (part) {
                   setImageStream((prevImages) => [...prevImages, part]);
@@ -176,8 +179,16 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
   const saveToDatabase = async () => {
     try {
       const formData = new FormData();
-      formData.append('edge_detected_image', base64ToBlob(b64FinalImage.split(',')[1]), 'edge_detected_image.png');
-      formData.append('original_image', base64ToBlob(uploadedImage.split(",")[1]), 'original_image.png');
+      formData.append(
+        "edge_detected_image",
+        base64ToBlob(b64FinalImage.split(",")[1]),
+        "edge_detected_image.png",
+      );
+      formData.append(
+        "original_image",
+        base64ToBlob(uploadedImage.split(",")[1]),
+        "original_image.png",
+      );
 
       const params = {
         time_to_complete: edgeDetectionTime,
@@ -188,7 +199,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         gaussian_pre_processed: edgeDetectionParams.gaussianBlur,
         kernel_size: edgeDetectionParams.kernelSize,
         sigma: edgeDetectionParams.sigma,
-        iterations: edgeDetectionParams.shots
+        iterations: edgeDetectionParams.shots,
       };
       Object.entries(params).forEach(([key, value]) => {
         formData.append(key, value);
@@ -198,12 +209,12 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
         method: "POST",
         body: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save image');
+        throw new Error("Failed to save image");
       }
     } catch (error) {
       console.log(error);
@@ -233,7 +244,7 @@ function QEdgeDetectionCanvas({ apiEndpoint }) {
             x,
             y,
             edgeDetectionParams.rootPixelsForTile,
-            edgeDetectionParams.rootPixelsForTile
+            edgeDetectionParams.rootPixelsForTile,
           );
         };
       });

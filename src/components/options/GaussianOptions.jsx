@@ -31,7 +31,7 @@ function GaussianOptions({ params, setParams, paramsErrors, setParamsErrors }) {
           inputPlaceholder="0 - 21"
           errorCondition={(value) => value < 1 || value > 21}
           successCondition={(value) => value % 2 !== 0}
-          toolTipText={ params.gaussianBlur && "Spatial area of blur."}
+          toolTipText={params.gaussianBlur && "Spatial area of blur."}
         />
         <InputNumber
           label="Sigma:"
@@ -47,7 +47,9 @@ function GaussianOptions({ params, setParams, paramsErrors, setParamsErrors }) {
           inputPlaceholder="0 - 5"
           errorCondition={(value) => value < 1 || value > 5}
           successCondition={() => true}
-          toolTipText={ params.gaussianBlur && "Sharpness of the Gaussian curve."}
+          toolTipText={
+            params.gaussianBlur && "Sharpness of the Gaussian curve."
+          }
         />
       </span>
     </div>

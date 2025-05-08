@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiMenu, FiX, FiCpu, FiHome, FiLogIn, FiLogOut  } from "react-icons/fi";
+import { FiMenu, FiX, FiCpu, FiHome, FiLogIn, FiLogOut } from "react-icons/fi";
 import { FaCar, FaRegImages } from "react-icons/fa";
 import { BiSolidReport } from "react-icons/bi";
 import { BiAtom } from "react-icons/bi";
@@ -24,19 +24,22 @@ export default function Sidebar() {
       </button>
 
       <div
-        className={`fixed z-20 top-0 left-0 h-full w-64 bg-[#151441] text-white transition-all duration-300 ease-in-out transform ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-          }`}
+        className={`fixed z-20 top-0 left-0 h-full w-64 bg-[#151441] text-white transition-all duration-300 ease-in-out transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
       >
         <div className="flex flex-col h-full p-4">
           <div className="py-4 px-2 mb-8 border-b border-[#010031] pt-10 md:pt-0">
-            <h1 className="text-xl font-bold text-center">Quantum Edge Detection</h1>
+            <h1 className="text-xl font-bold text-center">
+              Quantum Edge Detection
+            </h1>
           </div>
 
           <nav className="flex-1">
             <ul className="space-y-2">
               <SidebarItem
                 icon={<FiHome size={20} />}
-                text="Dashboard"
+                text="Home"
                 path="/"
                 handleLinkClick={handleLinkClick}
               />
@@ -45,53 +48,52 @@ export default function Sidebar() {
                 text="Quantum Edge Detection"
                 path="/quantum-edge-detection"
                 handleLinkClick={handleLinkClick}
+              />
 
+              <SidebarItem
+                icon={<BiSolidReport size={20} />}
+                text="Quantum Insights"
+                path="/insights"
+                handleLinkClick={handleLinkClick}
               />
               <SidebarItem
                 icon={<FiCpu size={20} />}
                 text="Classic Edge Detection"
                 path="/classic-edge-detection"
                 handleLinkClick={handleLinkClick}
-
               />
               <SidebarItem
                 icon={<FaCar size={20} />}
                 text="Vehicle Detection"
                 path="/vehicle-detection"
                 handleLinkClick={handleLinkClick}
-
               />
               <SidebarItem
                 icon={<FaRegImages size={20} />}
                 text="Post Processing Algorithms"
                 path="/post-processing"
                 handleLinkClick={handleLinkClick}
-
-              />
-              <SidebarItem
-                icon={<BiSolidReport size={20} />}
-                text="Quantum Insights"
-                path="/insights"
-                handleLinkClick={handleLinkClick}
-
               />
               <PrivateRoute
-                children={<SidebarItem
-                  icon={<FiLogOut size={20} />}
-                  text="Log out"
-                  path="/logout"
-                  handleLinkClick={handleLinkClick}
-                  containerClasses="absolute w-[224px] bottom-[60px]"
-                />}
-                loggedOffComponent={<SidebarItem
-                  icon={<FiLogIn size={20} />}
-                  text="Log in"
-                  path="/login"
-                  handleLinkClick={handleLinkClick}
-                  containerClasses="absolute w-[224px] bottom-[60px]"
-                />}
+                children={
+                  <SidebarItem
+                    icon={<FiLogOut size={20} />}
+                    text="Log out"
+                    path="/logout"
+                    handleLinkClick={handleLinkClick}
+                    containerClasses="absolute w-[224px] bottom-[60px]"
+                  />
+                }
+                loggedOffComponent={
+                  <SidebarItem
+                    icon={<FiLogIn size={20} />}
+                    text="Log in"
+                    path="/login"
+                    handleLinkClick={handleLinkClick}
+                    containerClasses="absolute w-[224px] bottom-[60px]"
+                  />
+                }
               />
-
             </ul>
           </nav>
 
@@ -113,16 +115,23 @@ export default function Sidebar() {
   );
 }
 
-function SidebarItem({ icon, text, path, handleLinkClick, containerClasses = "" }) {
+function SidebarItem({
+  icon,
+  text,
+  path,
+  handleLinkClick,
+  containerClasses = "",
+}) {
   return (
     <li className={containerClasses}>
       <NavLink
         onClick={handleLinkClick}
         to={path}
         className={({ isActive }) =>
-          `flex items-center p-3 rounded-lg transition-colors ${isActive
-            ? "bg-[#010031] text-white"
-            : "text-gray-300 hover:bg-[#010031] hover:text-white"
+          `flex items-center p-3 rounded-lg transition-colors ${
+            isActive
+              ? "bg-[#010031] text-white"
+              : "text-gray-300 hover:bg-[#010031] hover:text-white"
           }`
         }
       >

@@ -23,13 +23,18 @@ function EdgeDetectionLayout({
   annotatedImageUrl,
   setAnnotatedImageUrl,
   optionsToolTipId = "",
-  optionsToolTipText = ""
+  optionsToolTipText = "",
 }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <InputImage handleChange={handleImageUpload} isDisabled={isUploading} />
 
-      <Options title={"EDGE DETECTION SETTINGS"} children={optionsChildren} toolTipId={optionsToolTipId} toolTipText={optionsToolTipText}/>
+      <Options
+        title={"EDGE DETECTION SETTINGS"}
+        children={optionsChildren}
+        toolTipId={optionsToolTipId}
+        toolTipText={optionsToolTipText}
+      />
 
       <ImageComponent title={"ORIGINAL IMAGE"} processedImage={uploadedImage} />
 
@@ -47,7 +52,7 @@ function EdgeDetectionLayout({
           isUploading ||
           !uploadedImage ||
           Object.values(edgeDetectionParamsErrors).some((value) =>
-            Boolean(value)
+            Boolean(value),
           )
         }
         handleClick={handleEdgeDetection}
@@ -90,7 +95,7 @@ function EdgeDetectionLayout({
         <ObjectRecognition
           apiEndpoint="http://127.0.0.1:5000/yolov5-get-annotated-img"
           edgeDetectedImage={base64ToBlob(
-            selectedImgForObjDetection.split(",")[1]
+            selectedImgForObjDetection.split(",")[1],
           )}
           setAnnotatedImageUrl={setAnnotatedImageUrl}
         />

@@ -3,7 +3,6 @@ import { base64ToBlob } from "../utils/Base64ToBlob";
 import Options from "./edge_detection/OptionsComponent";
 import Button from "./common/Button";
 
-
 function ObjectRecognition({
   apiEndpoint,
   edgeDetectedImage,
@@ -38,7 +37,7 @@ function ObjectRecognition({
         method: "POST",
         body: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -82,7 +81,7 @@ function ObjectRecognition({
             />
           </div>
           <div className="flex justify-center">
-          <Button
+            <Button
               isDisabled={false}
               handleClick={handleImageUpload}
               error={error}

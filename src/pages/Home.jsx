@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import PageHeader from "../components/common/PageHeader";
 import QuantumEdgeGraph from "../components/graphs/QuantumGraph";
 import { Line } from "recharts";
-function Dashboard() {
+function Home() {
   const dataQubitsForPixels = [
     { name: "0Q", qubits: 0, pixels: 0 },
     { name: "7Q", qubits: 7, pixels: 64 },
@@ -37,16 +37,15 @@ function Dashboard() {
     { name: "4001", shots: 4001, ssim: 0.42961 },
     { name: "8001", shots: 8001, ssim: 0.42929 },
     { name: "10001", shots: 10001, ssim: 0.43111 },
-  ]
+  ];
 
   const dataF1ScorePrecisionRecall = [
-    {name: "0x0 Tiles", f1: 0, precision: 0, recall: 0},
-    {name: "4x4 Tiles", f1: 0.06959, precision: 0.4821, recall: 0.03750},
-    {name: "8x8 Tiles", f1: 0.09390, precision: 0.50674, recall: 0.05174},
-    {name: "16x16 Tiles", f1: 0.07384, precision: 0.52524, recall: 0.03971},
-    {name: "32x32 Tiles", f1: 0.04893, precision: 0.54185, recall: 0.02562}
-
-  ]
+    { name: "0x0 Tiles", f1: 0, precision: 0, recall: 0 },
+    { name: "4x4 Tiles", f1: 0.06959, precision: 0.4821, recall: 0.0375 },
+    { name: "8x8 Tiles", f1: 0.0939, precision: 0.50674, recall: 0.05174 },
+    { name: "16x16 Tiles", f1: 0.07384, precision: 0.52524, recall: 0.03971 },
+    { name: "32x32 Tiles", f1: 0.04893, precision: 0.54185, recall: 0.02562 },
+  ];
 
   return (
     <>
@@ -152,7 +151,6 @@ function Dashboard() {
         </div>
         <div className="flex flex-col gap-4 bg-[#010031] rounded w-full max-w-5xl mx-auto ">
           <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto h-[420px] ">
-
             <QuantumEdgeGraph
               data={dataShotsSSIM}
               label="Structural Similarity Index measurement for different nums of shots"
@@ -173,7 +171,7 @@ function Dashboard() {
           </div>
 
           <div className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-5xl mx-auto ">
-          <QuantumEdgeGraph
+            <QuantumEdgeGraph
               data={dataF1ScorePrecisionRecall}
               label="Precision, Recall and F-1 Score for Quantum Edge Detected Images for different tile sizes"
               legendLabel1="0 - 0.6 (Y-Axis)"
@@ -249,10 +247,13 @@ function Dashboard() {
                 transform hover:scale-105 disabled:transform-none
                 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-opacity-75
                 active:scale-95 disabled:active:scale-100
-                cursor-pointer disabled:cursor-not-allowed">Try it now</NavLink>
+                cursor-pointer disabled:cursor-not-allowed"
+        >
+          Try it now
+        </NavLink>
       </div>
     </>
   );
 }
 
-export default Dashboard;
+export default Home;

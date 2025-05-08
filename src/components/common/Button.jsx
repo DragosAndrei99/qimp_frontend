@@ -5,7 +5,7 @@ function Button({
   isProcessing,
   buttonText,
   containerClasses,
-  bttnClasses
+  bttnClasses,
 }) {
   return (
     <div className={containerClasses}>

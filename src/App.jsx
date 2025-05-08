@@ -7,21 +7,21 @@ import CEdgeDetection from "./pages/CEdgeDetection";
 import Layout from "./components/Layout";
 import VehicleDetection from "./pages/VehicleDetection";
 import PostProcessingAlgorithms from "./pages/PostProcessingAlgorithms";
-import Dashboard from "./pages/Dashboard";
-import Insights from './pages/Insights';
+import Home from "./pages/Home";
+import Insights from "./pages/Insights";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./pages/Logout";
-import ImageDetail from './pages/ImageDetail';
+import ImageDetail from "./pages/ImageDetail";
 
-const API_ENDPOINT = "http://127.0.0.1:5000"
+const API_ENDPOINT = "http://127.0.0.1:5000";
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/quantum-edge-detection"
@@ -29,14 +29,15 @@ function App() {
             <PrivateRoute>
               <QEdgeDetectionCanvas apiEndpoint={API_ENDPOINT} />
             </PrivateRoute>
-
           }
         />
         <Route
           path="/classic-edge-detection"
           element={
             <PrivateRoute>
-              <CEdgeDetection apiEndpoint={`${API_ENDPOINT}/c-edge-detection`} />
+              <CEdgeDetection
+                apiEndpoint={`${API_ENDPOINT}/c-edge-detection`}
+              />
             </PrivateRoute>
           }
         />
@@ -45,10 +46,8 @@ function App() {
           path="/vehicle-detection"
           element={
             <PrivateRoute>
-              <VehicleDetection
-                apiEndpoint={API_ENDPOINT} />
+              <VehicleDetection apiEndpoint={API_ENDPOINT} />
             </PrivateRoute>
-
           }
         />
 
@@ -56,11 +55,8 @@ function App() {
           path="/post-processing"
           element={
             <PrivateRoute>
-              <PostProcessingAlgorithms
-                apiEndpoint={API_ENDPOINT}
-              />
+              <PostProcessingAlgorithms apiEndpoint={API_ENDPOINT} />
             </PrivateRoute>
-
           }
         />
 
@@ -68,20 +64,27 @@ function App() {
           path="/insights"
           element={
             <PrivateRoute>
-              <Insights
-              apiEndpoint={API_ENDPOINT} />
+              <Insights apiEndpoint={API_ENDPOINT} />
             </PrivateRoute>
           }
         />
-        <Route path="/insights/:id" element={<ImageDetail apiEndpoint={API_ENDPOINT} />} />
+        <Route
+          path="/insights/:id"
+          element={<ImageDetail apiEndpoint={API_ENDPOINT} />}
+        />
         <Route path="/login" element={<Login apiEndpoint={API_ENDPOINT} />} />
-        <Route path="/register" element={<Register apiEndpoint={API_ENDPOINT} />} />
-        <Route path="/logout" element={
-          <PrivateRoute>
-            <Logout />
-          </PrivateRoute>
-        } />
-
+        <Route
+          path="/register"
+          element={<Register apiEndpoint={API_ENDPOINT} />}
+        />
+        <Route
+          path="/logout"
+          element={
+            <PrivateRoute>
+              <Logout />
+            </PrivateRoute>
+          }
+        />
       </Route>
     </Routes>
   );

@@ -5,7 +5,12 @@ import InputNumber from "../common/InputNumber";
 import Button from "../common/Button";
 import { blobToBase64 } from "../../utils/BloblToBase64";
 
-function PostProcessingOptions({ image, apiEndpoint, setProcessedImage, setSelectedImgForObjDetection }) {
+function PostProcessingOptions({
+  image,
+  apiEndpoint,
+  setProcessedImage,
+  setSelectedImgForObjDetection,
+}) {
   const [postProcessingParams, setPostProcessingParams] = useState({
     method: "dilation",
     kernelSize: 3,
@@ -31,7 +36,8 @@ function PostProcessingOptions({ image, apiEndpoint, setProcessedImage, setSelec
 
   const isKernelDisabled = methodBttns.find(
     (bttn) =>
-      bttn.isActive && (bttn.method === "thinning" || bttn.method === "linking")
+      bttn.isActive &&
+      (bttn.method === "thinning" || bttn.method === "linking"),
   );
 
   const handleSubmit = async () => {
@@ -57,7 +63,7 @@ function PostProcessingOptions({ image, apiEndpoint, setProcessedImage, setSelec
         method: "POST",
         body: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -128,9 +134,12 @@ function PostProcessingOptions({ image, apiEndpoint, setProcessedImage, setSelec
               bttnContainerClasses="ml-5 inline"
             />
             <Button
-              isDisabled={isUploading || Object.values(postProcessingParamsErrors).some((value) =>
-                Boolean(value)
-              )}
+              isDisabled={
+                isUploading ||
+                Object.values(postProcessingParamsErrors).some((value) =>
+                  Boolean(value),
+                )
+              }
               handleClick={handleSubmit}
               error={error}
               isProcessing={isUploading}

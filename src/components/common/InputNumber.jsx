@@ -51,7 +51,9 @@ function InputNumber({
       <label htmlFor={paramKey} className="text-md font-bold">
         {label}
       </label>
-      {toolTipText && <Tooltip toolTipText={toolTipText} toolTipId={paramKey}/>}
+      {toolTipText && (
+        <Tooltip toolTipText={toolTipText} toolTipId={paramKey} />
+      )}
       <input
         id={paramKey}
         type="number"

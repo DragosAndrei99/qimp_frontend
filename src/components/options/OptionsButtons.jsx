@@ -28,7 +28,7 @@ function OptionsButtons({
       <label htmlFor="" className="text-md font-bold ">
         {title}:
       </label>
-      {toolTipText && <Tooltip toolTipText={toolTipText} toolTipId={title}/>}
+      {toolTipText && <Tooltip toolTipText={toolTipText} toolTipId={title} />}
       <span className={bttnContainerClasses}>
         {bttns.map((btn) => (
           <OptionButton

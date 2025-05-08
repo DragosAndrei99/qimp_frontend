@@ -35,8 +35,7 @@ function CEdgeDetection({ apiEndpoint }) {
     setAnnotatedImageUrl("");
     setPostProcessedImage("");
     setSelectedImgForObjDetection("");
-
-  }
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -61,7 +60,6 @@ function CEdgeDetection({ apiEndpoint }) {
     setIsUploading(true);
     setError("");
 
-
     try {
       const params = new URLSearchParams({
         algorithm: edgeDetectionParams.algorithm,
@@ -73,7 +71,7 @@ function CEdgeDetection({ apiEndpoint }) {
         method: "POST",
         body: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -94,7 +92,7 @@ function CEdgeDetection({ apiEndpoint }) {
 
   return (
     <>
-      <PageHeader label="Classic Edge Detection"/>
+      <PageHeader label="Classic Edge Detection" />
 
       <EdgeDetectionLayout
         optionsChildren={

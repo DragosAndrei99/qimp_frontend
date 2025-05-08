@@ -1,11 +1,18 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
-
-function LoginRegisterLayout({ handleSubmit, handleChange, errorMessage, label, bottomText, linkText}) {
-
+function LoginRegisterLayout({
+  handleSubmit,
+  handleChange,
+  errorMessage,
+  label,
+  bottomText,
+  linkText,
+}) {
   return (
     <div className="max-w-lg mx-auto mt-14 p-6 bg-[#1B1A46] text-white rounded-lg shadow-md">
-      <h2 className="text-xl mb-4 text-center font-bold p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">{label}</h2>
+      <h2 className="text-xl mb-4 text-center font-bold p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
+        {label}
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -41,13 +48,15 @@ function LoginRegisterLayout({ handleSubmit, handleChange, errorMessage, label, 
       </form>
 
       <p className="mt-4 text-md">
-        {bottomText}{' '}
+        {bottomText}{" "}
         <NavLink to="/register" className="text-blue-400 underline">
           {linkText}
         </NavLink>
       </p>
 
-      {errorMessage && <div className="mt-4 text-yellow-400">{errorMessage}</div>}
+      {errorMessage && (
+        <div className="mt-4 text-yellow-400">{errorMessage}</div>
+      )}
     </div>
   );
 }

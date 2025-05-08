@@ -1,5 +1,5 @@
 import { FaRegSave } from "react-icons/fa";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Tooltip from "../common/Tooltip";
 
 function ImageComponent({
@@ -9,10 +9,9 @@ function ImageComponent({
   enableSelect = false,
   selectedImg,
   setSelectedImg,
-  downloadImage = undefined
+  downloadImage = undefined,
 }) {
   const ref = useRef();
-
 
   const handleSelectImg = () => {
     if (selectedImg === processedImage) {
@@ -29,7 +28,10 @@ function ImageComponent({
   }, [processedImage, title]);
 
   return (
-    <div ref={ref} className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl">
+    <div
+      ref={ref}
+      className="bg-[#1B1A46] p-4 rounded border border-[#4d447a] w-full max-w-4xl"
+    >
       <div className="flex flex-row justify-between items-start">
         <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
           {title}
@@ -43,10 +45,10 @@ function ImageComponent({
               onChange={handleSelectImg}
             />
             <span className="relative top-[-12px] left-2 text-[#B6B5C3]">
-            <Tooltip
-              toolTipText="Select the image to enable Vehicle detection."
-              toolTipId="selectImg"
-            />
+              <Tooltip
+                toolTipText="Select the image to enable Vehicle detection."
+                toolTipId="selectImg"
+              />
             </span>
           </span>
         )}

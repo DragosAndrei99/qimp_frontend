@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ImageComponent from "../components/edge_detection/ImageComponent";
 import Tooltip from "../components/common/Tooltip";
 import { FaStar, FaCheck, FaTimes } from "react-icons/fa";
-
+import { useNavigate } from 'react-router-dom';
 function Insights({ apiEndpoint }) {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
@@ -18,6 +18,7 @@ function Insights({ apiEndpoint }) {
     time_to_complete: Infinity,
     tile_size: 0
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -163,7 +164,7 @@ function Insights({ apiEndpoint }) {
                     )}
                   </div>
                   <div className="flex flex-col gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] w-full">
-                    <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Quantum Edge Detected Result:</label>
+                    <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Quantum Edge Detected Result:</label>
                     <div className="flex flex-row items-center justify-center bg-[#39385E]">
                       <img
                         className="border-white border-2"
@@ -171,7 +172,7 @@ function Insights({ apiEndpoint }) {
                     </div>
                   </div>
                   <div className="hidden lg:flex flex-col gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] text-white text-md items-center font-bold">
-                    <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Result Metrics:</label>
+                    <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Result Metrics:</label>
                     <div className="flex flex-col items-center gap-2">
                       <div className="flex items-center">
                         <p className="italic">F1 Score:</p>
@@ -271,7 +272,7 @@ function Insights({ apiEndpoint }) {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 items-center justify-center">
-                  <button className="text-lg bg-[#34335A] font-semibold text-white px-4 py-2 rounded hover:bg-[#4d447a] active:bg-[#4d447a]"> Show more</button>
+                  <button onClick={() => navigate(`/insights/${image.edge_detected_image_id}`)} className="text-lg bg-[#34335A] font-semibold text-white px-4 py-2 rounded hover:bg-[#4d447a] active:bg-[#4d447a]"> Show more</button>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">Ground Truth Image</label>

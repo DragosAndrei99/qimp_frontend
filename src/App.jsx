@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from './components/PrivateRoute';
 import Logout from "./pages/Logout";
+import ImageDetail from './pages/ImageDetail';
 
 const API_ENDPOINT = "http://127.0.0.1:5000"
 
@@ -72,6 +73,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/insights/:id" element={<ImageDetail apiEndpoint={API_ENDPOINT} />} />
         <Route path="/login" element={<Login apiEndpoint={API_ENDPOINT} />} />
         <Route path="/register" element={<Register apiEndpoint={API_ENDPOINT} />} />
         <Route path="/logout" element={

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import PageHeader from "../components/common/PageHeader";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import Tooltip from "../components/common/Tooltip";
-import DetectionResults from "../components/image_details/DetectionResults";
+import DetectionResultsContainer from "../components/image_details/DetectionResultsContainer";
 
 function ImageDetail({ apiEndpoint }) {
   const { id } = useParams();
@@ -187,54 +187,25 @@ function ImageDetail({ apiEndpoint }) {
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] w-full relative">
-            <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
-              Original Image:
-            </label>
-            <img
-              className="border-white border-2 w-[500px] 1520px:w-[45%] 2400px:w-[1000px]"
-              src={`data:image/jpeg;base64,${image.original_image_base64}`}
-              alt="Original"
-            />
-          </div>
+					<DetectionResultsContainer
+            title="Original Image and Vehicle Detection Results:"
+            firstImageB64={image.original_image_base64}
+            firstImageTitle="Original Image"
+            firstImageResults={[]}
+            secondImageB64={image.original_image_object_detection.annotated_image_base64}
+            secondImageTitle="Vehicle Detection Results"
+            secondImageResults={image.original_image_object_detection.detection_results}
+          />
 
-          <div className="flex flex-col items-center gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] w-full relative">
-            <div className="absolute top-2 right-2 text-white">
-              <Tooltip
-                toolTipId="vehicle-detection-info"
-                toolTipText="Confidence level was set to 0.3 for both images"
-              />
-            </div>
-            <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
-              Vehicle detection:
-            </label>
-            <div className="flex flex-col items-center justify-center bg-[#39385E] 1380px:flex-row">
-              <img
-                className="border-white border-2 w-[500px] 1520px:w-[50%] 2400px:w-[1000px]"
-                src={`data:image/jpeg;base64,${image.edge_detected_object_detection.annotated_image_base64}`}
-                alt="Edge Detection"
-              />
-              <img
-                className="border-white border-2 w-[500px] 1520px:w-[50%] 2400px:w-[1000px]"
-                src={`data:image/jpeg;base64,${image.ground_truth_object_detection.annotated_image_base64}`}
-                alt="Ground truth"
-              />
-            </div>
-            <div className="flex flex-col gap-2 w-full justify-around 1380px:flex-row">
-              <DetectionResults
-                detectionResults={
-                  image.edge_detected_object_detection.detection_results
-                }
-                title="Vehicle Detection Results on Quantum Edge Detected:"
-              />
-              <DetectionResults
-                detectionResults={
-                  image.ground_truth_object_detection.detection_results
-                }
-                title="Vehicle Detection Results on Ground Truth:"
-              />
-            </div>
-          </div>
+          <DetectionResultsContainer
+            title="Vehicle Detection Results on Quantum Edge Detected:"
+            firstImageB64={image.edge_detected_object_detection.annotated_image_base64}
+            firstImageTitle="Quantum Edge Detected"
+            firstImageResults={image.edge_detected_object_detection.detection_results}
+            secondImageB64={image.ground_truth_object_detection.annotated_image_base64}
+            secondImageTitle="Ground Truth"
+            secondImageResults={image.ground_truth_object_detection.detection_results}
+          />
 
           <div className="flex flex-col gap-2 bg-[#1B1A46] py-4 px-8 rounded border border-[#4d447a] text-white text-md items-center font-bold">
             <label className="text-sm font-bold text-white mb-2 p-2 block tracking-widest w-fit whitespace-nowrap bg-[#34335A]">
@@ -322,6 +293,20 @@ function ImageDetail({ apiEndpoint }) {
                 <div className="flex items-center">
                   <p className="border-white border-2 px-2 py-1 rounded-md">
                     {image.hausdorff_distance.toFixed(6)}{" "}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex items-center">
+                  <p className="italic">Size Reduction:</p>
+                  <Tooltip
+                    toolTipId={`size-reduction-${image.edge_detected_image_id}`}
+                    toolTipText="Percentage reduction in file size between the original and edge-detected image without any compression algorithms applied"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <p className="border-white border-2 px-2 py-1 rounded-md">
+                    {((1 - (image.edge_detected_image_size_mb / image.original_image_size_mb)) * 100).toFixed(2)}%
                   </p>
                 </div>
               </div>

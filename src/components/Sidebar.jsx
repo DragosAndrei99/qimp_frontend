@@ -31,8 +31,11 @@ export default function Sidebar() {
         <div className="flex flex-col h-full p-4">
           <div className="py-4 px-2 mb-8 border-b border-[#010031] pt-10 md:pt-0">
             <h1 className="text-xl font-bold text-center">
-              Quantum Edge Detection
+              Q-Edge
             </h1>
+            <h2 className="text-md font-semibold italic text-center">
+              "Where Quantum Precision Meets Image Clarity."
+            </h2>
           </div>
 
           <nav className="flex-1">

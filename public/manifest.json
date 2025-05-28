@@ -1,6 +1,6 @@
 {
-  "short_name": "Quantum Edge Detection",
-  "name": "Quantum Edge Detection and Object Recognition",
+  "short_name": "Q-Edge",
+  "name": "Q-Edge: Quantum Edge Detection and Object Recognition",
   "icons": [],
   "start_url": ".",
   "display": "standalone",
